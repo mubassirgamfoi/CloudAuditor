@@ -1,0 +1,170 @@
+{
+  "aws": {
+    "findings": [
+      {
+        "title": "S3 Bucket Encryption Not Enabled",
+        "severity": "HIGH",
+        "status": "FAILED",
+        "resource_id": "s3://my-company-data-bucket",
+        "description": "S3 bucket does not have default encryption enabled. Data at rest is not encrypted, which violates CIS AWS Foundations Benchmark 2.1.1.",
+        "recommendation": "Enable default encryption on the S3 bucket using AES-256 or AWS KMS. Use the AWS Console, CLI, or SDK to set bucket encryption."
+      },
+      {
+        "title": "IAM Password Policy: Weak Minimum Length",
+        "severity": "MEDIUM",
+        "status": "FAILED",
+        "resource_id": "iam:password-policy",
+        "description": "IAM password policy requires only 8 characters minimum. CIS recommends at least 14 characters.",
+        "recommendation": "Update IAM password policy to require minimum 14 characters using AWS IAM Console or CLI."
+      },
+      {
+        "title": "CloudTrail Log File Validation Enabled",
+        "severity": "INFO",
+        "status": "PASSED",
+        "resource_id": "arn:aws:cloudtrail:us-east-1:123456789012:trail/main-trail",
+        "description": "CloudTrail has log file validation enabled to ensure log integrity and detect tampering.",
+        "recommendation": "Continue monitoring CloudTrail logs regularly and set up CloudWatch alarms for suspicious activities."
+      },
+      {
+        "title": "MFA Not Enabled on Root Account",
+        "severity": "CRITICAL",
+        "status": "FAILED",
+        "resource_id": "iam:root-account",
+        "description": "Multi-factor authentication is not enabled on the AWS root account. This is a critical security risk as the root account has unrestricted access to all AWS resources.",
+        "recommendation": "Enable MFA on the root account immediately using a hardware MFA device or virtual MFA app. This is a CIS AWS Foundations Benchmark requirement (1.5)."
+      },
+      {
+        "title": "VPC Flow Logs Not Enabled",
+        "severity": "MEDIUM",
+        "status": "FAILED",
+        "resource_id": "vpc-1234567890abcdef0",
+        "description": "VPC does not have flow logs enabled for network traffic monitoring and forensic analysis.",
+        "recommendation": "Enable VPC Flow Logs and send to CloudWatch Logs or S3 for analysis. Configure appropriate retention periods."
+      },
+      {
+        "title": "Security Group Allows Unrestricted SSH Access",
+        "severity": "HIGH",
+        "status": "FAILED",
+        "resource_id": "sg-0123456789abcdef0",
+        "description": "Security group allows unrestricted ingress (0.0.0.0/0) on port 22 (SSH). This exposes instances to brute force attacks.",
+        "recommendation": "Restrict SSH access to specific IP ranges or use AWS Systems Manager Session Manager for secure instance access."
+      },
+      {
+        "title": "EBS Volume Encryption Enabled",
+        "severity": "INFO",
+        "status": "PASSED",
+        "resource_id": "vol-0123456789abcdef0",
+        "description": "EBS volumes are encrypted at rest using AWS KMS, protecting data from unauthorized access.",
+        "recommendation": "Continue using encrypted volumes for all new instances. Enable EBS encryption by default in account settings."
+      },
+      {
+        "title": "CloudTrail Logs Not Encrypted",
+        "severity": "HIGH",
+        "status": "FAILED",
+        "resource_id": "arn:aws:cloudtrail:us-east-1:123456789012:trail/main-trail",
+        "description": "CloudTrail logs are stored in S3 without KMS encryption, potentially exposing audit logs.",
+        "recommendation": "Enable KMS encryption for CloudTrail logs to protect sensitive audit data."
+      },
+      {
+        "title": "RDS Instance: Publicly Accessible",
+        "severity": "CRITICAL",
+        "status": "FAILED",
+        "resource_id": "rds:mysql-prod-db",
+        "description": "RDS database instance is publicly accessible from the internet, exposing it to potential attacks.",
+        "recommendation": "Modify the RDS instance to disable public accessibility and ensure it's only accessible from within the VPC."
+      },
+      {
+        "title": "IAM User with Console Access Without MFA",
+        "severity": "MEDIUM",
+        "status": "FAILED",
+        "resource_id": "iam:user/john.doe",
+        "description": "IAM user has console access but does not have MFA enabled, increasing risk of credential compromise.",
+        "recommendation": "Enable MFA for all IAM users with console access. Consider enforcing MFA through IAM policies."
+      }
+    ]
+  },
+  "gcp": {
+    "findings": [
+      {
+        "title": "Cloud Storage Bucket: Public Access Not Prevented",
+        "severity": "HIGH",
+        "status": "FAILED",
+        "resource_id": "gs://my-company-public-bucket",
+        "description": "Cloud Storage bucket allows public access without prevention enforcement, violating CIS GCP Foundations Benchmark 5.1.",
+        "recommendation": "Enable public access prevention on all storage buckets to enforce org policy restrictions."
+      },
+      {
+        "title": "IAM: Service Account with Owner Role",
+        "severity": "CRITICAL",
+        "status": "FAILED",
+        "resource_id": "sa-admin@project.iam.gserviceaccount.com",
+        "description": "Service account has Owner role granting full project access. This violates the principle of least privilege.",
+        "recommendation": "Remove Owner role and grant only necessary permissions following least privilege principle. Use predefined or custom roles with specific permissions."
+      },
+      {
+        "title": "Cloud SQL: SSL Not Required",
+        "severity": "MEDIUM",
+        "status": "FAILED",
+        "resource_id": "mysql-instance-prod",
+        "description": "Cloud SQL instance does not require SSL/TLS for connections, allowing unencrypted database traffic.",
+        "recommendation": "Enable 'Require SSL' setting on the Cloud SQL instance and distribute SSL certificates to clients."
+      },
+      {
+        "title": "VPC Firewall: Unrestricted SSH Access",
+        "severity": "HIGH",
+        "status": "FAILED",
+        "resource_id": "default-allow-ssh",
+        "description": "Firewall rule allows SSH (port 22) from any IP address (0.0.0.0/0), exposing instances to brute force attacks.",
+        "recommendation": "Restrict SSH access to specific IP ranges or use Identity-Aware Proxy (IAP) for secure access."
+      },
+      {
+        "title": "Audit Logging Enabled",
+        "severity": "INFO",
+        "status": "PASSED",
+        "resource_id": "projects/my-project",
+        "description": "Cloud Audit Logs are properly configured and enabled for admin and data access activities.",
+        "recommendation": "Continue monitoring audit logs and set up alerts for suspicious activities using Cloud Monitoring."
+      },
+      {
+        "title": "Compute Instance: Default Service Account Used",
+        "severity": "MEDIUM",
+        "status": "FAILED",
+        "resource_id": "instance-prod-1",
+        "description": "Compute instance uses the default Compute Engine service account which has broad Editor permissions.",
+        "recommendation": "Create custom service accounts with minimal required permissions for each instance or application."
+      },
+      {
+        "title": "KMS: Automatic Key Rotation Enabled",
+        "severity": "INFO",
+        "status": "PASSED",
+        "resource_id": "projects/my-project/locations/global/keyRings/prod/cryptoKeys/main",
+        "description": "Cloud KMS key has automatic rotation enabled (every 90 days), following security best practices.",
+        "recommendation": "Maintain automatic key rotation for all encryption keys and monitor rotation events."
+      },
+      {
+        "title": "BigQuery Dataset: No Access Controls",
+        "severity": "HIGH",
+        "status": "FAILED",
+        "resource_id": "project:dataset.analytics",
+        "description": "BigQuery dataset has overly permissive access controls allowing allAuthenticatedUsers.",
+        "recommendation": "Review and restrict dataset access controls. Grant access only to specific users, groups, or service accounts."
+      },
+      {
+        "title": "Compute Instance: OS Login Not Enabled",
+        "severity": "MEDIUM",
+        "status": "FAILED",
+        "resource_id": "instance-prod-2",
+        "description": "Compute instance does not have OS Login enabled, relying on SSH key metadata instead of IAM-based access.",
+        "recommendation": "Enable OS Login at the project or instance level to leverage IAM for SSH access control."
+      },
+      {
+        "title": "GKE Cluster: Legacy Authorization Enabled",
+        "severity": "HIGH",
+        "status": "FAILED",
+        "resource_id": "gke-cluster-prod",
+        "description": "GKE cluster has legacy ABAC (Attribute-Based Access Control) enabled instead of RBAC.",
+        "recommendation": "Disable legacy authorization and use RBAC (Role-Based Access Control) for Kubernetes access management."
+      }
+    ]
+  }
+}

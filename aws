@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='UTF-8'>
+<title>CloudAuditor Compliance Report</title>
+<style>
+
+        body { font-family: Arial, sans-serif; margin: 40px; background-color: #f5f5f5; }
+        .container { background-color: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        h1 { color: #333; border-bottom: 3px solid #4CAF50; padding-bottom: 10px; }
+        h2 { color: #555; margin-top: 30px; }
+        .summary { background-color: #f9f9f9; padding: 20px; border-radius: 5px; margin: 20px 0; }
+        .summary-item { display: inline-block; margin: 10px 20px 10px 0; }
+        .finding { border-left: 4px solid #ff9800; padding: 15px; margin: 15px 0; background-color: #fafafa; }
+        .finding.CRITICAL { border-left-color: #f44336; }
+        .finding.HIGH { border-left-color: #ff5722; }
+        .finding.MEDIUM { border-left-color: #ff9800; }
+        .finding.LOW { border-left-color: #ffc107; }
+        .finding.INFO { border-left-color: #2196F3; }
+        .badge { display: inline-block; padding: 4px 8px; border-radius: 3px; font-size: 12px; font-weight: bold; }
+        .badge.FAILED { background-color: #f44336; color: white; }
+        .badge.PASSED { background-color: #4CAF50; color: white; }
+        .badge.WARNING { background-color: #ff9800; color: white; }
+        .resource { font-family: monospace; background-color: #eee; padding: 2px 6px; border-radius: 3px; }
+        .meta { color: #666; font-size: 14px; }
+    
+</style>
+</head>
+<body>
+<div class='container'>
+<h1>CloudAuditor Compliance Report</h1>
+<p class='meta'>Generated: 2025-10-30T01:01:36.739852</p>
+<p class='meta'>Provider: <strong>AWS</strong> | Region: <strong>us-east-1</strong> | Profile: <strong>test</strong></p>
+<h2>Benchmarks Executed</h2>
+<ul>
+<li>CIS AWS Foundations Benchmark v6.0.0</li>
+<li>CIS AWS Compute Services Benchmark v1.1.0</li>
+<li>CIS AWS Database Services Benchmark v1.0.0</li>
+<li>CIS AWS End User Compute Services Benchmark v1.2.0</li>
+<li>CIS AWS Storage Services Benchmark v1.0.0</li>
+</ul>
+<div class='summary'>
+<h2>Summary</h2>
+<div class='summary-item'><strong>Total Checks:</strong> 88</div>
+<div class='summary-item'><strong>Passed:</strong> 3</div>
+<div class='summary-item'><strong>Failed:</strong> 60</div>
+<div class='summary-item'><strong>Warnings:</strong> 20</div>
+</div>
+<h2>Findings</h2>
+<div class='finding CRITICAL'>
+<h3>Root User Has Active Access Keys</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> CRITICAL | <strong>Check ID:</strong> <code>2.3</code></p>
+<p><strong>Resource:</strong> <span class='resource'>iam:root</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Foundations Benchmark v6.0.0</p>
+<p>The root user account has active access keys.</p>
+<p><strong>Recommendation (CIS):</strong> Delete all root user access keys immediately</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+aws iam get-account-summary --query 'SummaryMap.AccountAccessKeysPresent' --output text
+</code></pre>
+<pre><code>
+{'AccountAccessKeysPresent': 1}
+</code></pre>
+</div>
+<div class='finding CRITICAL'>
+<h3>Root User MFA Not Enabled</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> CRITICAL | <strong>Check ID:</strong> <code>2.4</code></p>
+<p><strong>Resource:</strong> <span class='resource'>iam:root</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Foundations Benchmark v6.0.0</p>
+<p>Multi-factor authentication is not enabled on the root account.</p>
+<p><strong>Recommendation (CIS):</strong> Enable MFA on root account immediately</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+aws iam get-account-summary --query 'SummaryMap.AccountMFAEnabled' --output text
+</code></pre>
+<pre><code>
+{'AccountMFAEnabled': 0}
+</code></pre>
+</div>
+<div class='finding MEDIUM'>
+<h3>IAM Password Policy: Minimum Length Too Short</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>2.7</code></p>
+<p><strong>Resource:</strong> <span class='resource'>iam:password-policy</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Foundations Benchmark v6.0.0</p>
+<p>Password minimum length is 8 (CIS requires >= 14 characters).</p>
+<p><strong>Recommendation (CIS):</strong> Update password policy to require minimum 14 characters</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+aws iam get-account-password-policy
+</code></pre>
+<pre><code>
+{'MinimumPasswordLength': 8, 'PasswordReusePrevention': 12}
+</code></pre>
+</div>
+<div class='finding HIGH'>
+<h3>IAM User Console Access Without MFA</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>2.9</code></p>
+<p><strong>Resource:</strong> <span class='resource'>iam:user/john.doe</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Foundations Benchmark v6.0.0</p>
+<p>IAM user 'john.doe' has console access but no MFA device configured.</p>
+<p><strong>Recommendation (CIS):</strong> Enable MFA for all IAM users with console access</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+aws iam list-mfa-devices --user-name john.doe
+</code></pre>
+<pre><code>
+{'MFADevices': []}
+</code></pre>
+</div>
+<div class='finding HIGH'>
+<h3>IAM Policy Grants Full Administrative Privileges</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>2.15</code></p>
+<p><strong>Resource:</strong> <span class='resource'>arn:aws:iam::123456789012:policy/AdminPolicy</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Foundations Benchmark v6.0.0</p>
+<p>IAM policy 'AdminPolicy' grants full *:* administrative privileges.</p>
+<p><strong>Recommendation (CIS):</strong> Replace with specific permissions following principle of least privilege</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+aws iam get-policy-version --policy-arn arn:aws:iam::123456789012:policy/AdminPolicy --version-id v1
+</code></pre>
+<pre><code>
+{'Statement': [{'Effect': 'Allow', 'Action': '*', 'Resource': '*'}]}
+</code></pre>
+</div>
+<div class='finding MEDIUM'>
+<h3>S3 Bucket Does Not Enforce HTTPS</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>3.1.1</code></p>
+<p><strong>Resource:</strong> <span class='resource'>s3://company-data-bucket</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Foundations Benchmark v6.0.0</p>
+<p>S3 bucket does not have a policy to deny HTTP requests.</p>
+<p><strong>Recommendation (CIS):</strong> Add bucket policy to deny requests where aws:SecureTransport is false</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+aws s3api get-bucket-policy --bucket company-data-bucket --query Policy --output text
+</code></pre>
+<pre><code>
+{'Statement': [{'Sid': 'AllowAll', 'Effect': 'Allow', 'Principal': '*', 'Action': 's3:*', 'Resource': '*'}]}
+</code></pre>
+</div>
+<div class='finding HIGH'>
+<h3>S3 Block Public Access Not Fully Enabled</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>3.1.4</code></p>
+<p><strong>Resource:</strong> <span class='resource'>s3://public-assets</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Foundations Benchmark v6.0.0</p>
+<p>S3 bucket does not have all Block Public Access settings enabled.</p>
+<p><strong>Recommendation (CIS):</strong> Enable all Block Public Access settings</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+aws s3api get-public-access-block --bucket public-assets
+</code></pre>
+<pre><code>
+{'PublicAccessBlockConfiguration': {'BlockPublicAcls': False, 'IgnorePublicAcls': True, 'BlockPublicPolicy': False, 'RestrictPublicBuckets': False}}
+</code></pre>
+</div>
+<div class='finding CRITICAL'>
+<h3>RDS Instance Publicly Accessible</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> CRITICAL | <strong>Check ID:</strong> <code>3.2.3</code></p>
+<p><strong>Resource:</strong> <span class='resource'>rds:production-db</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Foundations Benchmark v6.0.0</p>
+<p>RDS instance is publicly accessible from the internet.</p>
+<p><strong>Recommendation (CIS):</strong> Modify RDS instance to disable public accessibility</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+aws rds describe-db-instances --query 'DBInstances[?DBInstanceIdentifier==`production-db`].PubliclyAccessible' --output text
+</code></pre>
+<pre><code>
+True
+</code></pre>
+</div>
+<div class='finding HIGH'>
+<h3>CloudTrail Not Enabled in All Regions</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>4.1</code></p>
+<p><strong>Resource:</strong> <span class='resource'>cloudtrail</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Foundations Benchmark v6.0.0</p>
+<p>No multi-region CloudTrail trail is enabled.</p>
+<p><strong>Recommendation (CIS):</strong> Create and enable a multi-region CloudTrail trail</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+aws cloudtrail describe-trails --query 'trailList[?IsMultiRegionTrail==`true` && IsLogging==`true`]'
+</code></pre>
+<pre><code>
+{'trailList': []}
+</code></pre>
+</div>
+<div class='finding MEDIUM'>
+<h3>CloudTrail Logs Not Encrypted with KMS</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>4.5</code></p>
+<p><strong>Resource:</strong> <span class='resource'>arn:aws:cloudtrail:us-east-1:123456789012:trail/default</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Foundations Benchmark v6.0.0</p>
+<p>CloudTrail trail does not use KMS encryption.</p>
+<p><strong>Recommendation (CIS):</strong> Enable KMS encryption for CloudTrail logs</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+aws cloudtrail describe-trails --trail-name-list default --query 'trailList[0].KmsKeyId'
+</code></pre>
+<pre><code>
+{'KmsKeyId': None, 'TrailName': 'default'}
+</code></pre>
+</div>
+<div class='finding MEDIUM'>
+<h3>VPC Flow Logging Not Enabled</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>4.7</code></p>
+<p><strong>Resource:</strong> <span class='resource'>vpc-0123456789abcdef0</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Foundations Benchmark v6.0.0</p>
+<p>VPC does not have flow logging enabled.</p>
+<p><strong>Recommendation (CIS):</strong> Enable VPC flow logs</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+aws ec2 describe-flow-logs --filters Name=resource-id,Values=vpc-0123456789abcdef0
+</code></pre>
+<pre><code>
+{'FlowLogs': []}
+</code></pre>
+</div>
+<div class='finding MEDIUM'>
+<h3>AWS Security Hub Not Enabled</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>5.16</code></p>
+<p><strong>Resource:</strong> <span class='resource'>securityhub:us-east-1</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Foundations Benchmark v6.0.0</p>
+<p>AWS Security Hub is not enabled in this region.</p>
+<p><strong>Recommendation (CIS):</strong> Enable AWS Security Hub for centralized security findings</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+aws securityhub describe-hub --region us-east-1
+</code></pre>
+<pre><code>
+{'Error': 'InvalidAccessException', 'HubArn': None}
+</code></pre>
+</div>
+<div class='finding CRITICAL'>
+<h3>Security Group Allows SSH from Internet</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> CRITICAL | <strong>Check ID:</strong> <code>6.3</code></p>
+<p><strong>Resource:</strong> <span class='resource'>sg-0123456789abcdef0</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Foundations Benchmark v6.0.0</p>
+<p>Security group allows SSH (port 22) from 0.0.0.0/0.</p>
+<p><strong>Recommendation (CIS):</strong> Restrict SSH access to specific IP ranges</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+aws ec2 describe-security-groups --group-ids sg-0123456789abcdef0 --query 'SecurityGroups[0].IpPermissions[?FromPort<=`22` && ToPort>=`22`]'
+</code></pre>
+<pre><code>
+{'FromPort': 22, 'ToPort': 22, 'CidrIp': '0.0.0.0/0', 'Port': 22}
+</code></pre>
+</div>
+<div class='finding HIGH'>
+<h3>Default Security Group Allows Traffic</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>6.5</code></p>
+<p><strong>Resource:</strong> <span class='resource'>sg-default</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Foundations Benchmark v6.0.0</p>
+<p>Default security group has rules allowing traffic.</p>
+<p><strong>Recommendation (CIS):</strong> Remove all rules from default security group</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+aws ec2 describe-security-groups --filters Name=group-name,Values=default --query 'SecurityGroups[0].{IpPermissions:IpPermissions,IpPermissionsEgress:IpPermissionsEgress}'
+</code></pre>
+<pre><code>
+{'IpPermissions': [{'FromPort': 22, 'ToPort': 22, 'IpRanges': [{'CidrIp': '0.0.0.0/0'}]}], 'IpPermissionsEgress': []}
+</code></pre>
+</div>
+<div class='finding HIGH'>
+<h3>EC2 Instance Not Enforcing IMDSv2</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>6.7</code></p>
+<p><strong>Resource:</strong> <span class='resource'>i-0123456789abcdef0</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Foundations Benchmark v6.0.0</p>
+<p>EC2 instance does not enforce IMDSv2.</p>
+<p><strong>Recommendation (CIS):</strong> Modify instance metadata options to require IMDSv2</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+aws ec2 describe-instances --instance-ids i-0123456789abcdef0 --query 'Reservations[0].Instances[0].MetadataOptions.HttpTokens'
+</code></pre>
+<pre><code>
+{'HttpTokens': 'optional', 'HttpEndpoint': 'enabled'}
+</code></pre>
+</div>
+<div class='finding HIGH'>
+<h3>AMI EBS Snapshots Not Encrypted</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>2.1.2</code></p>
+<p><strong>Resource:</strong> <span class='resource'>ami-0123456789abcdef0</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Compute Services Benchmark v1.1.0</p>
+<p>AMI 'web-app-v1.0' has unencrypted EBS snapshots. Data at rest is not encrypted.</p>
+<p><strong>Recommendation (CIS):</strong> Copy AMI with encryption enabled using 'aws ec2 copy-image --encrypted'</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+aws ec2 describe-images --image-ids ami-0123456789abcdef0 --query 'Images[0].BlockDeviceMappings[0].Ebs.Encrypted'
+</code></pre>
+<pre><code>
+{'Encrypted': False, 'SnapshotId': 'snap-0123456789abcdef0', 'VolumeSize': 8}
+</code></pre>
+</div>
+<div class='finding MEDIUM'>
+<h3>AMI Older Than 90 Days</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>2.1.4</code></p>
+<p><strong>Resource:</strong> <span class='resource'>ami-0123456789abcdef1</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Compute Services Benchmark v1.1.0</p>
+<p>AMI 'api-backend-v2.0' is 145 days old. Outdated AMIs may lack security patches.</p>
+<p><strong>Recommendation (CIS):</strong> Create new AMI from updated instance and deregister old AMI</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+aws ec2 describe-images --image-ids ami-0123456789abcdef1 --query 'Images[0].CreationDate'
+</code></pre>
+<pre><code>
+{'CreationDate': '2024-06-01T10:30:00.000Z', 'DaysOld': 145, 'Name': 'api-backend-v2.0'}
+</code></pre>
+</div>
+<div class='finding HIGH'>
+<h3>EBS Encryption By Default Not Enabled</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>2.2.1</code></p>
+<p><strong>Resource:</strong> <span class='resource'>ec2:ebs:encryption:us-east-1</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Compute Services Benchmark v1.1.0</p>
+<p>EBS encryption by default is not enabled for this region.</p>
+<p><strong>Recommendation (CIS):</strong> Enable EBS encryption by default</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+aws ec2 get-ebs-encryption-by-default --region us-east-1
+</code></pre>
+<pre><code>
+{'EbsEncryptionByDefault': False}
+</code></pre>
+</div>
+<div class='finding HIGH'>
+<h3>EBS Snapshot Not Encrypted</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>2.2.3</code></p>
+<p><strong>Resource:</strong> <span class='resource'>snap-0123456789abcdef0</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Compute Services Benchmark v1.1.0</p>
+<p>EBS snapshot 'prod-db-backup' is not encrypted.</p>
+<p><strong>Recommendation (CIS):</strong> Create new encrypted snapshot and delete unencrypted snapshot</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+aws ec2 describe-snapshots --snapshot-ids snap-0123456789abcdef0 --query 'Snapshots[0].Encrypted'
+</code></pre>
+<pre><code>
+{'Encrypted': False, 'SnapshotId': 'snap-0123456789abcdef0', 'Description': 'prod-db-backup'}
+</code></pre>
+</div>
+<div class='finding LOW'>
+<h3>Unused EBS Volume Detected</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> LOW | <strong>Check ID:</strong> <code>2.2.4</code></p>
+<p><strong>Resource:</strong> <span class='resource'>vol-0123456789abcdef0</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Compute Services Benchmark v1.1.0</p>
+<p>EBS volume is not attached to any instance.</p>
+<p><strong>Recommendation (CIS):</strong> Review volume and delete if no longer needed</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+aws ec2 describe-volumes --volume-ids vol-0123456789abcdef0 --query 'Volumes[0].Attachments'
+</code></pre>
+<pre><code>
+{'Attachments': [], 'State': 'available', 'VolumeId': 'vol-0123456789abcdef0'}
+</code></pre>
+</div>
+<div class='finding HIGH'>
+<h3>EC2 Instance Using Default Security Group</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>2.7</code></p>
+<p><strong>Resource:</strong> <span class='resource'>i-0123456789abcdef0</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Compute Services Benchmark v1.1.0</p>
+<p>EC2 instance is using the default security group.</p>
+<p><strong>Recommendation (CIS):</strong> Create custom security group with least privilege</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+aws ec2 describe-instances --instance-ids i-0123456789abcdef0 --query 'Reservations[0].Instances[0].SecurityGroups'
+</code></pre>
+<pre><code>
+{'SecurityGroups': [{'GroupId': 'sg-default', 'GroupName': 'default'}]}
+</code></pre>
+</div>
+<div class='finding HIGH'>
+<h3>IMDSv2 Not Enforced on EC2 Instance</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>2.8</code></p>
+<p><strong>Resource:</strong> <span class='resource'>i-0123456789abcdef1</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Compute Services Benchmark v1.1.0</p>
+<p>EC2 instance does not enforce IMDSv2.</p>
+<p><strong>Recommendation (CIS):</strong> Enforce IMDSv2 to protect against SSRF attacks</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+aws ec2 describe-instances --instance-ids i-0123456789abcdef1 --query 'Reservations[0].Instances[0].MetadataOptions.HttpTokens'
+</code></pre>
+<pre><code>
+{'HttpTokens': 'optional', 'HttpEndpoint': 'enabled'}
+</code></pre>
+</div>
+<div class='finding CRITICAL'>
+<h3>Potential Secrets in EC2 User Data</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> CRITICAL | <strong>Check ID:</strong> <code>2.13</code></p>
+<p><strong>Resource:</strong> <span class='resource'>i-0123456789abcdef2</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Compute Services Benchmark v1.1.0</p>
+<p>EC2 User Data may contain sensitive information.</p>
+<p><strong>Recommendation (CIS):</strong> Use AWS Secrets Manager instead</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+aws ec2 describe-instance-attribute --instance-id i-0123456789abcdef2 --attribute userData --query 'UserData.Value' --output text | base64 -d
+</code></pre>
+<pre><code>
+{'UserDataContainsSecrets': True, 'SecretsFound': ['password', 'secret', 'key']}
+</code></pre>
+</div>
+<div class='finding HIGH'>
+<h3>ECS Task with Host Network Has Privileged Access</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>3.1</code></p>
+<p><strong>Resource:</strong> <span class='resource'>arn:aws:ecs:us-east-1:123456789012:task-definition/web-app:1</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Compute Services Benchmark v1.1.0</p>
+<p>ECS task using host network mode allows privileged access.</p>
+<p><strong>Recommendation (CIS):</strong> Remove privileged access or run as non-root user</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+aws ecs describe-task-definition --task-definition web-app:1 --query 'taskDefinition.containerDefinitions[0].{NetworkMode:networkMode,Privileged:privileged}'
+</code></pre>
+<pre><code>
+{'NetworkMode': 'host', 'Privileged': True, 'User': 'root'}
+</code></pre>
+</div>
+<div class='finding CRITICAL'>
+<h3>ECS Container Running in Privileged Mode</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> CRITICAL | <strong>Check ID:</strong> <code>3.4</code></p>
+<p><strong>Resource:</strong> <span class='resource'>arn:aws:ecs:us-east-1:123456789012:task-definition/api:2:nginx</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Compute Services Benchmark v1.1.0</p>
+<p>ECS container is running in privileged mode.</p>
+<p><strong>Recommendation (CIS):</strong> Remove privileged flag</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+aws ecs describe-task-definition --task-definition api:2 --query 'taskDefinition.containerDefinitions[?name==`nginx`].Privileged'
+</code></pre>
+<pre><code>
+{'Privileged': True, 'ContainerName': 'nginx', 'Image': 'nginx:latest'}
+</code></pre>
+</div>
+<div class='finding HIGH'>
+<h3>ECS Container Has Secrets in Environment Variables</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>3.6</code></p>
+<p><strong>Resource:</strong> <span class='resource'>arn:aws:ecs:us-east-1:123456789012:task-definition/worker:3:app</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Compute Services Benchmark v1.1.0</p>
+<p>ECS container has potential secret in environment variable 'API_KEY'.</p>
+<p><strong>Recommendation (CIS):</strong> Use AWS Secrets Manager instead</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+aws ecs describe-task-definition --task-definition worker:3 --query 'taskDefinition.containerDefinitions[?name==`app`].environment'
+</code></pre>
+<pre><code>
+{'Environment': [{'name': 'API_KEY', 'value': 'sk-1234567890abcdef'}], 'SecretsInEnv': True}
+</code></pre>
+</div>
+<div class='finding HIGH'>
+<h3>Lambda Function Has Overly Permissive IAM Role</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>12.4</code></p>
+<p><strong>Resource:</strong> <span class='resource'>arn:aws:lambda:us-east-1:123456789012:function:data-processor</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Compute Services Benchmark v1.1.0</p>
+<p>Lambda function has AdministratorAccess policy attached.</p>
+<p><strong>Recommendation (CIS):</strong> Replace with custom policy granting only required permissions</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+aws lambda get-function --function-name data-processor --query 'Configuration.Role'
+</code></pre>
+<pre><code>
+{'Role': 'arn:aws:iam::123456789012:role/AdministratorAccess', 'Policies': ['AdministratorAccess']}
+</code></pre>
+</div>
+<div class='finding CRITICAL'>
+<h3>Lambda Function Publicly Accessible</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> CRITICAL | <strong>Check ID:</strong> <code>12.6</code></p>
+<p><strong>Resource:</strong> <span class='resource'>arn:aws:lambda:us-east-1:123456789012:function:api-handler</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Compute Services Benchmark v1.1.0</p>
+<p>Lambda function has public access policy.</p>
+<p><strong>Recommendation (CIS):</strong> Remove public access and grant permissions to specific principals</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+aws lambda get-policy --function-name api-handler
+</code></pre>
+<pre><code>
+{'Policy': '{"Statement":[{"Effect":"Allow","Principal":"*","Action":"lambda:InvokeFunction"}]}'}
+</code></pre>
+</div>
+<div class='finding HIGH'>
+<h3>Lambda Function Using Deprecated Runtime</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>12.11</code></p>
+<p><strong>Resource:</strong> <span class='resource'>arn:aws:lambda:us-east-1:123456789012:function:legacy-app</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Compute Services Benchmark v1.1.0</p>
+<p>Lambda function uses deprecated runtime 'python3.6'.</p>
+<p><strong>Recommendation (CIS):</strong> Update to a currently supported runtime version</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+aws lambda get-function --function-name legacy-app --query 'Configuration.Runtime'
+</code></pre>
+<pre><code>
+{'Runtime': 'python3.6', 'Deprecated': True, 'SupportedRuntimes': ['python3.9', 'python3.10', 'python3.11']}
+</code></pre>
+</div>
+<div class='finding HIGH'>
+<h3>Aurora Cluster Not Encrypted at Rest</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>2.3</code></p>
+<p><strong>Resource:</strong> <span class='resource'>aurora-cluster-prod-001</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Database Services Benchmark v1.0.0</p>
+<p>Aurora cluster 'aurora-cluster-prod-001' does not have encryption at rest enabled. Data stored is not encrypted.</p>
+<p><strong>Recommendation (CIS):</strong> Enable encryption at rest for the Aurora cluster using AWS KMS. Note: This requires creating a new encrypted cluster and migrating data.</p>
+</div>
+<div class='finding HIGH'>
+<h3>SSL/TLS Not Enforced for Aurora Connections</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>2.4</code></p>
+<p><strong>Resource:</strong> <span class='resource'>aurora-cluster-prod-001</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Database Services Benchmark v1.0.0</p>
+<p>Aurora cluster does not enforce SSL/TLS for client connections. Data in transit may not be encrypted.</p>
+<p><strong>Recommendation (CIS):</strong> Configure Aurora to require SSL/TLS connections and update client applications to use SSL certificates.</p>
+</div>
+<div class='finding MEDIUM'>
+<h3>Aurora Audit Logging Not Enabled</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>2.6</code></p>
+<p><strong>Resource:</strong> <span class='resource'>aurora-cluster-prod-001</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Database Services Benchmark v1.0.0</p>
+<p>Database Activity Streams or CloudTrail logging is not enabled for Aurora cluster.</p>
+<p><strong>Recommendation (CIS):</strong> Enable Amazon RDS Database Activity Streams or configure CloudTrail logging for comprehensive audit trails.</p>
+</div>
+<div class='finding MEDIUM'>
+<h3>Aurora Master Password Not Recently Rotated</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>2.7</code></p>
+<p><strong>Resource:</strong> <span class='resource'>aurora-cluster-prod-001</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Database Services Benchmark v1.0.0</p>
+<p>The master password for Aurora cluster has not been rotated in over 90 days.</p>
+<p><strong>Recommendation (CIS):</strong> Rotate the master password regularly (at least every 90 days) following your organization's password policy.</p>
+</div>
+<div class='finding MEDIUM'>
+<h3>Aurora Backup Retention Period Too Short</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>2.10</code></p>
+<p><strong>Resource:</strong> <span class='resource'>aurora-cluster-prod-001</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Database Services Benchmark v1.0.0</p>
+<p>Aurora cluster has a backup retention period of only 1 day. This may not meet compliance requirements.</p>
+<p><strong>Recommendation (CIS):</strong> Configure backup retention period to at least 7 days, or longer based on compliance requirements.</p>
+</div>
+<div class='finding HIGH'>
+<h3>RDS Instance Not Encrypted at Rest</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>3.5</code></p>
+<p><strong>Resource:</strong> <span class='resource'>rds-mysql-prod-db</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Database Services Benchmark v1.0.0</p>
+<p>RDS instance 'rds-mysql-prod-db' does not have encryption at rest enabled.</p>
+<p><strong>Recommendation (CIS):</strong> Enable encryption at rest for RDS instance using AWS KMS. Requires creating a snapshot, copying with encryption, and restoring.</p>
+</div>
+<div class='finding HIGH'>
+<h3>RDS SSL/TLS Connection Not Enforced</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>3.6</code></p>
+<p><strong>Resource:</strong> <span class='resource'>rds-mysql-prod-db</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Database Services Benchmark v1.0.0</p>
+<p>RDS instance does not enforce SSL/TLS connections. Database connections may be unencrypted.</p>
+<p><strong>Recommendation (CIS):</strong> Configure RDS parameter group to require SSL and update application connection strings to use SSL.</p>
+</div>
+<div class='finding MEDIUM'>
+<h3>RDS Auto Minor Version Upgrade Disabled</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>3.8</code></p>
+<p><strong>Resource:</strong> <span class='resource'>rds-mysql-prod-db</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Database Services Benchmark v1.0.0</p>
+<p>RDS instance does not have auto minor version upgrade enabled, potentially missing security patches.</p>
+<p><strong>Recommendation (CIS):</strong> Enable auto minor version upgrade in RDS instance settings to automatically apply security patches.</p>
+</div>
+<div class='finding MEDIUM'>
+<h3>RDS Enhanced Monitoring Not Enabled</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>3.9</code></p>
+<p><strong>Resource:</strong> <span class='resource'>rds-mysql-prod-db</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Database Services Benchmark v1.0.0</p>
+<p>Enhanced Monitoring is not enabled for RDS instance, limiting visibility into database performance.</p>
+<p><strong>Recommendation (CIS):</strong> Enable Enhanced Monitoring for RDS instance to collect metrics at 1-60 second intervals.</p>
+</div>
+<div class='finding MEDIUM'>
+<h3>RDS Automated Backups Retention Too Short</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>3.10</code></p>
+<p><strong>Resource:</strong> <span class='resource'>rds-mysql-prod-db</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Database Services Benchmark v1.0.0</p>
+<p>RDS automated backup retention period is set to 1 day, which may not meet compliance requirements.</p>
+<p><strong>Recommendation (CIS):</strong> Configure automated backup retention period to at least 7 days or as required by compliance policies.</p>
+</div>
+<div class='finding CRITICAL'>
+<h3>RDS Instance Not in VPC</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> CRITICAL | <strong>Check ID:</strong> <code>3.3</code></p>
+<p><strong>Resource:</strong> <span class='resource'>rds-mysql-legacy-db</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Database Services Benchmark v1.0.0</p>
+<p>RDS instance is using EC2-Classic platform instead of VPC, lacking modern network security controls.</p>
+<p><strong>Recommendation (CIS):</strong> Migrate RDS instance to VPC for improved network isolation and security group controls.</p>
+</div>
+<div class='finding HIGH'>
+<h3>DynamoDB Table Not Encrypted at Rest</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>4.3</code></p>
+<p><strong>Resource:</strong> <span class='resource'>dynamodb-table-users</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Database Services Benchmark v1.0.0</p>
+<p>DynamoDB table 'users' does not have encryption at rest enabled using AWS KMS.</p>
+<p><strong>Recommendation (CIS):</strong> Enable encryption at rest for DynamoDB table using AWS KMS customer managed keys (CMK).</p>
+</div>
+<div class='finding HIGH'>
+<h3>DynamoDB Client Not Using HTTPS</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>4.4</code></p>
+<p><strong>Resource:</strong> <span class='resource'>dynamodb-table-users</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Database Services Benchmark v1.0.0</p>
+<p>Application connections to DynamoDB are not enforcing HTTPS/TLS encryption.</p>
+<p><strong>Recommendation (CIS):</strong> Configure application to use HTTPS endpoints and enforce TLS 1.2 or higher for DynamoDB connections.</p>
+</div>
+<div class='finding MEDIUM'>
+<h3>DynamoDB VPC Endpoint Not Configured</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>4.5</code></p>
+<p><strong>Resource:</strong> <span class='resource'>vpc-0a1b2c3d4e5f</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Database Services Benchmark v1.0.0</p>
+<p>VPC does not have a VPC endpoint for DynamoDB, forcing traffic over public internet.</p>
+<p><strong>Recommendation (CIS):</strong> Create a VPC endpoint for DynamoDB to keep traffic within AWS network.</p>
+</div>
+<div class='finding MEDIUM'>
+<h3>DynamoDB CloudTrail Logging Not Enabled</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>4.7</code></p>
+<p><strong>Resource:</strong> <span class='resource'>dynamodb-table-users</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Database Services Benchmark v1.0.0</p>
+<p>CloudTrail logging is not enabled for DynamoDB API calls, limiting audit capabilities.</p>
+<p><strong>Recommendation (CIS):</strong> Enable CloudTrail logging for DynamoDB to track all API calls and data plane operations.</p>
+</div>
+<div class='finding HIGH'>
+<h3>ElastiCache Cluster Not Encrypted at Rest</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>5.3</code></p>
+<p><strong>Resource:</strong> <span class='resource'>elasticache-redis-prod</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Database Services Benchmark v1.0.0</p>
+<p>ElastiCache Redis cluster does not have encryption at rest enabled.</p>
+<p><strong>Recommendation (CIS):</strong> Enable encryption at rest for ElastiCache cluster. Note: Requires creating a new cluster with encryption enabled.</p>
+</div>
+<div class='finding HIGH'>
+<h3>ElastiCache In-Transit Encryption Not Enabled</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>5.3</code></p>
+<p><strong>Resource:</strong> <span class='resource'>elasticache-redis-prod</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Database Services Benchmark v1.0.0</p>
+<p>ElastiCache Redis cluster does not have in-transit encryption (TLS) enabled.</p>
+<p><strong>Recommendation (CIS):</strong> Enable in-transit encryption for ElastiCache Redis cluster to protect data during transmission.</p>
+</div>
+<div class='finding CRITICAL'>
+<h3>ElastiCache Cluster Not in VPC</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> CRITICAL | <strong>Check ID:</strong> <code>5.5</code></p>
+<p><strong>Resource:</strong> <span class='resource'>elasticache-memcached-legacy</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Database Services Benchmark v1.0.0</p>
+<p>ElastiCache cluster is not deployed in a VPC, lacking network isolation.</p>
+<p><strong>Recommendation (CIS):</strong> Migrate ElastiCache cluster to VPC for improved network security and isolation.</p>
+</div>
+<div class='finding HIGH'>
+<h3>ElastiCache AUTH Token Not Configured</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>5.8</code></p>
+<p><strong>Resource:</strong> <span class='resource'>elasticache-redis-prod</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Database Services Benchmark v1.0.0</p>
+<p>Redis AUTH token is not configured for ElastiCache cluster, allowing unauthenticated access.</p>
+<p><strong>Recommendation (CIS):</strong> Configure Redis AUTH token to require password authentication for all connections.</p>
+</div>
+<div class='finding MEDIUM'>
+<h3>ElastiCache CloudWatch Logs Not Enabled</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>5.6</code></p>
+<p><strong>Resource:</strong> <span class='resource'>elasticache-redis-prod</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Database Services Benchmark v1.0.0</p>
+<p>Slow log delivery to CloudWatch is not enabled for ElastiCache Redis cluster.</p>
+<p><strong>Recommendation (CIS):</strong> Enable slow log delivery to CloudWatch Logs for monitoring and troubleshooting.</p>
+</div>
+<div class='finding HIGH'>
+<h3>DocumentDB Cluster Not Encrypted at Rest</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>7.3</code></p>
+<p><strong>Resource:</strong> <span class='resource'>docdb-cluster-prod</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Database Services Benchmark v1.0.0</p>
+<p>DocumentDB cluster does not have encryption at rest enabled using AWS KMS.</p>
+<p><strong>Recommendation (CIS):</strong> Enable encryption at rest for DocumentDB cluster. Note: Requires creating a new encrypted cluster and migrating data.</p>
+</div>
+<div class='finding HIGH'>
+<h3>DocumentDB TLS Not Enforced</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>7.4</code></p>
+<p><strong>Resource:</strong> <span class='resource'>docdb-cluster-prod</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Database Services Benchmark v1.0.0</p>
+<p>DocumentDB cluster does not enforce TLS for client connections.</p>
+<p><strong>Recommendation (CIS):</strong> Enable TLS enforcement in DocumentDB cluster parameter group and update client applications to use TLS.</p>
+</div>
+<div class='finding MEDIUM'>
+<h3>DocumentDB Audit Logging Not Enabled</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>7.6</code></p>
+<p><strong>Resource:</strong> <span class='resource'>docdb-cluster-prod</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Database Services Benchmark v1.0.0</p>
+<p>Audit logging is not enabled for DocumentDB cluster, limiting compliance and forensic capabilities.</p>
+<p><strong>Recommendation (CIS):</strong> Enable audit logging in DocumentDB cluster parameter group and export logs to CloudWatch Logs.</p>
+</div>
+<div class='finding MEDIUM'>
+<h3>DocumentDB Backup Retention Too Short</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>7.9</code></p>
+<p><strong>Resource:</strong> <span class='resource'>docdb-cluster-prod</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Database Services Benchmark v1.0.0</p>
+<p>DocumentDB cluster backup retention period is only 1 day, which may not meet compliance requirements.</p>
+<p><strong>Recommendation (CIS):</strong> Configure backup retention period to at least 7 days or as required by organizational policies.</p>
+</div>
+<div class='finding HIGH'>
+<h3>Neptune Cluster Not Encrypted at Rest</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>9.2</code></p>
+<p><strong>Resource:</strong> <span class='resource'>neptune-cluster-graphdb</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Database Services Benchmark v1.0.0</p>
+<p>Neptune cluster does not have encryption at rest enabled using AWS KMS.</p>
+<p><strong>Recommendation (CIS):</strong> Enable encryption at rest for Neptune cluster. Requires creating a new encrypted cluster and migrating data.</p>
+</div>
+<div class='finding HIGH'>
+<h3>Neptune SSL/TLS Not Enforced</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>9.3</code></p>
+<p><strong>Resource:</strong> <span class='resource'>neptune-cluster-graphdb</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Database Services Benchmark v1.0.0</p>
+<p>Neptune cluster does not enforce SSL/TLS for client connections.</p>
+<p><strong>Recommendation (CIS):</strong> Configure Neptune to require SSL/TLS connections and update client applications to use encrypted connections.</p>
+</div>
+<div class='finding MEDIUM'>
+<h3>Neptune IAM Database Authentication Not Enabled</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>9.4</code></p>
+<p><strong>Resource:</strong> <span class='resource'>neptune-cluster-graphdb</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Database Services Benchmark v1.0.0</p>
+<p>IAM database authentication is not enabled for Neptune cluster, relying only on database passwords.</p>
+<p><strong>Recommendation (CIS):</strong> Enable IAM database authentication for Neptune to use IAM roles and temporary credentials.</p>
+</div>
+<div class='finding MEDIUM'>
+<h3>Neptune Audit Logging Not Enabled</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>9.5</code></p>
+<p><strong>Resource:</strong> <span class='resource'>neptune-cluster-graphdb</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Database Services Benchmark v1.0.0</p>
+<p>Audit logs are not being exported to CloudWatch Logs for Neptune cluster.</p>
+<p><strong>Recommendation (CIS):</strong> Enable audit log export to CloudWatch Logs in Neptune cluster configuration.</p>
+</div>
+<div class='finding MEDIUM'>
+<h3>Ensure Administration of WorkSpaces is defined using IAM</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>workspaces_2.1</code></p>
+<p><strong>Resource:</strong> <span class='resource'>aws:workspaces:administration</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS End User Compute Services Benchmark v1.2.0</p>
+<p>WorkSpaces administration IAM policies not properly configured</p>
+<p><strong>Recommendation (CIS):</strong> Configure proper IAM policies for WorkSpaces administration</p>
+</div>
+<div class='finding HIGH'>
+<h3>Ensure WorkSpace volumes are encrypted</h3>
+<p><span class='badge PASSED'>PASSED</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>workspaces_2.3</code></p>
+<p><strong>Resource:</strong> <span class='resource'>aws:workspaces:volumes</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS End User Compute Services Benchmark v1.2.0</p>
+<p>WorkSpaces volumes are properly encrypted</p>
+<p><strong>Recommendation (CIS):</strong> Continue monitoring encryption settings</p>
+</div>
+<div class='finding MEDIUM'>
+<h3>Ensure WorkSpaces Web portal is configured with proper authentication</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>workspaces_web_3.1</code></p>
+<p><strong>Resource:</strong> <span class='resource'>aws:workspaces-web:authentication</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS End User Compute Services Benchmark v1.2.0</p>
+<p>WorkSpaces Web authentication configuration needs review</p>
+<p><strong>Recommendation (CIS):</strong> Configure proper identity providers for WorkSpaces Web portals</p>
+</div>
+<div class='finding MEDIUM'>
+<h3>Ensure WorkDocs sites have proper access controls</h3>
+<p><span class='badge INFO'>INFO</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>workdocs_4.1</code></p>
+<p><strong>Resource:</strong> <span class='resource'>aws:workdocs:access-controls</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS End User Compute Services Benchmark v1.2.0</p>
+<p>WorkDocs access controls require manual verification</p>
+<p><strong>Recommendation (CIS):</strong> Review and configure proper user access controls for WorkDocs sites</p>
+</div>
+<div class='finding MEDIUM'>
+<h3>Ensure AppStream 2.0 stacks have proper security groups configured</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>appstream_5.1</code></p>
+<p><strong>Resource:</strong> <span class='resource'>aws:appstream:security-groups</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS End User Compute Services Benchmark v1.2.0</p>
+<p>AppStream security groups need review for overly permissive rules</p>
+<p><strong>Recommendation (CIS):</strong> Review and tighten security group rules</p>
+</div>
+<div class='finding HIGH'>
+<h3>Ensure AppStream 2.0 fleets have encryption enabled</h3>
+<p><span class='badge PASSED'>PASSED</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>appstream_5.2</code></p>
+<p><strong>Resource:</strong> <span class='resource'>aws:appstream:encryption</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS End User Compute Services Benchmark v1.2.0</p>
+<p>AppStream 2.0 fleets have encryption enabled</p>
+<p><strong>Recommendation (CIS):</strong> Continue monitoring encryption settings</p>
+</div>
+<div class='finding MEDIUM'>
+<h3>AWS Storage Backups (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>backup_1.1</code></p>
+<p><strong>Resource:</strong> <span class='resource'>aws:backup:storage</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Storage Services Benchmark v1.0.0</p>
+<p>AWS Storage Backups configuration needs review</p>
+<p><strong>Recommendation (CIS):</strong> Configure AWS Backup service for high resiliency</p>
+</div>
+<div class='finding MEDIUM'>
+<h3>Ensure securing AWS Backups (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>backup_1.2</code></p>
+<p><strong>Resource:</strong> <span class='resource'>aws:backup:security</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Storage Services Benchmark v1.0.0</p>
+<p>AWS Backup security configuration needs review</p>
+<p><strong>Recommendation (CIS):</strong> Implement proper security measures for AWS Backups</p>
+</div>
+<div class='finding LOW'>
+<h3>Ensure to create backup template and name (Manual)</h3>
+<p><span class='badge INFO'>INFO</span> <strong>Severity:</strong> LOW | <strong>Check ID:</strong> <code>backup_1.3</code></p>
+<p><strong>Resource:</strong> <span class='resource'>aws:backup:template</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Storage Services Benchmark v1.0.0</p>
+<p>Backup template configuration is in place</p>
+<p><strong>Recommendation (CIS):</strong> Review backup template naming conventions</p>
+</div>
+<div class='finding MEDIUM'>
+<h3>Ensure to create AWS IAM Policies (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>backup_1.4</code></p>
+<p><strong>Resource:</strong> <span class='resource'>aws:backup:iam-policies</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Storage Services Benchmark v1.0.0</p>
+<p>AWS Backup IAM policies need review</p>
+<p><strong>Recommendation (CIS):</strong> Create and configure appropriate IAM policies for AWS Backup</p>
+</div>
+<div class='finding MEDIUM'>
+<h3>Ensure to create IAM roles for Backup (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>backup_1.5</code></p>
+<p><strong>Resource:</strong> <span class='resource'>aws:backup:iam-roles</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Storage Services Benchmark v1.0.0</p>
+<p>AWS Backup IAM roles need review</p>
+<p><strong>Recommendation (CIS):</strong> Create and configure appropriate IAM roles for AWS Backup</p>
+</div>
+<div class='finding LOW'>
+<h3>Ensure AWS Backup with Service Linked Roles (Manual)</h3>
+<p><span class='badge INFO'>INFO</span> <strong>Severity:</strong> LOW | <strong>Check ID:</strong> <code>backup_1.6</code></p>
+<p><strong>Resource:</strong> <span class='resource'>aws:backup:service-linked-roles</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Storage Services Benchmark v1.0.0</p>
+<p>Service Linked Roles for AWS Backup are configured</p>
+<p><strong>Recommendation (CIS):</strong> Review Service Linked Roles configuration</p>
+</div>
+<div class='finding MEDIUM'>
+<h3>Ensure creating EC2 instance with EBS (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>ebs_2.1</code></p>
+<p><strong>Resource:</strong> <span class='resource'>aws:ebs:ec2-instance</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Storage Services Benchmark v1.0.0</p>
+<p>EC2 instance with EBS configuration needs review</p>
+<p><strong>Recommendation (CIS):</strong> Ensure EC2 instances are properly configured with EBS volumes</p>
+</div>
+<div class='finding HIGH'>
+<h3>Ensure configuring Security Groups (Manual)</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>ebs_2.2</code></p>
+<p><strong>Resource:</strong> <span class='resource'>aws:ebs:security-groups</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Storage Services Benchmark v1.0.0</p>
+<p>Security groups for EBS are not properly configured</p>
+<p><strong>Recommendation (CIS):</strong> Configure security groups to restrict traffic to necessary ports only</p>
+</div>
+<div class='finding HIGH'>
+<h3>Ensure the proper configuration of EBS storage (Manual)</h3>
+<p><span class='badge PASSED'>PASSED</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>ebs_2.3</code></p>
+<p><strong>Resource:</strong> <span class='resource'>aws:ebs:storage</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Storage Services Benchmark v1.0.0</p>
+<p>EBS storage is properly configured</p>
+<p><strong>Recommendation (CIS):</strong> Continue monitoring EBS configuration</p>
+</div>
+<div class='finding MEDIUM'>
+<h3>Ensure the creation of a new volume (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>ebs_2.4</code></p>
+<p><strong>Resource:</strong> <span class='resource'>aws:ebs:new-volume</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Storage Services Benchmark v1.0.0</p>
+<p>New EBS volume creation process needs review</p>
+<p><strong>Recommendation (CIS):</strong> Ensure proper volume creation with encryption and delete protection</p>
+</div>
+<div class='finding HIGH'>
+<h3>Ensure creating snapshots of EBS volumes (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>ebs_2.5</code></p>
+<p><strong>Resource:</strong> <span class='resource'>aws:ebs:snapshots</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Storage Services Benchmark v1.0.0</p>
+<p>EBS volume snapshots are not being created regularly</p>
+<p><strong>Recommendation (CIS):</strong> Implement regular EBS volume snapshots for data protection</p>
+</div>
+<div class='finding MEDIUM'>
+<h3>EFS (Manual)</h3>
+<p><span class='badge INFO'>INFO</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>efs_3.1</code></p>
+<p><strong>Resource:</strong> <span class='resource'>aws:efs:filesystem</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Storage Services Benchmark v1.0.0</p>
+<p>EFS file system is configured</p>
+<p><strong>Recommendation (CIS):</strong> Review EFS configuration regularly</p>
+</div>
+<div class='finding MEDIUM'>
+<h3>Ensure Implementation of EFS (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>efs_3.2</code></p>
+<p><strong>Resource:</strong> <span class='resource'>aws:efs:implementation</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Storage Services Benchmark v1.0.0</p>
+<p>EFS implementation needs review</p>
+<p><strong>Recommendation (CIS):</strong> Ensure proper EFS implementation with encryption</p>
+</div>
+<div class='finding MEDIUM'>
+<h3>Ensure EFS and VPC Integration (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>efs_3.3</code></p>
+<p><strong>Resource:</strong> <span class='resource'>aws:efs:vpc-integration</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Storage Services Benchmark v1.0.0</p>
+<p>EFS and VPC integration needs review</p>
+<p><strong>Recommendation (CIS):</strong> Ensure proper EFS and VPC integration for redundancy</p>
+</div>
+<div class='finding MEDIUM'>
+<h3>FSX (AWS Elastic File Cache) (Manual)</h3>
+<p><span class='badge INFO'>INFO</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>fsx_4.1</code></p>
+<p><strong>Resource:</strong> <span class='resource'>aws:fsx:file-cache</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Storage Services Benchmark v1.0.0</p>
+<p>AWS Elastic File Cache is configured</p>
+<p><strong>Recommendation (CIS):</strong> Review FSx file cache configuration</p>
+</div>
+<div class='finding MEDIUM'>
+<h3>Amazon Elastic File Cache (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>fsx_4.2</code></p>
+<p><strong>Resource:</strong> <span class='resource'>aws:fsx:elastic-file-cache</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Storage Services Benchmark v1.0.0</p>
+<p>Elastic File Cache configuration needs review</p>
+<p><strong>Recommendation (CIS):</strong> Ensure proper Elastic File Cache configuration</p>
+</div>
+<div class='finding MEDIUM'>
+<h3>Ensure the creation of an FSX Bucket (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>fsx_4.3</code></p>
+<p><strong>Resource:</strong> <span class='resource'>aws:fsx:s3-bucket</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Storage Services Benchmark v1.0.0</p>
+<p>S3 bucket for FSx needs creation</p>
+<p><strong>Recommendation (CIS):</strong> Create and configure S3 bucket for FSx data storage</p>
+</div>
+<div class='finding MEDIUM'>
+<h3>Amazon Simple Storage Service (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>s3_5.1</code></p>
+<p><strong>Resource:</strong> <span class='resource'>aws:s3:bucket</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Storage Services Benchmark v1.0.0</p>
+<p>S3 bucket configuration needs review</p>
+<p><strong>Recommendation (CIS):</strong> Configure S3 with proper access controls and encryption</p>
+</div>
+<div class='finding MEDIUM'>
+<h3>Ensure direct data addition to S3 (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>s3_5.2</code></p>
+<p><strong>Resource:</strong> <span class='resource'>aws:s3:data-addition</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Storage Services Benchmark v1.0.0</p>
+<p>Direct data addition to S3 process needs review</p>
+<p><strong>Recommendation (CIS):</strong> Ensure secure direct data addition to S3</p>
+</div>
+<div class='finding MEDIUM'>
+<h3>Ensure Storage Classes are Configured (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>s3_5.3</code></p>
+<p><strong>Resource:</strong> <span class='resource'>aws:s3:storage-classes</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Storage Services Benchmark v1.0.0</p>
+<p>S3 storage classes need proper configuration</p>
+<p><strong>Recommendation (CIS):</strong> Configure appropriate S3 storage classes for cost optimization</p>
+</div>
+<div class='finding HIGH'>
+<h3>Ensure Elastic Disaster Recovery is Configured (Manual)</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>edr_6.1</code></p>
+<p><strong>Resource:</strong> <span class='resource'>aws:edr:disaster-recovery</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Storage Services Benchmark v1.0.0</p>
+<p>Elastic Disaster Recovery is not properly configured</p>
+<p><strong>Recommendation (CIS):</strong> Configure AWS Elastic Disaster Recovery for high resiliency</p>
+</div>
+<div class='finding HIGH'>
+<h3>Ensure AWS Disaster Recovery Configuration (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>edr_6.2</code></p>
+<p><strong>Resource:</strong> <span class='resource'>aws:edr:configuration</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Storage Services Benchmark v1.0.0</p>
+<p>AWS Disaster Recovery configuration needs review</p>
+<p><strong>Recommendation (CIS):</strong> Review and update AWS Disaster Recovery configuration</p>
+</div>
+<div class='finding MEDIUM'>
+<h3>Ensure functionality of Endpoint Detection and Response (EDR) (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>edr_6.3</code></p>
+<p><strong>Resource:</strong> <span class='resource'>aws:edr:endpoint-detection</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Storage Services Benchmark v1.0.0</p>
+<p>Endpoint Detection and Response functionality needs review</p>
+<p><strong>Recommendation (CIS):</strong> Ensure EDR functionality is properly configured</p>
+</div>
+<div class='finding MEDIUM'>
+<h3>Ensure configuration of replication settings (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>edr_6.4</code></p>
+<p><strong>Resource:</strong> <span class='resource'>aws:edr:replication-settings</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Storage Services Benchmark v1.0.0</p>
+<p>Replication settings need configuration</p>
+<p><strong>Recommendation (CIS):</strong> Configure proper replication settings for disaster recovery</p>
+</div>
+<div class='finding MEDIUM'>
+<h3>Ensure proper IAM configuration for AWS Elastic Disaster Recovery (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>edr_6.5</code></p>
+<p><strong>Resource:</strong> <span class='resource'>aws:edr:iam-configuration</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Storage Services Benchmark v1.0.0</p>
+<p>IAM configuration for EDR needs review</p>
+<p><strong>Recommendation (CIS):</strong> Configure proper IAM policies and roles for EDR</p>
+</div>
+</div>
+</body>
+</html>

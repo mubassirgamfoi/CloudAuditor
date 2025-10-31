@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='UTF-8'>
+<title>CloudAuditor Compliance Report</title>
+<style>
+
+        body { font-family: Arial, sans-serif; margin: 40px; background-color: #f5f5f5; }
+        .container { background-color: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        h1 { color: #333; border-bottom: 3px solid #4CAF50; padding-bottom: 10px; }
+        h2 { color: #555; margin-top: 30px; }
+        .summary { background-color: #f9f9f9; padding: 20px; border-radius: 5px; margin: 20px 0; }
+        .summary-item { display: inline-block; margin: 10px 20px 10px 0; }
+        .finding { border-left: 4px solid #ff9800; padding: 15px; margin: 15px 0; background-color: #fafafa; }
+        .finding.CRITICAL { border-left-color: #f44336; }
+        .finding.HIGH { border-left-color: #ff5722; }
+        .finding.MEDIUM { border-left-color: #ff9800; }
+        .finding.LOW { border-left-color: #ffc107; }
+        .finding.INFO { border-left-color: #2196F3; }
+        .badge { display: inline-block; padding: 4px 8px; border-radius: 3px; font-size: 12px; font-weight: bold; }
+        .badge.FAILED { background-color: #f44336; color: white; }
+        .badge.PASSED { background-color: #4CAF50; color: white; }
+        .badge.WARNING { background-color: #ff9800; color: white; }
+        .resource { font-family: monospace; background-color: #eee; padding: 2px 6px; border-radius: 3px; }
+        .meta { color: #666; font-size: 14px; }
+    
+</style>
+</head>
+<body>
+<div class='container'>
+<h1>CloudAuditor Compliance Report</h1>
+<p class='meta'>Generated: 2025-10-30T05:08:24.251638</p>
+<p class='meta'>Provider: <strong>DIGITALOCEAN</strong> | Region: <strong>N/A</strong> | Profile: <strong>default</strong></p>
+<h2>Benchmarks Executed</h2>
+<ul>
+<li>CIS DigitalOcean Foundations Benchmark v1.0.0</li>
+<li>CIS DigitalOcean Services Benchmark v1.0.0</li>
+</ul>
+<div class='summary'>
+<h2>Summary</h2>
+<div class='summary-item'><strong>Total Checks:</strong> 30</div>
+<div class='summary-item'><strong>Passed:</strong> 0</div>
+<div class='summary-item'><strong>Failed:</strong> 7</div>
+<div class='summary-item'><strong>Warnings:</strong> 23</div>
+</div>
+<h2>Findings</h2>
+
+    <div style='margin: 10px 0 20px 0;'>
+      <label for='filterName'><strong>Filter by name:</strong></label>
+      <input id='filterName' type='text' placeholder='Search title or check id' style='margin-right:10px;padding:6px;'>
+      <label for='filterStatus'><strong>Status:</strong></label>
+      <select id='filterStatus' style='padding:6px;'>
+        <option value='ALL'>All</option>
+        <option value='PASSED'>Passed</option>
+        <option value='FAILED'>Failed</option>
+        <option value='WARNING'>Warning</option>
+      </select>
+    </div>
+    
+<div class='finding HIGH' data-title='ensure secure sign in for teams is enabled (manual) do_2.1' data-status='FAILED'>
+<h3>Ensure Secure Sign In for Teams is Enabled (Manual)</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>do_2.1</code></p>
+<p><strong>Resource:</strong> <span class='resource'>digitalocean:team:secure-sign-in</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS DigitalOcean Foundations Benchmark v1.0.0</p>
+<p>Team does not require secure sign-in methods (Google, GitHub, or DO 2FA).</p>
+<p><strong>Recommendation (CIS):</strong> Enable Secure Sign-In in Team Settings.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+(UI) Control Panel → Settings → Team → Secure sign-in
+</code></pre>
+<pre><code>
+{'secureSignInEnabled': False}
+</code></pre>
+</div>
+<div class='finding HIGH' data-title='ensure two factor authentication for all accounts/teams is enabled (manual) do_2.2' data-status='FAILED'>
+<h3>Ensure Two Factor Authentication for all Accounts/Teams is Enabled (Manual)</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>do_2.2</code></p>
+<p><strong>Resource:</strong> <span class='resource'>digitalocean:account:2fa</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS DigitalOcean Foundations Benchmark v1.0.0</p>
+<p>Two-factor authentication is not enabled for all accounts/teams.</p>
+<p><strong>Recommendation (CIS):</strong> Enable 2FA for accounts; enforce secure sign-in for team.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+(UI) My Account → Two-factor authentication → Set Up 2FA
+</code></pre>
+<pre><code>
+{'twoFactorEnabled': False}
+</code></pre>
+</div>
+<div class='finding MEDIUM' data-title='ensure ssh keys are audited (automated) do_2.3' data-status='WARNING'>
+<h3>Ensure SSH Keys are Audited (Automated)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>do_2.3</code></p>
+<p><strong>Resource:</strong> <span class='resource'>digitalocean:account:ssh-keys</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS DigitalOcean Foundations Benchmark v1.0.0</p>
+<p>SSH keys have not been recently reviewed for appropriateness.</p>
+<p><strong>Recommendation (CIS):</strong> Audit SSH keys via Settings → Security → SSH Keys and remove stale keys.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+doctl compute ssh-key list --format ID,Name,PublicKey,Created
+</code></pre>
+<pre><code>
+{'keys': [{'id': 123, 'name': 'old-key', 'created': '2021-01-01'}]}
+</code></pre>
+</div>
+<div class='finding LOW' data-title='ensure a distribution list is used as the team contact email (manual) do_2.4' data-status='WARNING'>
+<h3>Ensure a Distribution List is used as the Team Contact Email (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> LOW | <strong>Check ID:</strong> <code>do_2.4</code></p>
+<p><strong>Resource:</strong> <span class='resource'>digitalocean:team:contact-email</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS DigitalOcean Foundations Benchmark v1.0.0</p>
+<p>Team contact email is an individual address instead of a distribution list.</p>
+<p><strong>Recommendation (CIS):</strong> Change Team Contact Email to a distribution list.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+(UI) Control Panel → Settings → Team → Team Contact Email → Edit
+</code></pre>
+<pre><code>
+{'contactEmail': 'owner@example.com', 'isDistributionList': False}
+</code></pre>
+</div>
+<div class='finding HIGH' data-title='ensure legacy tokens are replaced with scoped tokens (manual) do_3.1' data-status='FAILED'>
+<h3>Ensure Legacy Tokens are Replaced with Scoped Tokens (Manual)</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>do_3.1</code></p>
+<p><strong>Resource:</strong> <span class='resource'>digitalocean:api:legacy-tokens</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS DigitalOcean Foundations Benchmark v1.0.0</p>
+<p>Legacy tokens detected without fine-grained scopes.</p>
+<p><strong>Recommendation (CIS):</strong> Replace legacy tokens with custom scoped tokens and retire legacy tokens.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+doctl auth list; curl -H 'Authorization: Bearer $DIGITALOCEAN_TOKEN' https://api.digitalocean.com/v2/tokens
+</code></pre>
+<pre><code>
+{'legacyTokens': [{'name': 'legacy-rw', 'created_at': '2022-01-01'}]}
+</code></pre>
+</div>
+<div class='finding MEDIUM' data-title='ensure access tokens do not have over-provisioned scopes (manual) do_3.2' data-status='WARNING'>
+<h3>Ensure Access Tokens Do Not Have Over-Provisioned Scopes (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>do_3.2</code></p>
+<p><strong>Resource:</strong> <span class='resource'>digitalocean:api:overprovisioned-scopes</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS DigitalOcean Foundations Benchmark v1.0.0</p>
+<p>One or more tokens have broader scopes than required.</p>
+<p><strong>Recommendation (CIS):</strong> Review and regenerate tokens with least-privilege scopes.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+(UI) Control Panel → API → Tokens → Scopes
+</code></pre>
+<pre><code>
+{'tokens': [{'name': 'ci-token', 'scopes': ['*:']}]}
+</code></pre>
+</div>
+<div class='finding MEDIUM' data-title='ensure oauth and authorized third-party applications are appropriate (automated) do_3.3' data-status='WARNING'>
+<h3>Ensure OAuth and Authorized Third-Party Applications are Appropriate (Automated)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>do_3.3</code></p>
+<p><strong>Resource:</strong> <span class='resource'>digitalocean:api:oauth-apps</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS DigitalOcean Foundations Benchmark v1.0.0</p>
+<p>Authorized third-party applications require review for appropriateness and scope.</p>
+<p><strong>Recommendation (CIS):</strong> Remove unused or unrecognized OAuth/Authorized applications and limit scopes.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+(UI) Control Panel → API → OAuth Applications / Authorized Applications
+</code></pre>
+<pre><code>
+{'authorizedApps': [{'name': 'old-ci-app', 'lastUsed': '2023-01-01'}]}
+</code></pre>
+</div>
+<div class='finding HIGH' data-title='ensure role-based access controls are implemented (manual) do_4.1' data-status='WARNING'>
+<h3>Ensure Role-Based Access Controls are Implemented (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>do_4.1</code></p>
+<p><strong>Resource:</strong> <span class='resource'>digitalocean:team:rbac</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS DigitalOcean Foundations Benchmark v1.0.0</p>
+<p>Team roles require review to enforce least privilege.</p>
+<p><strong>Recommendation (CIS):</strong> Use predefined roles (Owner, Member, Biller, Modifier, Billing viewer, Resource viewer) and review assignments.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+(UI) Control Panel → Settings → Team → Team Members
+</code></pre>
+<pre><code>
+{'members': [{'email': 'dev@example.com', 'role': 'Owner'}]}
+</code></pre>
+</div>
+<div class='finding LOW' data-title='ensure security history is reviewed regularly (manual) do_5.1' data-status='WARNING'>
+<h3>Ensure Security History is Reviewed Regularly (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> LOW | <strong>Check ID:</strong> <code>do_5.1</code></p>
+<p><strong>Resource:</strong> <span class='resource'>digitalocean:team:security-history</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS DigitalOcean Foundations Benchmark v1.0.0</p>
+<p>Security history review cadence is not documented or recent reviews are missing.</p>
+<p><strong>Recommendation (CIS):</strong> Review Security History regularly and document cadence.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+(UI) Control Panel → Settings → Security
+</code></pre>
+<pre><code>
+{'lastReview': None}
+</code></pre>
+</div>
+<div class='finding HIGH' data-title='ensure backups are enabled (manual) do_svc_2.1' data-status='FAILED'>
+<h3>Ensure Backups are Enabled (Manual)</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>do_svc_2.1</code></p>
+<p><strong>Resource:</strong> <span class='resource'>digitalocean/droplet/backups</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS DigitalOcean Services Benchmark v1.0.0</p>
+<p>Droplet does not have automated backups enabled.</p>
+<p><strong>Recommendation (CIS):</strong> Enable automated backups (daily/weekly) with a defined backup window.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+doctl compute droplet-action enable-backups <droplet-id> --backup-policy-plan weekly --backup-policy-weekday SUN --backup-policy-hour 4
+</code></pre>
+<pre><code>
+{'backupsEnabled': False}
+</code></pre>
+</div>
+<div class='finding MEDIUM' data-title='ensure a firewall is created (automated) do_svc_2.2' data-status='WARNING'>
+<h3>Ensure a Firewall is Created (Automated)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>do_svc_2.2</code></p>
+<p><strong>Resource:</strong> <span class='resource'>digitalocean/firewall/present</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS DigitalOcean Services Benchmark v1.0.0</p>
+<p>No DigitalOcean Cloud Firewall defined for the project.</p>
+<p><strong>Recommendation (CIS):</strong> Create a Cloud Firewall with least-privilege inbound/outbound rules.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+doctl compute firewall create --name example --inbound-rules 'protocol:tcp,ports:22,address:10.0.0.0/8' --outbound-rules 'protocol:tcp,ports:80,address:0.0.0.0/0'
+</code></pre>
+<pre><code>
+{'firewalls': []}
+</code></pre>
+</div>
+<div class='finding HIGH' data-title='ensure the droplet is connected to a firewall (automated) do_svc_2.3' data-status='FAILED'>
+<h3>Ensure the Droplet is Connected to a Firewall (Automated)</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>do_svc_2.3</code></p>
+<p><strong>Resource:</strong> <span class='resource'>digitalocean/droplet/firewall-association</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS DigitalOcean Services Benchmark v1.0.0</p>
+<p>Droplet is not associated with any Cloud Firewall.</p>
+<p><strong>Recommendation (CIS):</strong> Attach Droplet to an existing Cloud Firewall or tag for policy application.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+doctl compute firewall add-droplets <firewall-id> --droplet-ids <droplet-id>
+</code></pre>
+<pre><code>
+{'dropletId': 12345, 'attachedFirewalls': []}
+</code></pre>
+</div>
+<div class='finding MEDIUM' data-title='ensure operating system on droplet is upgraded (manual) do_svc_2.4' data-status='WARNING'>
+<h3>Ensure Operating System on Droplet is Upgraded (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>do_svc_2.4</code></p>
+<p><strong>Resource:</strong> <span class='resource'>digitalocean/droplet/os-upgrade</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS DigitalOcean Services Benchmark v1.0.0</p>
+<p>Droplet OS version is nearing end-of-life.</p>
+<p><strong>Recommendation (CIS):</strong> Plan and execute an upgrade to a supported OS release.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+lsb_release -a | cat /etc/os-release
+</code></pre>
+<pre><code>
+{'distro': 'Ubuntu', 'version': '20.04'}
+</code></pre>
+</div>
+<div class='finding LOW' data-title='ensure operating system is updated (manual) do_svc_2.5' data-status='WARNING'>
+<h3>Ensure Operating System is Updated (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> LOW | <strong>Check ID:</strong> <code>do_svc_2.5</code></p>
+<p><strong>Resource:</strong> <span class='resource'>digitalocean/droplet/os-updates</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS DigitalOcean Services Benchmark v1.0.0</p>
+<p>Pending OS security updates detected.</p>
+<p><strong>Recommendation (CIS):</strong> Apply latest security updates (e.g., apt update && apt upgrade).</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+apt update && apt list --upgradable
+</code></pre>
+<pre><code>
+{'pendingUpdates': 12}
+</code></pre>
+</div>
+<div class='finding MEDIUM' data-title='ensure auditd is enabled (automated) do_svc_2.6' data-status='WARNING'>
+<h3>Ensure auditd is Enabled (Automated)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>do_svc_2.6</code></p>
+<p><strong>Resource:</strong> <span class='resource'>digitalocean/droplet/auditd</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS DigitalOcean Services Benchmark v1.0.0</p>
+<p>auditd is not enabled or running.</p>
+<p><strong>Recommendation (CIS):</strong> Install, enable, and configure auditd with appropriate rules and rotation.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+systemctl is-enabled auditd && systemctl is-active auditd
+</code></pre>
+<pre><code>
+{'enabled': False, 'active': False}
+</code></pre>
+</div>
+<div class='finding HIGH' data-title='ensure ssh keys are used to authenticate (automated) do_svc_2.7' data-status='FAILED'>
+<h3>Ensure SSH Keys are Used to Authenticate (Automated)</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>do_svc_2.7</code></p>
+<p><strong>Resource:</strong> <span class='resource'>digitalocean/droplet/ssh-key-auth</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS DigitalOcean Services Benchmark v1.0.0</p>
+<p>Password authentication is enabled for SSH.</p>
+<p><strong>Recommendation (CIS):</strong> Require SSH key authentication and disable password authentication in sshd_config.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+grep '^PasswordAuthentication' /etc/ssh/sshd_config
+</code></pre>
+<pre><code>
+{'PasswordAuthentication': 'yes'}
+</code></pre>
+</div>
+<div class='finding MEDIUM' data-title='ensure unused ssh keys are deleted (automated) do_svc_2.8' data-status='WARNING'>
+<h3>Ensure Unused SSH Keys are Deleted (Automated)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>do_svc_2.8</code></p>
+<p><strong>Resource:</strong> <span class='resource'>digitalocean/droplet/ssh-keys-unused</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS DigitalOcean Services Benchmark v1.0.0</p>
+<p>Stale SSH keys detected in account or on Droplet.</p>
+<p><strong>Recommendation (CIS):</strong> Remove unused SSH keys from account and authorized_keys on Droplets.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+doctl compute ssh-key list; grep -n 'ssh-' /home/*/.ssh/authorized_keys
+</code></pre>
+<pre><code>
+{'staleKeys': ['old-ci-key']}
+</code></pre>
+</div>
+<div class='finding LOW' data-title='ensure log forwarding is enabled (manual) do_svc_3.1' data-status='WARNING'>
+<h3>Ensure Log Forwarding is Enabled (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> LOW | <strong>Check ID:</strong> <code>do_svc_3.1</code></p>
+<p><strong>Resource:</strong> <span class='resource'>digitalocean:k8s:log-forwarding</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS DigitalOcean Services Benchmark v1.0.0</p>
+<p>DOKS cluster does not have log forwarding destination configured.</p>
+<p><strong>Recommendation (CIS):</strong> Configure Event log forwarding to a Managed OpenSearch destination.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+(UI) Kubernetes → Cluster → Settings → Event log forwarding
+</code></pre>
+<pre><code>
+{'destinations': []}
+</code></pre>
+</div>
+<div class='finding MEDIUM' data-title='ensure an upgrade window is defined (automated) do_svc_3.2' data-status='WARNING'>
+<h3>Ensure an Upgrade Window is Defined (Automated)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>do_svc_3.2</code></p>
+<p><strong>Resource:</strong> <span class='resource'>digitalocean:k8s:upgrade-window</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS DigitalOcean Services Benchmark v1.0.0</p>
+<p>Automatic minor patch upgrade window is not defined.</p>
+<p><strong>Recommendation (CIS):</strong> Enable automatic minor version patches with a defined 4-hour window.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+doctl kubernetes cluster get <id|name> --output json
+</code></pre>
+<pre><code>
+{'autoUpgrade': False, 'maintenanceWindow': None}
+</code></pre>
+</div>
+<div class='finding MEDIUM' data-title='ensure high availability control plane is enabled (automated) do_svc_3.3' data-status='WARNING'>
+<h3>Ensure High Availability Control Plane is Enabled (Automated)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>do_svc_3.3</code></p>
+<p><strong>Resource:</strong> <span class='resource'>digitalocean:k8s:ha-control-plane</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS DigitalOcean Services Benchmark v1.0.0</p>
+<p>High availability control plane is not enabled.</p>
+<p><strong>Recommendation (CIS):</strong> Enable HA control plane for increased resiliency and SLA.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+doctl kubernetes cluster update <id|name> --ha
+</code></pre>
+<pre><code>
+{'ha': False}
+</code></pre>
+</div>
+<div class='finding LOW' data-title='ensure security history is monitored (manual) do_svc_4.1' data-status='WARNING'>
+<h3>Ensure Security History is Monitored (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> LOW | <strong>Check ID:</strong> <code>do_svc_4.1</code></p>
+<p><strong>Resource:</strong> <span class='resource'>digitalocean:account:security-history</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS DigitalOcean Services Benchmark v1.0.0</p>
+<p>Security history review process is not documented/monitored.</p>
+<p><strong>Recommendation (CIS):</strong> Review Security History regularly via Control Panel → Settings → Security.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+(UI) Settings → Security → Security History
+</code></pre>
+<pre><code>
+{'lastReviewed': None}
+</code></pre>
+</div>
+<div class='finding MEDIUM' data-title='ensure resource monitoring is enabled (automated) do_svc_4.2' data-status='WARNING'>
+<h3>Ensure Resource Monitoring is Enabled (Automated)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>do_svc_4.2</code></p>
+<p><strong>Resource:</strong> <span class='resource'>digitalocean/droplet/monitoring</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS DigitalOcean Services Benchmark v1.0.0</p>
+<p>Droplet does not have the DigitalOcean metrics agent installed.</p>
+<p><strong>Recommendation (CIS):</strong> Enable Monitoring during creation or install the metrics agent manually.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+doctl compute droplet get <id|name> --output json (monitoring) / install-agent script
+</code></pre>
+<pre><code>
+{'monitoringEnabled': False}
+</code></pre>
+</div>
+<div class='finding HIGH' data-title='ensure access control to spaces are set (manual) do_svc_5.1' data-status='WARNING'>
+<h3>Ensure Access Control to Spaces are Set (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>do_svc_5.1</code></p>
+<p><strong>Resource:</strong> <span class='resource'>digitalocean:spaces:access-control</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS DigitalOcean Services Benchmark v1.0.0</p>
+<p>Spaces access controls require review for least privilege.</p>
+<p><strong>Recommendation (CIS):</strong> Use Limited access keys and Teams appropriately; review bucket permissions.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+(UI) Spaces → Access Keys; review bucket permissions
+</code></pre>
+<pre><code>
+{'accessKeys': [{'name': 'full-access-key', 'scope': 'full'}]}
+</code></pre>
+</div>
+<div class='finding LOW' data-title='ensure access and secret keys are created (manual) do_svc_5.2' data-status='WARNING'>
+<h3>Ensure Access and Secret Keys are Created (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> LOW | <strong>Check ID:</strong> <code>do_svc_5.2</code></p>
+<p><strong>Resource:</strong> <span class='resource'>digitalocean:spaces:keys</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS DigitalOcean Services Benchmark v1.0.0</p>
+<p>Spaces access keys not provisioned for required automation.</p>
+<p><strong>Recommendation (CIS):</strong> Create appropriately scoped access/secret keys and store securely.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+(UI) Spaces → Access Keys → Create Access Key
+</code></pre>
+<pre><code>
+{'keysPresent': False}
+</code></pre>
+</div>
+<div class='finding MEDIUM' data-title='ensure spaces bucket lifecycle policy is set (automated) do_svc_5.3' data-status='WARNING'>
+<h3>Ensure Spaces Bucket Lifecycle Policy is Set (Automated)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>do_svc_5.3</code></p>
+<p><strong>Resource:</strong> <span class='resource'>digitalocean:spaces:lifecycle</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS DigitalOcean Services Benchmark v1.0.0</p>
+<p>No lifecycle policy configured for Spaces bucket.</p>
+<p><strong>Recommendation (CIS):</strong> Configure lifecycle to expire objects and remove incomplete multipart uploads.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+s3cmd getlifecycle s3://<space>; s3cmd expire --expiry-days=30 s3://<space>
+</code></pre>
+<pre><code>
+{'lifecycleConfigured': False}
+</code></pre>
+</div>
+<div class='finding HIGH' data-title='ensure file listing permissions are set (manual) do_svc_5.4' data-status='FAILED'>
+<h3>Ensure File Listing Permissions are Set (Manual)</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>do_svc_5.4</code></p>
+<p><strong>Resource:</strong> <span class='resource'>digitalocean:spaces:file-listing</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS DigitalOcean Services Benchmark v1.0.0</p>
+<p>Bucket file listing is Public.</p>
+<p><strong>Recommendation (CIS):</strong> Set file listing to Private in bucket settings.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+(UI) Spaces → Bucket → Settings → File Listing
+</code></pre>
+<pre><code>
+{'fileListing': 'Public'}
+</code></pre>
+</div>
+<div class='finding LOW' data-title='ensure spaces cdn is enabled (manual) do_svc_5.5' data-status='WARNING'>
+<h3>Ensure Spaces CDN is Enabled (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> LOW | <strong>Check ID:</strong> <code>do_svc_5.5</code></p>
+<p><strong>Resource:</strong> <span class='resource'>digitalocean:spaces:cdn</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS DigitalOcean Services Benchmark v1.0.0</p>
+<p>Spaces CDN is not enabled for performance and resilience.</p>
+<p><strong>Recommendation (CIS):</strong> Enable CDN and configure appropriate Edge Cache TTL.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+(UI) Spaces → Bucket → Settings → CDN → Enable
+</code></pre>
+<pre><code>
+{'cdnEnabled': False}
+</code></pre>
+</div>
+<div class='finding LOW' data-title='ensure cors is enabled (manual) do_svc_5.6' data-status='WARNING'>
+<h3>Ensure CORS is Enabled (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> LOW | <strong>Check ID:</strong> <code>do_svc_5.6</code></p>
+<p><strong>Resource:</strong> <span class='resource'>digitalocean:spaces:cors</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS DigitalOcean Services Benchmark v1.0.0</p>
+<p>CORS not configured for required cross-origin access.</p>
+<p><strong>Recommendation (CIS):</strong> Configure CORS rules via UI or s3cmd setcors with appropriate origins/methods.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+s3cmd setcors /path/to/config.xml s3://BUCKET_NAME
+</code></pre>
+<pre><code>
+{'corsConfigured': False}
+</code></pre>
+</div>
+<div class='finding LOW' data-title='ensure unneeded spaces bucket are destroyed (manual) do_svc_5.7' data-status='WARNING'>
+<h3>Ensure Unneeded Spaces Bucket are Destroyed (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> LOW | <strong>Check ID:</strong> <code>do_svc_5.7</code></p>
+<p><strong>Resource:</strong> <span class='resource'>digitalocean:spaces:bucket-destruction</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS DigitalOcean Services Benchmark v1.0.0</p>
+<p>Stale Spaces bucket found that is no longer needed.</p>
+<p><strong>Recommendation (CIS):</strong> Schedule bucket for destruction or cancel if needed.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+(UI) Spaces → Bucket → Settings → Destroy this Space
+</code></pre>
+<pre><code>
+{'bucketStatus': 'active', 'lastAccessedDays': 240}
+</code></pre>
+</div>
+<div class='finding MEDIUM' data-title='ensure drive is encrypted with luks on top of volume (manual) do_svc_6.1' data-status='WARNING'>
+<h3>Ensure Drive is Encrypted with LUKS on Top of Volume (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>do_svc_6.1</code></p>
+<p><strong>Resource:</strong> <span class='resource'>digitalocean:volume:luks</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS DigitalOcean Services Benchmark v1.0.0</p>
+<p>Attached block volume is not encrypted with LUKS at the filesystem layer.</p>
+<p><strong>Recommendation (CIS):</strong> Configure LUKS on the block device and mount via crypttab/fstab.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+cryptsetup status secure-volume; lsblk -f
+</code></pre>
+<pre><code>
+{'luks': False}
+</code></pre>
+</div>
+</div>
+
+    <script>
+      (function(){
+        const nameInput = document.getElementById('filterName');
+        const statusSelect = document.getElementById('filterStatus');
+        function applyFilter(){
+          const q = (nameInput.value || '').toLowerCase();
+          const st = statusSelect.value;
+          const items = document.querySelectorAll('.finding');
+          items.forEach(el => {
+            const title = el.getAttribute('data-title') || '';
+            const status = el.getAttribute('data-status') || '';
+            const matchesName = !q || title.indexOf(q) !== -1;
+            const matchesStatus = (st === 'ALL') || (status === st);
+            el.style.display = (matchesName && matchesStatus) ? '' : 'none';
+          });
+        }
+        nameInput && nameInput.addEventListener('input', applyFilter);
+        statusSelect && statusSelect.addEventListener('change', applyFilter);
+      })();
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,94 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cloudauditor"
+version = "1.0.0"
+description = "Production-ready CLI tool for scanning AWS and GCP environments for CIS benchmark compliance"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "MIT"}
+authors = [
+    {name = "CloudAuditor Team", email = "team@cloudauditor.example.com"}
+]
+keywords = ["cloud", "security", "aws", "gcp", "compliance", "cis", "benchmark", "audit"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: System Administrators",
+    "Topic :: Security",
+    "Topic :: System :: Monitoring",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+
+dependencies = [
+    "typer>=0.9.0",
+    "rich>=13.0.0",
+    "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+aws = [
+    "boto3>=1.26.0",
+]
+gcp = [
+    "google-cloud-storage>=2.10.0",
+    "google-cloud-compute>=1.14.0",
+    "google-cloud-logging>=3.5.0",
+    "google-cloud-iam>=2.12.0",
+]
+ai = [
+    "openai>=1.0.0",
+    "python-dotenv>=1.0.0",
+]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-cov>=4.1.0",
+    "black>=23.0.0",
+    "flake8>=6.0.0",
+    "mypy>=1.5.0",
+]
+all = [
+    "cloudauditor[aws,gcp,ai,dev]",
+]
+
+[project.scripts]
+cloudauditor = "cloudauditor.main:app"
+
+[project.urls]
+Homepage = "https://github.com/yourusername/cloudauditor"
+Documentation = "https://github.com/yourusername/cloudauditor#readme"
+Repository = "https://github.com/yourusername/cloudauditor"
+Issues = "https://github.com/yourusername/cloudauditor/issues"
+
+[tool.setuptools]
+packages = ["cloudauditor", "cloudauditor.commands", "cloudauditor.utils", "cloudauditor.providers"]
+
+[tool.setuptools.package-data]
+cloudauditor = ["data/*.json"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "-v --cov=cloudauditor --cov-report=term-missing"
+
+[tool.black]
+line-length = 100
+target-version = ["py38", "py39", "py310", "py311"]
+include = '\.pyi?$'
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+ignore_missing_imports = true

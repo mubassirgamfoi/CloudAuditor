@@ -1,0 +1,172 @@
+{
+  "provider": "aws",
+  "region": "us-east-1",
+  "profile": "default",
+  "timestamp": "2025-10-29T17:07:02.211063",
+  "summary": {
+    "total_checks": 14,
+    "passed": 0,
+    "failed": 14,
+    "warnings": 0
+  },
+  "findings": [
+    {
+      "check_id": "2.1.2",
+      "title": "AMI EBS Snapshots Not Encrypted",
+      "severity": "HIGH",
+      "status": "FAILED",
+      "resource_id": "ami-0123456789abcdef0",
+      "description": "AMI 'web-app-v1.0' has unencrypted EBS snapshots. Data at rest is not encrypted.",
+      "recommendation": "Copy AMI with encryption enabled using 'aws ec2 copy-image --encrypted'",
+      "compliance_standard": "CIS AWS Compute Services Benchmark v1.1.0",
+      "region": "us-east-1"
+    },
+    {
+      "check_id": "2.1.4",
+      "title": "AMI Older Than 90 Days",
+      "severity": "MEDIUM",
+      "status": "FAILED",
+      "resource_id": "ami-0123456789abcdef1",
+      "description": "AMI 'api-backend-v2.0' is 145 days old. Outdated AMIs may lack security patches.",
+      "recommendation": "Create new AMI from updated instance and deregister old AMI",
+      "compliance_standard": "CIS AWS Compute Services Benchmark v1.1.0",
+      "region": "us-east-1"
+    },
+    {
+      "check_id": "2.2.1",
+      "title": "EBS Encryption By Default Not Enabled",
+      "severity": "HIGH",
+      "status": "FAILED",
+      "resource_id": "ec2:ebs:encryption:us-east-1",
+      "description": "EBS encryption by default is not enabled for this region.",
+      "recommendation": "Enable EBS encryption by default",
+      "compliance_standard": "CIS AWS Compute Services Benchmark v1.1.0",
+      "region": "us-east-1"
+    },
+    {
+      "check_id": "2.2.3",
+      "title": "EBS Snapshot Not Encrypted",
+      "severity": "HIGH",
+      "status": "FAILED",
+      "resource_id": "snap-0123456789abcdef0",
+      "description": "EBS snapshot 'prod-db-backup' is not encrypted.",
+      "recommendation": "Create new encrypted snapshot and delete unencrypted snapshot",
+      "compliance_standard": "CIS AWS Compute Services Benchmark v1.1.0",
+      "region": "us-east-1"
+    },
+    {
+      "check_id": "2.2.4",
+      "title": "Unused EBS Volume Detected",
+      "severity": "LOW",
+      "status": "FAILED",
+      "resource_id": "vol-0123456789abcdef0",
+      "description": "EBS volume is not attached to any instance.",
+      "recommendation": "Review volume and delete if no longer needed",
+      "compliance_standard": "CIS AWS Compute Services Benchmark v1.1.0",
+      "region": "us-east-1"
+    },
+    {
+      "check_id": "2.7",
+      "title": "EC2 Instance Using Default Security Group",
+      "severity": "HIGH",
+      "status": "FAILED",
+      "resource_id": "i-0123456789abcdef0",
+      "description": "EC2 instance is using the default security group.",
+      "recommendation": "Create custom security group with least privilege",
+      "compliance_standard": "CIS AWS Compute Services Benchmark v1.1.0",
+      "region": "us-east-1"
+    },
+    {
+      "check_id": "2.8",
+      "title": "IMDSv2 Not Enforced on EC2 Instance",
+      "severity": "HIGH",
+      "status": "FAILED",
+      "resource_id": "i-0123456789abcdef1",
+      "description": "EC2 instance does not enforce IMDSv2.",
+      "recommendation": "Enforce IMDSv2 to protect against SSRF attacks",
+      "compliance_standard": "CIS AWS Compute Services Benchmark v1.1.0",
+      "region": "us-east-1"
+    },
+    {
+      "check_id": "2.13",
+      "title": "Potential Secrets in EC2 User Data",
+      "severity": "CRITICAL",
+      "status": "FAILED",
+      "resource_id": "i-0123456789abcdef2",
+      "description": "EC2 User Data may contain sensitive information.",
+      "recommendation": "Use AWS Secrets Manager instead",
+      "compliance_standard": "CIS AWS Compute Services Benchmark v1.1.0",
+      "region": "us-east-1"
+    },
+    {
+      "check_id": "3.1",
+      "title": "ECS Task with Host Network Has Privileged Access",
+      "severity": "HIGH",
+      "status": "FAILED",
+      "resource_id": "arn:aws:ecs:us-east-1:123456789012:task-definition/web-app:1",
+      "description": "ECS task using host network mode allows privileged access.",
+      "recommendation": "Remove privileged access or run as non-root user",
+      "compliance_standard": "CIS AWS Compute Services Benchmark v1.1.0",
+      "region": "us-east-1"
+    },
+    {
+      "check_id": "3.4",
+      "title": "ECS Container Running in Privileged Mode",
+      "severity": "CRITICAL",
+      "status": "FAILED",
+      "resource_id": "arn:aws:ecs:us-east-1:123456789012:task-definition/api:2:nginx",
+      "description": "ECS container is running in privileged mode.",
+      "recommendation": "Remove privileged flag",
+      "compliance_standard": "CIS AWS Compute Services Benchmark v1.1.0",
+      "region": "us-east-1"
+    },
+    {
+      "check_id": "3.6",
+      "title": "ECS Container Has Secrets in Environment Variables",
+      "severity": "HIGH",
+      "status": "FAILED",
+      "resource_id": "arn:aws:ecs:us-east-1:123456789012:task-definition/worker:3:app",
+      "description": "ECS container has potential secret in environment variable 'API_KEY'.",
+      "recommendation": "Use AWS Secrets Manager instead",
+      "compliance_standard": "CIS AWS Compute Services Benchmark v1.1.0",
+      "region": "us-east-1"
+    },
+    {
+      "check_id": "12.4",
+      "title": "Lambda Function Has Overly Permissive IAM Role",
+      "severity": "HIGH",
+      "status": "FAILED",
+      "resource_id": "arn:aws:lambda:us-east-1:123456789012:function:data-processor",
+      "description": "Lambda function has AdministratorAccess policy attached.",
+      "recommendation": "Replace with custom policy granting only required permissions",
+      "compliance_standard": "CIS AWS Compute Services Benchmark v1.1.0",
+      "region": "us-east-1"
+    },
+    {
+      "check_id": "12.6",
+      "title": "Lambda Function Publicly Accessible",
+      "severity": "CRITICAL",
+      "status": "FAILED",
+      "resource_id": "arn:aws:lambda:us-east-1:123456789012:function:api-handler",
+      "description": "Lambda function has public access policy.",
+      "recommendation": "Remove public access and grant permissions to specific principals",
+      "compliance_standard": "CIS AWS Compute Services Benchmark v1.1.0",
+      "region": "us-east-1"
+    },
+    {
+      "check_id": "12.11",
+      "title": "Lambda Function Using Deprecated Runtime",
+      "severity": "HIGH",
+      "status": "FAILED",
+      "resource_id": "arn:aws:lambda:us-east-1:123456789012:function:legacy-app",
+      "description": "Lambda function uses deprecated runtime 'python3.6'.",
+      "recommendation": "Update to a currently supported runtime version",
+      "compliance_standard": "CIS AWS Compute Services Benchmark v1.1.0",
+      "region": "us-east-1"
+    }
+  ],
+  "compliance_standards": [
+    "CIS AWS Foundations Benchmark v6.0.0",
+    "CIS AWS Compute Services Benchmark v1.1.0"
+  ]
+}

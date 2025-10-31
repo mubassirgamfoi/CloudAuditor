@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='UTF-8'>
+<title>CloudAuditor Compliance Report</title>
+<style>
+
+        body { font-family: Arial, sans-serif; margin: 40px; background-color: #f5f5f5; }
+        .container { background-color: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        h1 { color: #333; border-bottom: 3px solid #4CAF50; padding-bottom: 10px; }
+        h2 { color: #555; margin-top: 30px; }
+        .summary { background-color: #f9f9f9; padding: 20px; border-radius: 5px; margin: 20px 0; }
+        .summary-item { display: inline-block; margin: 10px 20px 10px 0; }
+        .finding { border-left: 4px solid #ff9800; padding: 15px; margin: 15px 0; background-color: #fafafa; }
+        .finding.CRITICAL { border-left-color: #f44336; }
+        .finding.HIGH { border-left-color: #ff5722; }
+        .finding.MEDIUM { border-left-color: #ff9800; }
+        .finding.LOW { border-left-color: #ffc107; }
+        .finding.INFO { border-left-color: #2196F3; }
+        .badge { display: inline-block; padding: 4px 8px; border-radius: 3px; font-size: 12px; font-weight: bold; }
+        .badge.FAILED { background-color: #f44336; color: white; }
+        .badge.PASSED { background-color: #4CAF50; color: white; }
+        .badge.WARNING { background-color: #ff9800; color: white; }
+        .resource { font-family: monospace; background-color: #eee; padding: 2px 6px; border-radius: 3px; }
+        .meta { color: #666; font-size: 14px; }
+    
+</style>
+</head>
+<body>
+<div class='container'>
+<h1>CloudAuditor Compliance Report</h1>
+<p class='meta'>Generated: 2025-10-29T20:11:37.999702</p>
+<p class='meta'>Provider: <strong>GCP</strong> | Region: <strong>N/A</strong> | Profile: <strong>default</strong> | Project ID: <strong>test-project</strong></p>
+<h2>Benchmarks Executed</h2>
+<ul>
+<li>CIS Google Cloud Platform Foundation Benchmark v3.0.0</li>
+</ul>
+<div class='summary'>
+<h2>Summary</h2>
+<div class='summary-item'><strong>Total Checks:</strong> 0</div>
+<div class='summary-item'><strong>Passed:</strong> 4</div>
+<div class='summary-item'><strong>Failed:</strong> 9</div>
+<div class='summary-item'><strong>Warnings:</strong> 0</div>
+</div>
+<h2>Findings</h2>
+<div class='finding HIGH'>
+<h3>Ensure that corporate login credentials are configured (Manual)</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>iam_1.1</code></p>
+<p><strong>Resource:</strong> <span class='resource'>gcp:iam:corporate-login</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS Google Cloud Platform Foundation Benchmark v3.0.0</p>
+<p>Corporate login credentials are not properly configured.</p>
+<p><strong>Recommendation (CIS):</strong> Configure corporate login credentials for centralized identity management.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+gcloud organizations list --format='value(name,displayName)'
+</code></pre>
+<pre><code>
+{'corporateLoginConfigured': False}
+</code></pre>
+</div>
+<div class='finding HIGH'>
+<h3>Ensure that multi-factor authentication is enabled for all non-service accounts (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>iam_1.2</code></p>
+<p><strong>Resource:</strong> <span class='resource'>gcp:iam:mfa</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS Google Cloud Platform Foundation Benchmark v3.0.0</p>
+<p>Multi-factor authentication is not enabled for all non-service accounts.</p>
+<p><strong>Recommendation (CIS):</strong> Enable multi-factor authentication for all non-service accounts.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+gcloud iam policies get-iam-policy PROJECT_ID --format=json
+</code></pre>
+<pre><code>
+{'mfaEnabled': False, 'nonServiceAccounts': 5}
+</code></pre>
+</div>
+<div class='finding MEDIUM'>
+<h3>Ensure that User-Managed Service Account Keys are Rotated (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>iam_1.3</code></p>
+<p><strong>Resource:</strong> <span class='resource'>gcp:iam:service-account-keys</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS Google Cloud Platform Foundation Benchmark v3.0.0</p>
+<p>User-managed service account keys are not being rotated regularly.</p>
+<p><strong>Recommendation (CIS):</strong> Implement regular rotation of user-managed service account keys.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+gcloud iam service-accounts keys list --iam-account=SERVICE_ACCOUNT_EMAIL --format=json
+</code></pre>
+<pre><code>
+{'keysRotated': False, 'oldestKeyAge': 120}
+</code></pre>
+</div>
+<div class='finding MEDIUM'>
+<h3>Ensure that Separation of Duties is Enforced While Assigning Service Account Related Roles to Users (Manual)</h3>
+<p><span class='badge PASSED'>PASSED</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>iam_1.4</code></p>
+<p><strong>Resource:</strong> <span class='resource'>gcp:iam:separation-of-duties</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS Google Cloud Platform Foundation Benchmark v3.0.0</p>
+<p>Separation of duties is properly enforced for service account roles.</p>
+<p><strong>Recommendation (CIS):</strong> Continue monitoring separation of duties for service account roles.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+gcloud iam roles list --filter='title:Service Account' --format=json
+</code></pre>
+<pre><code>
+{'separationOfDutiesEnforced': True}
+</code></pre>
+</div>
+<div class='finding HIGH'>
+<h3>Ensure that Cloud KMS is Used to Encrypt Secrets in GCP (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>iam_1.5</code></p>
+<p><strong>Resource:</strong> <span class='resource'>gcp:iam:kms-encryption</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS Google Cloud Platform Foundation Benchmark v3.0.0</p>
+<p>Cloud KMS is not being used to encrypt secrets in GCP.</p>
+<p><strong>Recommendation (CIS):</strong> Use Cloud KMS to encrypt secrets in GCP.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+gcloud kms keyrings list --location=global --format=json
+</code></pre>
+<pre><code>
+{'kmsKeyRings': [], 'secretsEncrypted': False}
+</code></pre>
+</div>
+<div class='finding MEDIUM'>
+<h3>Ensure that Separation of Duties is Enforced While Assigning KMS Related Roles to Users (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>iam_1.6</code></p>
+<p><strong>Resource:</strong> <span class='resource'>gcp:iam:kms-separation-of-duties</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS Google Cloud Platform Foundation Benchmark v3.0.0</p>
+<p>Separation of duties is not properly enforced for KMS-related roles.</p>
+<p><strong>Recommendation (CIS):</strong> Enforce separation of duties for KMS-related roles.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+gcloud kms keyrings get-iam-policy KEYRING_NAME --location=LOCATION --format=json
+</code></pre>
+<pre><code>
+{'kmsSeparationOfDutiesEnforced': False}
+</code></pre>
+</div>
+<div class='finding MEDIUM'>
+<h3>Ensure that Separation of Duties is Enforced While Assigning Service Account Related Roles to Users (Manual)</h3>
+<p><span class='badge PASSED'>PASSED</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>iam_1.7</code></p>
+<p><strong>Resource:</strong> <span class='resource'>gcp:iam:service-account-separation</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS Google Cloud Platform Foundation Benchmark v3.0.0</p>
+<p>Separation of duties is properly enforced for service account roles.</p>
+<p><strong>Recommendation (CIS):</strong> Continue monitoring separation of duties for service account roles.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+gcloud iam service-accounts get-iam-policy SERVICE_ACCOUNT_EMAIL --format=json
+</code></pre>
+<pre><code>
+{'serviceAccountSeparationEnforced': True}
+</code></pre>
+</div>
+<div class='finding MEDIUM'>
+<h3>Ensure that Separation of Duties is Enforced While Assigning KMS Related Roles to Users (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>iam_1.8</code></p>
+<p><strong>Resource:</strong> <span class='resource'>gcp:iam:kms-role-separation</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS Google Cloud Platform Foundation Benchmark v3.0.0</p>
+<p>Separation of duties is not properly enforced for KMS-related roles.</p>
+<p><strong>Recommendation (CIS):</strong> Enforce separation of duties for KMS-related roles.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+gcloud kms keys get-iam-policy KEY_NAME --keyring=KEYRING_NAME --location=LOCATION --format=json
+</code></pre>
+<pre><code>
+{'kmsRoleSeparationEnforced': False}
+</code></pre>
+</div>
+<div class='finding MEDIUM'>
+<h3>Ensure that Separation of Duties is Enforced While Assigning Service Account Related Roles to Users (Manual)</h3>
+<p><span class='badge PASSED'>PASSED</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>iam_1.9</code></p>
+<p><strong>Resource:</strong> <span class='resource'>gcp:iam:service-account-role-separation</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS Google Cloud Platform Foundation Benchmark v3.0.0</p>
+<p>Separation of duties is properly enforced for service account roles.</p>
+<p><strong>Recommendation (CIS):</strong> Continue monitoring separation of duties for service account roles.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+gcloud iam roles list --filter='title:Service Account' --format=json
+</code></pre>
+<pre><code>
+{'serviceAccountRoleSeparationEnforced': True}
+</code></pre>
+</div>
+<div class='finding MEDIUM'>
+<h3>Ensure that Separation of Duties is Enforced While Assigning KMS Related Roles to Users (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>iam_1.10</code></p>
+<p><strong>Resource:</strong> <span class='resource'>gcp:iam:kms-role-separation-2</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS Google Cloud Platform Foundation Benchmark v3.0.0</p>
+<p>Separation of duties is not properly enforced for KMS-related roles.</p>
+<p><strong>Recommendation (CIS):</strong> Enforce separation of duties for KMS-related roles.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+gcloud kms keyrings get-iam-policy KEYRING_NAME --location=LOCATION --format=json
+</code></pre>
+<pre><code>
+{'kmsRoleSeparation2Enforced': False}
+</code></pre>
+</div>
+<div class='finding HIGH'>
+<h3>Ensure that Cloud Audit Logging is configured to capture all admin activities (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>logging_2.1</code></p>
+<p><strong>Resource:</strong> <span class='resource'>gcp:logging:cloud-audit-logging</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS Google Cloud Platform Foundation Benchmark v3.0.0</p>
+<p>Cloud Audit Logging is not configured to capture all admin activities.</p>
+<p><strong>Recommendation (CIS):</strong> Configure Cloud Audit Logging to capture all admin activities.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+gcloud logging sinks list --format=json
+</code></pre>
+<pre><code>
+{'adminActivityLogging': False, 'sinksConfigured': 0}
+</code></pre>
+</div>
+<div class='finding HIGH'>
+<h3>Ensure that Cloud Audit Logging is configured to capture all data read events (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>logging_2.2</code></p>
+<p><strong>Resource:</strong> <span class='resource'>gcp:logging:data-read-events</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS Google Cloud Platform Foundation Benchmark v3.0.0</p>
+<p>Cloud Audit Logging is not configured to capture all data read events.</p>
+<p><strong>Recommendation (CIS):</strong> Configure Cloud Audit Logging to capture all data read events.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+gcloud logging sinks list --filter='name:data-read' --format=json
+</code></pre>
+<pre><code>
+{'dataReadLogging': False, 'readEventSinks': []}
+</code></pre>
+</div>
+<div class='finding HIGH'>
+<h3>Ensure that Cloud Audit Logging is configured to capture all data write events (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>logging_2.3</code></p>
+<p><strong>Resource:</strong> <span class='resource'>gcp:logging:data-write-events</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS Google Cloud Platform Foundation Benchmark v3.0.0</p>
+<p>Cloud Audit Logging is not configured to capture all data write events.</p>
+<p><strong>Recommendation (CIS):</strong> Configure Cloud Audit Logging to capture all data write events.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+gcloud logging sinks list --filter='name:data-write' --format=json
+</code></pre>
+<pre><code>
+{'dataWriteLogging': False, 'writeEventSinks': []}
+</code></pre>
+</div>
+<div class='finding MEDIUM'>
+<h3>Ensure that log sinks are configured to export copies of all log entries (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>logging_2.4</code></p>
+<p><strong>Resource:</strong> <span class='resource'>gcp:logging:log-sinks</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS Google Cloud Platform Foundation Benchmark v3.0.0</p>
+<p>Log sinks are not configured to export copies of all log entries.</p>
+<p><strong>Recommendation (CIS):</strong> Configure log sinks to export copies of all log entries.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+gcloud logging sinks list --format=json
+</code></pre>
+<pre><code>
+{'allLogsExported': False, 'sinkCount': 0}
+</code></pre>
+</div>
+<div class='finding MEDIUM'>
+<h3>Ensure that log metric filters and alerts exist for project ownership assignments (Manual)</h3>
+<p><span class='badge PASSED'>PASSED</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>logging_2.5</code></p>
+<p><strong>Resource:</strong> <span class='resource'>gcp:logging:metric-filters</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS Google Cloud Platform Foundation Benchmark v3.0.0</p>
+<p>Log metric filters and alerts are properly configured for project ownership assignments.</p>
+<p><strong>Recommendation (CIS):</strong> Continue monitoring log metric filters and alerts.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+gcloud logging metrics list --format=json
+</code></pre>
+<pre><code>
+{'ownershipAssignmentAlerts': True, 'metricFilters': 3}
+</code></pre>
+</div>
+<div class='finding HIGH'>
+<h3>Ensure that the default network does not exist in a project (Manual)</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>networking_3.1</code></p>
+<p><strong>Resource:</strong> <span class='resource'>gcp:networking:default-network</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS Google Cloud Platform Foundation Benchmark v3.0.0</p>
+<p>The default network still exists in the project.</p>
+<p><strong>Recommendation (CIS):</strong> Delete the default network to prevent unauthorized access.</p>
+</div>
+<div class='finding HIGH'>
+<h3>Ensure that legacy networks do not exist in a project (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>networking_3.2</code></p>
+<p><strong>Resource:</strong> <span class='resource'>gcp:networking:legacy-networks</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS Google Cloud Platform Foundation Benchmark v3.0.0</p>
+<p>Legacy networks still exist in the project.</p>
+<p><strong>Recommendation (CIS):</strong> Migrate from legacy networks to VPC networks.</p>
+</div>
+<div class='finding MEDIUM'>
+<h3>Ensure that DNSSEC is enabled for Cloud DNS (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>networking_3.3</code></p>
+<p><strong>Resource:</strong> <span class='resource'>gcp:networking:dnssec</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS Google Cloud Platform Foundation Benchmark v3.0.0</p>
+<p>DNSSEC is not enabled for Cloud DNS.</p>
+<p><strong>Recommendation (CIS):</strong> Enable DNSSEC for Cloud DNS to prevent DNS spoofing attacks.</p>
+</div>
+<div class='finding HIGH'>
+<h3>Ensure that SSH access is restricted from the Internet (Manual)</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>networking_3.4</code></p>
+<p><strong>Resource:</strong> <span class='resource'>gcp:networking:ssh-access</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS Google Cloud Platform Foundation Benchmark v3.0.0</p>
+<p>SSH access is not properly restricted from the Internet.</p>
+<p><strong>Recommendation (CIS):</strong> Restrict SSH access from the Internet using firewall rules.</p>
+</div>
+<div class='finding HIGH'>
+<h3>Ensure that RDP access is restricted from the Internet (Manual)</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>networking_3.5</code></p>
+<p><strong>Resource:</strong> <span class='resource'>gcp:networking:rdp-access</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS Google Cloud Platform Foundation Benchmark v3.0.0</p>
+<p>RDP access is not properly restricted from the Internet.</p>
+<p><strong>Recommendation (CIS):</strong> Restrict RDP access from the Internet using firewall rules.</p>
+</div>
+<div class='finding MEDIUM'>
+<h3>Ensure that VPC Flow Logs are enabled for every subnet (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>networking_3.6</code></p>
+<p><strong>Resource:</strong> <span class='resource'>gcp:networking:vpc-flow-logs</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS Google Cloud Platform Foundation Benchmark v3.0.0</p>
+<p>VPC Flow Logs are not enabled for all subnets.</p>
+<p><strong>Recommendation (CIS):</strong> Enable VPC Flow Logs for all subnets to monitor network traffic.</p>
+</div>
+<div class='finding MEDIUM'>
+<h3>Ensure that SSL policies are not overly permissive (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>networking_3.7</code></p>
+<p><strong>Resource:</strong> <span class='resource'>gcp:networking:ssl-policies</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS Google Cloud Platform Foundation Benchmark v3.0.0</p>
+<p>SSL policies are overly permissive.</p>
+<p><strong>Recommendation (CIS):</strong> Configure SSL policies to use secure cipher suites and protocols.</p>
+</div>
+<div class='finding MEDIUM'>
+<h3>Ensure that Identity-Aware Proxy is enabled for App Engine (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>networking_3.8</code></p>
+<p><strong>Resource:</strong> <span class='resource'>gcp:networking:identity-aware-proxy</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS Google Cloud Platform Foundation Benchmark v3.0.0</p>
+<p>Identity-Aware Proxy is not enabled for App Engine.</p>
+<p><strong>Recommendation (CIS):</strong> Enable Identity-Aware Proxy for App Engine applications.</p>
+</div>
+<div class='finding HIGH'>
+<h3>Ensure that instances are not configured to use the default service account (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>vm_4.1</code></p>
+<p><strong>Resource:</strong> <span class='resource'>gcp:vm:default-service-account</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS Google Cloud Platform Foundation Benchmark v3.0.0</p>
+<p>Instances are configured to use the default service account.</p>
+<p><strong>Recommendation (CIS):</strong> Configure instances to use custom service accounts instead of the default service account.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+gcloud compute instances list --format='value(name,serviceAccounts[].email)'
+</code></pre>
+<pre><code>
+{'UsingDefaultServiceAccount': True, 'ServiceAccountEmail': '123456789012-compute@developer.gserviceaccount.com'}
+</code></pre>
+</div>
+<div class='finding HIGH'>
+<h3>Ensure that instances are not configured to use the default service account with full access to all Cloud APIs (Manual)</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>vm_4.2</code></p>
+<p><strong>Resource:</strong> <span class='resource'>gcp:vm:default-service-account-full-access</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS Google Cloud Platform Foundation Benchmark v3.0.0</p>
+<p>Instances are configured to use the default service account with full access to all Cloud APIs.</p>
+<p><strong>Recommendation (CIS):</strong> Remove full access to all Cloud APIs from the default service account.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+gcloud projects get-iam-policy PROJECT_ID --flatten='bindings[].members' --format='table(bindings.role)' --filter='bindings.members:123456789012-compute@developer.gserviceaccount.com'
+</code></pre>
+<pre><code>
+{'HasFullAccess': True, 'Roles': ['roles/editor', 'roles/owner'], 'ServiceAccount': '123456789012-compute@developer.gserviceaccount.com'}
+</code></pre>
+</div>
+<div class='finding HIGH'>
+<h3>Ensure that project-wide SSH keys are not used (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>vm_4.3</code></p>
+<p><strong>Resource:</strong> <span class='resource'>gcp:vm:project-wide-ssh-keys</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS Google Cloud Platform Foundation Benchmark v3.0.0</p>
+<p>Project-wide SSH keys are being used.</p>
+<p><strong>Recommendation (CIS):</strong> Remove project-wide SSH keys and use instance-specific SSH keys instead.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+gcloud compute project-info describe --format='value(commonInstanceMetadata.items[?key==`ssh-keys`].value)'
+</code></pre>
+<pre><code>
+{'ProjectWideSSHKeys': True, 'SSHKeyCount': 3, 'Keys': ['ssh-rsa AAAAB3NzaC1yc2E...', 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5...']}
+</code></pre>
+</div>
+<div class='finding MEDIUM'>
+<h3>Ensure that OS Login is enabled for a project (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>vm_4.4</code></p>
+<p><strong>Resource:</strong> <span class='resource'>gcp:vm:os-login</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS Google Cloud Platform Foundation Benchmark v3.0.0</p>
+<p>OS Login is not enabled for the project.</p>
+<p><strong>Recommendation (CIS):</strong> Enable OS Login for the project to improve security.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+gcloud compute project-info describe --format='value(commonInstanceMetadata.items[?key==`enable-oslogin`].value)'
+</code></pre>
+<pre><code>
+{'OSLoginEnabled': False, 'MetadataValue': 'FALSE'}
+</code></pre>
+</div>
+<div class='finding MEDIUM'>
+<h3>Ensure that the serial port access to VM instances is disabled (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>vm_4.5</code></p>
+<p><strong>Resource:</strong> <span class='resource'>gcp:vm:serial-port-access</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS Google Cloud Platform Foundation Benchmark v3.0.0</p>
+<p>Serial port access to VM instances is not disabled.</p>
+<p><strong>Recommendation (CIS):</strong> Disable serial port access to VM instances.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+gcloud compute instances describe INSTANCE_NAME --zone=ZONE --format='value(metadata.items[?key==`serial-port-enable`].value)'
+</code></pre>
+<pre><code>
+{'SerialPortEnabled': True, 'MetadataValue': 'TRUE'}
+</code></pre>
+</div>
+<div class='finding HIGH'>
+<h3>Ensure that Cloud Storage bucket is not publicly accessible (Manual)</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>storage_5.1</code></p>
+<p><strong>Resource:</strong> <span class='resource'>gcp:storage:bucket-public-access</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS Google Cloud Platform Foundation Benchmark v3.0.0</p>
+<p>Cloud Storage bucket is publicly accessible.</p>
+<p><strong>Recommendation (CIS):</strong> Remove public access from Cloud Storage bucket.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+gsutil iam get gs://my-public-bucket
+</code></pre>
+<pre><code>
+{'PublicAccess': True, 'IamPolicy': {'bindings': [{'role': 'roles/storage.objectViewer', 'members': ['allUsers']}]}}
+</code></pre>
+</div>
+<div class='finding MEDIUM'>
+<h3>Ensure that uniform bucket-level access is enabled on Cloud Storage buckets (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>storage_5.2</code></p>
+<p><strong>Resource:</strong> <span class='resource'>gcp:storage:bucket-uniform-access</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS Google Cloud Platform Foundation Benchmark v3.0.0</p>
+<p>Uniform bucket-level access is not enabled on Cloud Storage bucket.</p>
+<p><strong>Recommendation (CIS):</strong> Enable uniform bucket-level access on Cloud Storage bucket.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+gsutil uniformbucketlevelaccess get gs://my-bucket
+</code></pre>
+<pre><code>
+{'UniformBucketLevelAccess': False, 'IamConfiguration': {'uniformBucketLevelAccess': {'enabled': False}}}
+</code></pre>
+</div>
+<div class='finding MEDIUM'>
+<h3>Ensure that Cloud Storage buckets have encryption enabled (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>storage_5.3</code></p>
+<p><strong>Resource:</strong> <span class='resource'>gcp:storage:bucket-encryption</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS Google Cloud Platform Foundation Benchmark v3.0.0</p>
+<p>Cloud Storage bucket does not have encryption enabled.</p>
+<p><strong>Recommendation (CIS):</strong> Enable encryption on Cloud Storage bucket.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+gsutil kms encryption get gs://my-bucket
+</code></pre>
+<pre><code>
+{'EncryptionEnabled': False, 'DefaultKmsKeyName': None}
+</code></pre>
+</div>
+<div class='finding LOW'>
+<h3>Ensure that Cloud Storage buckets have logging enabled (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> LOW | <strong>Check ID:</strong> <code>storage_5.4</code></p>
+<p><strong>Resource:</strong> <span class='resource'>gcp:storage:bucket-logging</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS Google Cloud Platform Foundation Benchmark v3.0.0</p>
+<p>Cloud Storage bucket does not have logging enabled.</p>
+<p><strong>Recommendation (CIS):</strong> Enable logging on Cloud Storage bucket.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+gsutil logging get gs://my-bucket
+</code></pre>
+<pre><code>
+{'LoggingEnabled': False, 'LogObjectPrefix': None}
+</code></pre>
+</div>
+<div class='finding LOW'>
+<h3>Ensure that Cloud Storage buckets have versioning enabled (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> LOW | <strong>Check ID:</strong> <code>storage_5.5</code></p>
+<p><strong>Resource:</strong> <span class='resource'>gcp:storage:bucket-versioning</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS Google Cloud Platform Foundation Benchmark v3.0.0</p>
+<p>Cloud Storage bucket does not have versioning enabled.</p>
+<p><strong>Recommendation (CIS):</strong> Enable versioning on Cloud Storage bucket.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+gsutil versioning get gs://my-bucket
+</code></pre>
+<pre><code>
+{'VersioningEnabled': False, 'VersioningStatus': 'SUSPENDED'}
+</code></pre>
+</div>
+<div class='finding HIGH'>
+<h3>Ensure that Cloud SQL database instances are not publicly accessible (Manual)</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>cloudsql_8.1</code></p>
+<p><strong>Resource:</strong> <span class='resource'>gcp:cloudsql:instance-public-access</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS Google Cloud Platform Foundation Benchmark v3.0.0</p>
+<p>Cloud SQL database instance is publicly accessible.</p>
+<p><strong>Recommendation (CIS):</strong> Configure Cloud SQL instance with private network access.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+gcloud sql instances describe INSTANCE_NAME --format='value(settings.ipConfiguration.authorizedNetworks[].value)'
+</code></pre>
+<pre><code>
+{'PublicAccess': True, 'AuthorizedNetworks': ['0.0.0.0/0']}
+</code></pre>
+</div>
+<div class='finding MEDIUM'>
+<h3>Ensure that Cloud SQL database instances require SSL connections (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>cloudsql_8.2</code></p>
+<p><strong>Resource:</strong> <span class='resource'>gcp:cloudsql:instance-ssl</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS Google Cloud Platform Foundation Benchmark v3.0.0</p>
+<p>Cloud SQL database instance does not require SSL connections.</p>
+<p><strong>Recommendation (CIS):</strong> Enable SSL requirement for Cloud SQL instance.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+gcloud sql instances describe INSTANCE_NAME --format='value(settings.ipConfiguration.requireSsl)'
+</code></pre>
+<pre><code>
+{'SslRequired': False, 'RequireSsl': False}
+</code></pre>
+</div>
+<div class='finding MEDIUM'>
+<h3>Ensure that Cloud SQL database instances have automated backups enabled (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>cloudsql_8.3</code></p>
+<p><strong>Resource:</strong> <span class='resource'>gcp:cloudsql:instance-backups</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS Google Cloud Platform Foundation Benchmark v3.0.0</p>
+<p>Cloud SQL database instance does not have automated backups enabled.</p>
+<p><strong>Recommendation (CIS):</strong> Enable automated backups for Cloud SQL instance.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+gcloud sql instances describe INSTANCE_NAME --format='value(settings.backupConfiguration.enabled)'
+</code></pre>
+<pre><code>
+{'AutomatedBackupsEnabled': False, 'BackupConfiguration': {'enabled': False}}
+</code></pre>
+</div>
+<div class='finding MEDIUM'>
+<h3>Ensure that Cloud SQL database instances are encrypted (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>cloudsql_8.4</code></p>
+<p><strong>Resource:</strong> <span class='resource'>gcp:cloudsql:instance-encryption</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS Google Cloud Platform Foundation Benchmark v3.0.0</p>
+<p>Cloud SQL database instance is not encrypted.</p>
+<p><strong>Recommendation (CIS):</strong> Enable encryption for Cloud SQL instance.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+gcloud sql instances describe INSTANCE_NAME --format='value(settings.dataDiskType)'
+</code></pre>
+<pre><code>
+{'EncryptionEnabled': False, 'DataDiskType': 'PD_STANDARD'}
+</code></pre>
+</div>
+<div class='finding MEDIUM'>
+<h3>Ensure that Cloud SQL database instances have proper network configuration (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>cloudsql_8.5</code></p>
+<p><strong>Resource:</strong> <span class='resource'>gcp:cloudsql:instance-network</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS Google Cloud Platform Foundation Benchmark v3.0.0</p>
+<p>Cloud SQL database instance network configuration needs improvement.</p>
+<p><strong>Recommendation (CIS):</strong> Configure proper network settings for Cloud SQL instance.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+gcloud sql instances describe INSTANCE_NAME --format='value(settings.ipConfiguration)'
+</code></pre>
+<pre><code>
+{'NetworkConfig': {'ipv4Enabled': True, 'privateNetwork': None}}
+</code></pre>
+</div>
+<div class='finding HIGH'>
+<h3>Ensure that BigQuery datasets are not publicly accessible (Manual)</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>bigquery_6.1</code></p>
+<p><strong>Resource:</strong> <span class='resource'>gcp:bigquery:dataset-public-access</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS Google Cloud Platform Foundation Benchmark v3.0.0</p>
+<p>BigQuery dataset is publicly accessible.</p>
+<p><strong>Recommendation (CIS):</strong> Remove public access from BigQuery dataset.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+bq show --format=prettyjson PROJECT_ID:DATASET_ID
+</code></pre>
+<pre><code>
+{'PublicAccess': True, 'AccessEntries': [{'role': 'READER', 'userByEmail': 'allUsers'}]}
+</code></pre>
+</div>
+<div class='finding MEDIUM'>
+<h3>Ensure that BigQuery datasets are encrypted with Customer-Managed Encryption Keys (CMEK) (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>bigquery_6.2</code></p>
+<p><strong>Resource:</strong> <span class='resource'>gcp:bigquery:dataset-cmek</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS Google Cloud Platform Foundation Benchmark v3.0.0</p>
+<p>BigQuery dataset is not encrypted with CMEK.</p>
+<p><strong>Recommendation (CIS):</strong> Enable CMEK encryption for BigQuery dataset.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+bq show --format=prettyjson PROJECT_ID:DATASET_ID
+</code></pre>
+<pre><code>
+{'CmekEnabled': False, 'DefaultKmsKeyName': None}
+</code></pre>
+</div>
+<div class='finding LOW'>
+<h3>Ensure that BigQuery datasets have data classification labels (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> LOW | <strong>Check ID:</strong> <code>bigquery_6.3</code></p>
+<p><strong>Resource:</strong> <span class='resource'>gcp:bigquery:dataset-classification</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS Google Cloud Platform Foundation Benchmark v3.0.0</p>
+<p>BigQuery dataset does not have data classification labels.</p>
+<p><strong>Recommendation (CIS):</strong> Add data classification labels to BigQuery dataset.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+bq show --format=prettyjson PROJECT_ID:DATASET_ID
+</code></pre>
+<pre><code>
+{'Labels': {}, 'ClassificationRequired': True}
+</code></pre>
+</div>
+<div class='finding MEDIUM'>
+<h3>Ensure that BigQuery query logging is enabled (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>bigquery_6.4</code></p>
+<p><strong>Resource:</strong> <span class='resource'>gcp:bigquery:query-logging</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS Google Cloud Platform Foundation Benchmark v3.0.0</p>
+<p>BigQuery query logging is not enabled.</p>
+<p><strong>Recommendation (CIS):</strong> Enable query logging for BigQuery.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+gcloud logging sinks list --filter='bigquery.googleapis.com'
+</code></pre>
+<pre><code>
+{'QueryLoggingEnabled': False, 'LogSinks': []}
+</code></pre>
+</div>
+<div class='finding MEDIUM'>
+<h3>Ensure that BigQuery audit logging is enabled (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>bigquery_6.5</code></p>
+<p><strong>Resource:</strong> <span class='resource'>gcp:bigquery:audit-logging</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS Google Cloud Platform Foundation Benchmark v3.0.0</p>
+<p>BigQuery audit logging is not enabled.</p>
+<p><strong>Recommendation (CIS):</strong> Enable audit logging for BigQuery.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+gcloud logging sinks list --filter='bigquery.googleapis.com'
+</code></pre>
+<pre><code>
+{'AuditLoggingEnabled': False, 'LogSinks': []}
+</code></pre>
+</div>
+<div class='finding HIGH'>
+<h3>Ensure that Dataproc clusters are not publicly accessible (Manual)</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>dataproc_7.1</code></p>
+<p><strong>Resource:</strong> <span class='resource'>gcp:dataproc:cluster-public-access</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS Google Cloud Platform Foundation Benchmark v3.0.0</p>
+<p>Dataproc cluster is publicly accessible.</p>
+<p><strong>Recommendation (CIS):</strong> Configure Dataproc cluster with private network access.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+gcloud dataproc clusters describe CLUSTER_NAME --region=REGION
+</code></pre>
+<pre><code>
+{'PublicAccess': True, 'NetworkConfig': {'enableExternalIp': True}}
+</code></pre>
+</div>
+<div class='finding MEDIUM'>
+<h3>Ensure that Dataproc clusters are encrypted with Customer-Managed Encryption Keys (CMEK) (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>dataproc_7.2</code></p>
+<p><strong>Resource:</strong> <span class='resource'>gcp:dataproc:cluster-cmek</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS Google Cloud Platform Foundation Benchmark v3.0.0</p>
+<p>Dataproc cluster is not encrypted with CMEK.</p>
+<p><strong>Recommendation (CIS):</strong> Enable CMEK encryption for Dataproc cluster.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+gcloud dataproc clusters describe CLUSTER_NAME --region=REGION
+</code></pre>
+<pre><code>
+{'CmekEnabled': False, 'EncryptionConfig': {'gcePdKmsKeyName': None}}
+</code></pre>
+</div>
+<div class='finding MEDIUM'>
+<h3>Ensure that Dataproc clusters are configured with proper network settings (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>dataproc_7.3</code></p>
+<p><strong>Resource:</strong> <span class='resource'>gcp:dataproc:cluster-network</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS Google Cloud Platform Foundation Benchmark v3.0.0</p>
+<p>Dataproc cluster network configuration needs improvement.</p>
+<p><strong>Recommendation (CIS):</strong> Configure Dataproc cluster with proper network settings.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+gcloud dataproc clusters describe CLUSTER_NAME --region=REGION
+</code></pre>
+<pre><code>
+{'NetworkConfig': {'subnetworkUri': 'default', 'enableExternalIp': True}}
+</code></pre>
+</div>
+<div class='finding MEDIUM'>
+<h3>Ensure that Dataproc clusters use appropriate service accounts (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>dataproc_7.4</code></p>
+<p><strong>Resource:</strong> <span class='resource'>gcp:dataproc:cluster-service-account</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS Google Cloud Platform Foundation Benchmark v3.0.0</p>
+<p>Dataproc cluster is using default service account.</p>
+<p><strong>Recommendation (CIS):</strong> Configure Dataproc cluster with custom service account.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+gcloud dataproc clusters describe CLUSTER_NAME --region=REGION
+</code></pre>
+<pre><code>
+{'ServiceAccount': '123456789012-compute@developer.gserviceaccount.com', 'IsDefault': True}
+</code></pre>
+</div>
+<div class='finding LOW'>
+<h3>Ensure that Dataproc clusters have logging enabled (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> LOW | <strong>Check ID:</strong> <code>dataproc_7.5</code></p>
+<p><strong>Resource:</strong> <span class='resource'>gcp:dataproc:cluster-logging</span> | <strong>Region:</strong> global</p>
+<p><strong>Compliance:</strong> CIS Google Cloud Platform Foundation Benchmark v3.0.0</p>
+<p>Dataproc cluster logging is not properly configured.</p>
+<p><strong>Recommendation (CIS):</strong> Enable comprehensive logging for Dataproc cluster.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code>
+gcloud dataproc clusters describe CLUSTER_NAME --region=REGION
+</code></pre>
+<pre><code>
+{'LoggingEnabled': False, 'LoggingConfig': {'driverLogLevels': {}}}
+</code></pre>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,2090 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='UTF-8'>
+<title>CloudAuditor Compliance Report</title>
+<style>
+
+        body { font-family: Arial, sans-serif; margin: 40px; background-color: #f5f5f5; }
+        .container { background-color: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        h1 { color: #333; border-bottom: 3px solid #4CAF50; padding-bottom: 10px; }
+        h2 { color: #555; margin-top: 30px; }
+        .summary { background-color: #f9f9f9; padding: 20px; border-radius: 5px; margin: 20px 0; }
+        .summary-item { display: inline-block; margin: 10px 20px 10px 0; }
+        .finding { border-left: 4px solid #ff9800; padding: 15px; margin: 15px 0; background-color: #fafafa; }
+        .finding.CRITICAL { border-left-color: #f44336; }
+        .finding.HIGH { border-left-color: #ff5722; }
+        .finding.MEDIUM { border-left-color: #ff9800; }
+        .finding.LOW { border-left-color: #ffc107; }
+        .finding.INFO { border-left-color: #2196F3; }
+        .badge { display: inline-block; padding: 4px 8px; border-radius: 3px; font-size: 12px; font-weight: bold; }
+        .badge.FAILED { background-color: #f44336; color: white; }
+        .badge.PASSED { background-color: #4CAF50; color: white; }
+        .badge.WARNING { background-color: #ff9800; color: white; }
+        .resource { font-family: monospace; background-color: #eee; padding: 2px 6px; border-radius: 3px; }
+        .meta { color: #666; font-size: 14px; }
+        pre { background: #2e3440; color: #eceff4; padding: 12px; border-radius: 6px; overflow-x: auto; }
+        code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size: 13px; }
+    
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>document.addEventListener('DOMContentLoaded',()=>{try{hljs.highlightAll()}catch(e){}});</script>
+</head>
+<body>
+<div class='container'>
+<h1>CloudAuditor Compliance Report</h1>
+<p class='meta'>Generated: 2025-10-30T11:23:04.809003</p>
+<p class='meta'>Provider: <strong>AWS</strong> | Region: <strong>us-east-1</strong> | Profile: <strong>default</strong></p>
+<h2>Benchmarks Executed</h2>
+<ul>
+<li>CIS AWS Foundations Benchmark v6.0.0</li>
+<li>CIS AWS Compute Services Benchmark v1.1.0</li>
+<li>CIS AWS Database Services Benchmark v1.0.0</li>
+<li>CIS AWS End User Compute Services Benchmark v1.2.0</li>
+<li>CIS AWS Storage Services Benchmark v1.0.0</li>
+</ul>
+<div class='summary'>
+<h2>Summary</h2>
+<div class='summary-item'><strong>Total Checks:</strong> 90</div>
+<div class='summary-item'><strong>Passed:</strong> 3</div>
+<div class='summary-item'><strong>Failed:</strong> 28</div>
+<div class='summary-item'><strong>Warnings:</strong> 54</div>
+</div>
+<h2>Findings</h2>
+
+    <div style='margin: 10px 0 20px 0;'>
+      <label for='filterName'><strong>Filter by name:</strong></label>
+      <input id='filterName' type='text' placeholder='Search title or check id' style='margin-right:10px;padding:6px;'>
+      <label for='filterStatus'><strong>Status:</strong></label>
+      <select id='filterStatus' style='padding:6px;'>
+        <option value='ALL'>All</option>
+        <option value='PASSED'>Passed</option>
+        <option value='FAILED'>Failed</option>
+        <option value='WARNING'>Warning</option>
+      </select>
+    </div>
+    
+<div class='finding CRITICAL' data-title='root user has active access keys 2.3' data-status='FAILED'>
+<h3>Root User Has Active Access Keys</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> CRITICAL | <strong>Check ID:</strong> <code>2.3</code></p>
+<p><strong>Resource:</strong> <span class='resource'>iam:root</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Foundations Benchmark v6.0.0</p>
+<p>The root user account has active access keys. This is a critical security risk.</p>
+<p><strong>Recommendation (CIS):</strong> Delete all root user access keys immediately via AWS Console</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws iam get-account-summary --query &#x27;SummaryMap.AccountAccessKeysPresent&#x27; --output text
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-json">
+{
+  &quot;GroupPolicySizeQuota&quot;: 5120,
+  &quot;InstanceProfilesQuota&quot;: 1000,
+  &quot;Policies&quot;: 3,
+  &quot;GroupsPerUserQuota&quot;: 10,
+  &quot;InstanceProfiles&quot;: 1,
+  &quot;AttachedPoliciesPerUserQuota&quot;: 10,
+  &quot;Users&quot;: 3,
+  &quot;PoliciesQuota&quot;: 1500,
+  &quot;Providers&quot;: 0,
+  &quot;AccountMFAEnabled&quot;: 0,
+  &quot;AccessKeysPerUserQuota&quot;: 2,
+  &quot;AssumeRolePolicySizeQuota&quot;: 2048,
+  &quot;PolicyVersionsInUseQuota&quot;: 10000,
+  &quot;GlobalEndpointTokenVersion&quot;: 1,
+  &quot;VersionsPerPolicyQuota&quot;: 5,
+  &quot;AttachedPoliciesPerGroupQuota&quot;: 10,
+  &quot;PolicySizeQuota&quot;: 6144,
+  &quot;Groups&quot;: 0,
+  &quot;AccountSigningCertificatesPresent&quot;: 0,
+  &quot;UsersQuota&quot;: 5000,
+  &quot;ServerCertificatesQuota&quot;: 20,
+  &quot;MFADevices&quot;: 0,
+  &quot;UserPolicySizeQuota&quot;: 2048,
+  &quot;PolicyVersionsInUse&quot;: 9,
+  &quot;ServerCertificates&quot;: 0,
+  &quot;Roles&quot;: 8,
+  &quot;RolesQuota&quot;: 1000,
+  &quot;SigningCertificatesPerUserQuota&quot;: 2,
+  &quot;MFADevicesInUse&quot;: 0,
+  &quot;RolePolicySizeQuota&quot;: 10240,
+  &quot;AttachedPoliciesPerRoleQuota&quot;: 10,
+  &quot;AccountAccessKeysPresent&quot;: 1,
+  &quot;AccountPasswordPresent&quot;: 1,
+  &quot;GroupsQuota&quot;: 300
+}
+</code></pre>
+</div>
+<div class='finding CRITICAL' data-title='root user mfa not enabled 2.4' data-status='FAILED'>
+<h3>Root User MFA Not Enabled</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> CRITICAL | <strong>Check ID:</strong> <code>2.4</code></p>
+<p><strong>Resource:</strong> <span class='resource'>iam:root</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Foundations Benchmark v6.0.0</p>
+<p>Multi-factor authentication is not enabled on the root account.</p>
+<p><strong>Recommendation (CIS):</strong> Enable MFA on root account immediately using virtual or hardware MFA device</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws iam get-account-summary --query &#x27;SummaryMap.AccountMFAEnabled&#x27; --output text
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-json">
+{
+  &quot;GroupPolicySizeQuota&quot;: 5120,
+  &quot;InstanceProfilesQuota&quot;: 1000,
+  &quot;Policies&quot;: 3,
+  &quot;GroupsPerUserQuota&quot;: 10,
+  &quot;InstanceProfiles&quot;: 1,
+  &quot;AttachedPoliciesPerUserQuota&quot;: 10,
+  &quot;Users&quot;: 3,
+  &quot;PoliciesQuota&quot;: 1500,
+  &quot;Providers&quot;: 0,
+  &quot;AccountMFAEnabled&quot;: 0,
+  &quot;AccessKeysPerUserQuota&quot;: 2,
+  &quot;AssumeRolePolicySizeQuota&quot;: 2048,
+  &quot;PolicyVersionsInUseQuota&quot;: 10000,
+  &quot;GlobalEndpointTokenVersion&quot;: 1,
+  &quot;VersionsPerPolicyQuota&quot;: 5,
+  &quot;AttachedPoliciesPerGroupQuota&quot;: 10,
+  &quot;PolicySizeQuota&quot;: 6144,
+  &quot;Groups&quot;: 0,
+  &quot;AccountSigningCertificatesPresent&quot;: 0,
+  &quot;UsersQuota&quot;: 5000,
+  &quot;ServerCertificatesQuota&quot;: 20,
+  &quot;MFADevices&quot;: 0,
+  &quot;UserPolicySizeQuota&quot;: 2048,
+  &quot;PolicyVersionsInUse&quot;: 9,
+  &quot;ServerCertificates&quot;: 0,
+  &quot;Roles&quot;: 8,
+  &quot;RolesQuota&quot;: 1000,
+  &quot;SigningCertificatesPerUserQuota&quot;: 2,
+  &quot;MFADevicesInUse&quot;: 0,
+  &quot;RolePolicySizeQuota&quot;: 10240,
+  &quot;AttachedPoliciesPerRoleQuota&quot;: 10,
+  &quot;AccountAccessKeysPresent&quot;: 1,
+  &quot;AccountPasswordPresent&quot;: 1,
+  &quot;GroupsQuota&quot;: 300
+}
+</code></pre>
+</div>
+<div class='finding HIGH' data-title='root user uses virtual mfa instead of hardware mfa (manual) 2.5' data-status='WARNING'>
+<h3>Root User Uses Virtual MFA Instead of Hardware MFA (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>2.5</code></p>
+<p><strong>Resource:</strong> <span class='resource'>iam:root</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Foundations Benchmark v6.0.0</p>
+<p>CIS recommends a hardware MFA device for the root account. Verify that the root user's MFA device is a hardware token rather than a virtual authenticator.</p>
+<p><strong>Recommendation (CIS):</strong> Replace the root account&#x27;s virtual MFA with a hardware MFA device. In the console: IAM → Users → Root user → Security credentials → Multi‑factor authentication, then assign a hardware token.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws iam list-virtual-mfa-devices --assignment-status Assigned --query &#x27;VirtualMFADevices[?SerialNumber==`arn:aws:iam::${ACCOUNT_ID}:mfa/root-account-mfa-device`]&#x27;
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-json">
+{
+  &quot;VirtualMFADevices&quot;: [
+    {
+      &quot;SerialNumber&quot;: &quot;arn:aws:iam::123456789012:mfa/root-account-mfa-device&quot;,
+      &quot;User&quot;: {
+        &quot;Arn&quot;: &quot;arn:aws:iam::123456789012:root&quot;
+      }
+    }
+  ]
+}
+</code></pre>
+</div>
+<div class='finding HIGH' data-title='iam password policy not configured 2.7' data-status='FAILED'>
+<h3>IAM Password Policy Not Configured</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>2.7</code></p>
+<p><strong>Resource:</strong> <span class='resource'>iam:password-policy</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Foundations Benchmark v6.0.0</p>
+<p>No IAM password policy is configured for the account.</p>
+<p><strong>Recommendation (CIS):</strong> Create IAM password policy with CIS recommended settings</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws iam get-account-password-policy
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-json">
+{
+  &quot;error&quot;: &quot;An error occurred (NoSuchEntity) when calling the GetAccountPasswordPolicy operation: The Password Policy with domain name 471112791259 cannot be found.&quot;
+}
+</code></pre>
+</div>
+<div class='finding MEDIUM' data-title='iam access key unused for 45+ days 2.11' data-status='FAILED'>
+<h3>IAM Access Key Unused for 45+ Days</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>2.11</code></p>
+<p><strong>Resource:</strong> <span class='resource'>iam:user/cgidbll40hzhwk_admin_user/key/AKIAW3MECWTN7LRAVZ6G</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Foundations Benchmark v6.0.0</p>
+<p>Access key 'AKIAW3MECWTN7LRAVZ6G' for user 'cgidbll40hzhwk_admin_user' unused for 63 days.</p>
+<p><strong>Recommendation (CIS):</strong> Disable or delete unused access keys</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws iam get-access-key-last-used --access-key-id AKIAW3MECWTN7LRAVZ6G
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-json">
+{
+  &quot;AccessKeyId&quot;: &quot;AKIAW3MECWTN7LRAVZ6G&quot;,
+  &quot;LastUsedDate&quot;: &quot;2025-08-27T18:12:00+00:00&quot;,
+  &quot;DaysUnused&quot;: 63
+}
+</code></pre>
+</div>
+<div class='finding MEDIUM' data-title='iam access key unused for 45+ days 2.11' data-status='FAILED'>
+<h3>IAM Access Key Unused for 45+ Days</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>2.11</code></p>
+<p><strong>Resource:</strong> <span class='resource'>iam:user/cgidbll40hzhwk_low_priv_user/key/AKIAW3MECWTNY3FSIF63</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Foundations Benchmark v6.0.0</p>
+<p>Access key 'AKIAW3MECWTNY3FSIF63' for user 'cgidbll40hzhwk_low_priv_user' unused for 63 days.</p>
+<p><strong>Recommendation (CIS):</strong> Disable or delete unused access keys</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws iam get-access-key-last-used --access-key-id AKIAW3MECWTNY3FSIF63
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-json">
+{
+  &quot;AccessKeyId&quot;: &quot;AKIAW3MECWTNY3FSIF63&quot;,
+  &quot;LastUsedDate&quot;: &quot;2025-08-27T16:55:00+00:00&quot;,
+  &quot;DaysUnused&quot;: 63
+}
+</code></pre>
+</div>
+<div class='finding MEDIUM' data-title='iam access key unused for 45+ days 2.11' data-status='FAILED'>
+<h3>IAM Access Key Unused for 45+ Days</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>2.11</code></p>
+<p><strong>Resource:</strong> <span class='resource'>iam:user/cgidbll40hzhwk_secondary_user/key/AKIAW3MECWTNWR4Z4DNZ</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Foundations Benchmark v6.0.0</p>
+<p>Access key 'AKIAW3MECWTNWR4Z4DNZ' for user 'cgidbll40hzhwk_secondary_user' unused for 63 days.</p>
+<p><strong>Recommendation (CIS):</strong> Disable or delete unused access keys</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws iam get-access-key-last-used --access-key-id AKIAW3MECWTNWR4Z4DNZ
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-json">
+{
+  &quot;AccessKeyId&quot;: &quot;AKIAW3MECWTNWR4Z4DNZ&quot;,
+  &quot;LastUsedDate&quot;: &quot;2025-08-27T18:23:00+00:00&quot;,
+  &quot;DaysUnused&quot;: 63
+}
+</code></pre>
+</div>
+<div class='finding MEDIUM' data-title='iam user has direct policy attachments 2.14' data-status='FAILED'>
+<h3>IAM User Has Direct Policy Attachments</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>2.14</code></p>
+<p><strong>Resource:</strong> <span class='resource'>iam:user/cgidbll40hzhwk_admin_user</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Foundations Benchmark v6.0.0</p>
+<p>IAM user 'cgidbll40hzhwk_admin_user' has managed or inline policies attached directly instead of through groups.</p>
+<p><strong>Recommendation (CIS):</strong> Detach managed policies and delete inline policies, then grant permissions via IAM groups only.<br>Audit commands:<br><br>Remediation commands (examples):</p>
+<p><strong>Recommendation Commands:</strong></p>
+<pre><code class="language-bash">
+aws iam list-attached-user-policies --user-name cgidbll40hzhwk_admin_user
+aws iam list-user-policies --user-name cgidbll40hzhwk_admin_user
+aws iam detach-user-policy --user-name cgidbll40hzhwk_admin_user --policy-arn &lt;policy_arn&gt;
+aws iam delete-user-policy --user-name cgidbll40hzhwk_admin_user --policy-name &lt;policy_name&gt;
+</code></pre>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws iam list-attached-user-policies --user-name cgidbll40hzhwk_admin_user --output json;
+aws iam list-user-policies --user-name cgidbll40hzhwk_admin_user --output json
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-json">
+{
+  &quot;AttachedPolicies&quot;: [
+    {
+      &quot;PolicyName&quot;: &quot;cgidbll40hzhwk_admin_user_policy&quot;,
+      &quot;PolicyArn&quot;: &quot;arn:aws:iam::471112791259:policy/cgidbll40hzhwk_admin_user_policy&quot;
+    }
+  ],
+  &quot;InlinePolicies&quot;: []
+}
+</code></pre>
+</div>
+<div class='finding MEDIUM' data-title='iam user has direct policy attachments 2.14' data-status='FAILED'>
+<h3>IAM User Has Direct Policy Attachments</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>2.14</code></p>
+<p><strong>Resource:</strong> <span class='resource'>iam:user/cgidbll40hzhwk_low_priv_user</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Foundations Benchmark v6.0.0</p>
+<p>IAM user 'cgidbll40hzhwk_low_priv_user' has managed or inline policies attached directly instead of through groups.</p>
+<p><strong>Recommendation (CIS):</strong> Detach managed policies and delete inline policies, then grant permissions via IAM groups only.<br>Audit commands:<br><br>Remediation commands (examples):</p>
+<p><strong>Recommendation Commands:</strong></p>
+<pre><code class="language-bash">
+aws iam list-attached-user-policies --user-name cgidbll40hzhwk_low_priv_user
+aws iam list-user-policies --user-name cgidbll40hzhwk_low_priv_user
+aws iam detach-user-policy --user-name cgidbll40hzhwk_low_priv_user --policy-arn &lt;policy_arn&gt;
+aws iam delete-user-policy --user-name cgidbll40hzhwk_low_priv_user --policy-name &lt;policy_name&gt;
+</code></pre>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws iam list-attached-user-policies --user-name cgidbll40hzhwk_low_priv_user --output json;
+aws iam list-user-policies --user-name cgidbll40hzhwk_low_priv_user --output json
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-json">
+{
+  &quot;AttachedPolicies&quot;: [
+    {
+      &quot;PolicyName&quot;: &quot;cgidbll40hzhwk_low_priv_policy&quot;,
+      &quot;PolicyArn&quot;: &quot;arn:aws:iam::471112791259:policy/cgidbll40hzhwk_low_priv_policy&quot;
+    }
+  ],
+  &quot;InlinePolicies&quot;: []
+}
+</code></pre>
+</div>
+<div class='finding MEDIUM' data-title='iam user has direct policy attachments 2.14' data-status='FAILED'>
+<h3>IAM User Has Direct Policy Attachments</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>2.14</code></p>
+<p><strong>Resource:</strong> <span class='resource'>iam:user/cgidbll40hzhwk_secondary_user</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Foundations Benchmark v6.0.0</p>
+<p>IAM user 'cgidbll40hzhwk_secondary_user' has managed or inline policies attached directly instead of through groups.</p>
+<p><strong>Recommendation (CIS):</strong> Detach managed policies and delete inline policies, then grant permissions via IAM groups only.<br>Audit commands:<br><br>Remediation commands (examples):</p>
+<p><strong>Recommendation Commands:</strong></p>
+<pre><code class="language-bash">
+aws iam list-attached-user-policies --user-name cgidbll40hzhwk_secondary_user
+aws iam list-user-policies --user-name cgidbll40hzhwk_secondary_user
+aws iam detach-user-policy --user-name cgidbll40hzhwk_secondary_user --policy-arn &lt;policy_arn&gt;
+aws iam delete-user-policy --user-name cgidbll40hzhwk_secondary_user --policy-name &lt;policy_name&gt;
+</code></pre>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws iam list-attached-user-policies --user-name cgidbll40hzhwk_secondary_user --output json;
+aws iam list-user-policies --user-name cgidbll40hzhwk_secondary_user --output json
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-json">
+{
+  &quot;AttachedPolicies&quot;: [
+    {
+      &quot;PolicyName&quot;: &quot;cgidbll40hzhwk_secondary_policy&quot;,
+      &quot;PolicyArn&quot;: &quot;arn:aws:iam::471112791259:policy/cgidbll40hzhwk_secondary_policy&quot;
+    }
+  ],
+  &quot;InlinePolicies&quot;: []
+}
+</code></pre>
+</div>
+<div class='finding HIGH' data-title='iam policy grants full administrative privileges 2.15' data-status='FAILED'>
+<h3>IAM Policy Grants Full Administrative Privileges</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>2.15</code></p>
+<p><strong>Resource:</strong> <span class='resource'>arn:aws:iam::471112791259:policy/cgidbll40hzhwk_admin_user_policy</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Foundations Benchmark v6.0.0</p>
+<p>IAM policy 'cgidbll40hzhwk_admin_user_policy' grants full *:* administrative privileges.</p>
+<p><strong>Recommendation (CIS):</strong> Detach and delete this policy, and replace with least-privilege permissions. Use &#x27;</p>
+<p><strong>Recommendation Commands:</strong></p>
+<pre><code class="language-bash">
+aws iam list-entities-for-policy&#x27; to identify all attachments and detach.
+</code></pre>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws iam get-policy-version --policy-arn arn:aws:iam::471112791259:policy/cgidbll40hzhwk_admin_user_policy --version-id v1 --query &#x27;PolicyVersion.Document.Statement&#x27;;
+aws iam list-entities-for-policy --policy-arn arn:aws:iam::471112791259:policy/cgidbll40hzhwk_admin_user_policy --output json
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-json">
+{
+  &quot;PolicyArn&quot;: &quot;arn:aws:iam::471112791259:policy/cgidbll40hzhwk_admin_user_policy&quot;,
+  &quot;PolicyName&quot;: &quot;cgidbll40hzhwk_admin_user_policy&quot;,
+  &quot;DefaultVersionId&quot;: &quot;v1&quot;,
+  &quot;OffendingStatement&quot;: {
+    &quot;Action&quot;: &quot;*&quot;,
+    &quot;Effect&quot;: &quot;Allow&quot;,
+    &quot;Resource&quot;: &quot;*&quot;
+  }
+}
+</code></pre>
+</div>
+<div class='finding LOW' data-title='no aws support role configured 2.16' data-status='FAILED'>
+<h3>No AWS Support Role Configured</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> LOW | <strong>Check ID:</strong> <code>2.16</code></p>
+<p><strong>Resource:</strong> <span class='resource'>iam:support-role</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Foundations Benchmark v6.0.0</p>
+<p>AWSSupportAccess is not attached to any IAM role. Create a dedicated role for managing AWS Support incidents.</p>
+<p><strong>Recommendation (CIS):</strong> Create a role with a trust policy and attach AWSSupportAccess. Example:</p>
+<p><strong>Recommendation Commands:</strong></p>
+<pre><code class="language-bash">
+aws iam create-role --role-name &lt;aws_support_iam_role&gt; --assume-role-policy-document file:///tmp/TrustPolicy.json
+aws iam attach-role-policy --policy-arn arn:aws:iam::aws:policy/AWSSupportAccess --role-name &lt;aws_support_iam_role&gt;
+</code></pre>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws iam list-policies --query &quot;Policies[?PolicyName==&#x27;AWSSupportAccess&#x27;]&quot;;
+aws iam list-entities-for-policy --policy-arn arn:aws:iam::aws:policy/AWSSupportAccess --output json
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-json">
+{
+  &quot;AttachmentCount&quot;: 0,
+  &quot;PolicyRoles&quot;: [],
+  &quot;PolicyUsers&quot;: [],
+  &quot;PolicyGroups&quot;: []
+}
+</code></pre>
+</div>
+<div class='finding MEDIUM' data-title='iam external access analyzer not enabled (this region) 2.19' data-status='FAILED'>
+<h3>IAM External Access Analyzer Not Enabled (This Region)</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>2.19</code></p>
+<p><strong>Resource:</strong> <span class='resource'>accessanalyzer:us-east-1</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Foundations Benchmark v6.0.0</p>
+<p>IAM External Access Analyzer is not ACTIVE in region us-east-1.</p>
+<p><strong>Recommendation (CIS):</strong> Enable External Access Analyzer (type ORGANIZATION) in each active region. Command:</p>
+<p><strong>Recommendation Commands:</strong></p>
+<pre><code class="language-bash">
+aws accessanalyzer create-analyzer --type ORGANIZATION --region us-east-1 --analyzer-name &lt;name&gt;
+</code></pre>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws accessanalyzer list-analyzers --type ORGANIZATION --region us-east-1
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-json">
+{
+  &quot;analyzers&quot;: []
+}
+</code></pre>
+</div>
+<div class='finding MEDIUM' data-title='unable to check s3 https enforcement 3.1.1' data-status='WARNING'>
+<h3>Unable to Check S3 HTTPS Enforcement</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>3.1.1</code></p>
+<p><strong>Resource:</strong> <span class='resource'>s3</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Foundations Benchmark v6.0.0</p>
+<p>Could not verify S3 bucket policies: <botocore.errorfactory.S3Exceptions object at 0x0000018E3AAFB620> object has no attribute NoSuchBucketPolicy. Valid exceptions are: BucketAlreadyExists, BucketAlreadyOwnedByYou, EncryptionTypeMismatch, IdempotencyParameterMismatch, InvalidObjectState, InvalidRequest, InvalidWriteOffset, NoSuchBucket, NoSuchKey, NoSuchUpload, ObjectAlreadyInActiveTierError, ObjectNotInActiveTierError, TooManyParts</p>
+<p><strong>Recommendation (CIS):</strong> Verify S3 permissions</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws &lt;service&gt; &lt;describe|get&gt; ... --output json
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-bash">
+No evidence provided
+</code></pre>
+</div>
+<div class='finding HIGH' data-title='s3 block public access not fully enabled 3.1.4' data-status='FAILED'>
+<h3>S3 Block Public Access Not Fully Enabled</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>3.1.4</code></p>
+<p><strong>Resource:</strong> <span class='resource'>s3://elasticbeanstalk-us-east-1-471112791259</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Foundations Benchmark v6.0.0</p>
+<p>S3 bucket 'elasticbeanstalk-us-east-1-471112791259' does not have all Block Public Access settings enabled.</p>
+<p><strong>Recommendation (CIS):</strong> Enable Block Public Access for the bucket:</p>
+<p><strong>Recommendation Commands:</strong></p>
+<pre><code class="language-bash">
+aws s3api put-public-access-block --bucket elasticbeanstalk-us-east-1-471112791259 --public-access-block-configuration BlockPublicAcls=true,IgnorePublicAcls=true,BlockPublicPolicy=true,RestrictPublicBuckets=true
+</code></pre>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws s3api get-public-access-block --bucket elasticbeanstalk-us-east-1-471112791259
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-json">
+{
+  &quot;PublicAccessBlockConfiguration&quot;: {
+    &quot;BlockPublicAcls&quot;: false,
+    &quot;IgnorePublicAcls&quot;: false,
+    &quot;BlockPublicPolicy&quot;: false,
+    &quot;RestrictPublicBuckets&quot;: false
+  }
+}
+</code></pre>
+</div>
+<div class='finding MEDIUM' data-title='s3 mfa delete not enabled (manual) 3.1.2' data-status='WARNING'>
+<h3>S3 MFA Delete Not Enabled (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>3.1.2</code></p>
+<p><strong>Resource:</strong> <span class='resource'>s3://aws-cloudtrail-logs-471112791259-ff410b6b</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Foundations Benchmark v6.0.0</p>
+<p>Bucket versioning and/or MFA Delete is not enabled. MFA Delete requires root credentials via CLI/API.</p>
+<p><strong>Recommendation (CIS):</strong> Enable Versioning and MFA Delete (root only):</p>
+<p><strong>Recommendation Commands:</strong></p>
+<pre><code class="language-bash">
+aws s3api put-bucket-versioning --profile &lt;root-profile&gt; --bucket &lt;bucket&gt; --versioning-configuration Status=Enabled,MFADelete=Enabled --mfa &quot;arn:aws:iam::&lt;account-id&gt;:mfa/root-account-mfa-device &lt;code&gt;&quot;
+</code></pre>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws s3api get-bucket-versioning --bucket aws-cloudtrail-logs-471112791259-ff410b6b
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-json">
+{
+  &quot;Status&quot;: null,
+  &quot;MFADelete&quot;: null
+}
+</code></pre>
+</div>
+<div class='finding MEDIUM' data-title='s3 mfa delete not enabled (manual) 3.1.2' data-status='WARNING'>
+<h3>S3 MFA Delete Not Enabled (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>3.1.2</code></p>
+<p><strong>Resource:</strong> <span class='resource'>s3://elasticbeanstalk-us-east-1-471112791259</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Foundations Benchmark v6.0.0</p>
+<p>Bucket versioning and/or MFA Delete is not enabled. MFA Delete requires root credentials via CLI/API.</p>
+<p><strong>Recommendation (CIS):</strong> Enable Versioning and MFA Delete (root only):</p>
+<p><strong>Recommendation Commands:</strong></p>
+<pre><code class="language-bash">
+aws s3api put-bucket-versioning --profile &lt;root-profile&gt; --bucket &lt;bucket&gt; --versioning-configuration Status=Enabled,MFADelete=Enabled --mfa &quot;arn:aws:iam::&lt;account-id&gt;:mfa/root-account-mfa-device &lt;code&gt;&quot;
+</code></pre>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws s3api get-bucket-versioning --bucket elasticbeanstalk-us-east-1-471112791259
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-json">
+{
+  &quot;Status&quot;: null,
+  &quot;MFADelete&quot;: null
+}
+</code></pre>
+</div>
+<div class='finding MEDIUM' data-title='s3 mfa delete not enabled (manual) 3.1.2' data-status='WARNING'>
+<h3>S3 MFA Delete Not Enabled (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>3.1.2</code></p>
+<p><strong>Resource:</strong> <span class='resource'>s3://product-highlight-core</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Foundations Benchmark v6.0.0</p>
+<p>Bucket versioning and/or MFA Delete is not enabled. MFA Delete requires root credentials via CLI/API.</p>
+<p><strong>Recommendation (CIS):</strong> Enable Versioning and MFA Delete (root only):</p>
+<p><strong>Recommendation Commands:</strong></p>
+<pre><code class="language-bash">
+aws s3api put-bucket-versioning --profile &lt;root-profile&gt; --bucket &lt;bucket&gt; --versioning-configuration Status=Enabled,MFADelete=Enabled --mfa &quot;arn:aws:iam::&lt;account-id&gt;:mfa/root-account-mfa-device &lt;code&gt;&quot;
+</code></pre>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws s3api get-bucket-versioning --bucket product-highlight-core
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-json">
+{
+  &quot;Status&quot;: null,
+  &quot;MFADelete&quot;: null
+}
+</code></pre>
+</div>
+<div class='finding LOW' data-title='s3 access logging target bucket hardening requires review (manual) 3.m1' data-status='WARNING'>
+<h3>S3 Access Logging Target Bucket Hardening Requires Review (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> LOW | <strong>Check ID:</strong> <code>3.M1</code></p>
+<p><strong>Resource:</strong> <span class='resource'>s3://<access-logs-target-bucket></span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Foundations Benchmark v6.0.0</p>
+<p>Verify the target bucket for S3 access logs enforces SSE (KMS), denies public access, and restricts ACLs to the Log Delivery group only.</p>
+<p><strong>Recommendation (CIS):</strong> Ensure Block Public Access is ON, bucket policy restricts access, and SSE-KMS is enabled. Commands:</p>
+<p><strong>Recommendation Commands:</strong></p>
+<pre><code class="language-bash">
+aws s3api get-bucket-policy --bucket &lt;bucket&gt;
+aws s3api get-bucket-encryption --bucket &lt;bucket&gt;
+aws s3api get-public-access-block --bucket &lt;bucket&gt;
+</code></pre>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws s3api get-bucket-encryption --bucket &lt;access-logs-bucket&gt;; aws s3api get-public-access-block --bucket &lt;access-logs-bucket&gt;
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-json">
+{
+  &quot;SSEAlgorithm&quot;: &quot;AES256&quot;,
+  &quot;PublicAccessBlockConfiguration&quot;: {
+    &quot;BlockPublicAcls&quot;: true,
+    &quot;IgnorePublicAcls&quot;: true,
+    &quot;BlockPublicPolicy&quot;: true,
+    &quot;RestrictPublicBuckets&quot;: true
+  }
+}
+</code></pre>
+</div>
+<div class='finding HIGH' data-title='cloudtrail not enabled in all regions 4.1' data-status='FAILED'>
+<h3>CloudTrail Not Enabled in All Regions</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>4.1</code></p>
+<p><strong>Resource:</strong> <span class='resource'>cloudtrail</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Foundations Benchmark v6.0.0</p>
+<p>No multi-region CloudTrail trail is enabled and logging.</p>
+<p><strong>Recommendation (CIS):</strong> Create and enable a multi‑region trail with log file validation and KMS CMK: 1)</p>
+<p><strong>Recommendation Commands:</strong></p>
+<pre><code class="language-bash">
+aws cloudtrail create-trail --name &lt;trail&gt; --is-multi-region-trail --enable-log-file-validation --kms-key-id &lt;kms-key-arn&gt; --s3-bucket-name &lt;bucket&gt; 2) aws cloudtrail start-logging --name &lt;trail&gt;
+</code></pre>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws cloudtrail describe-trails --region us-east-1 --query &#x27;trailList[?IsMultiRegionTrail==`true` &amp;&amp; IsLogging==`true`]&#x27;
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-json">
+{
+  &quot;trailList&quot;: [
+    {
+      &quot;Name&quot;: &quot;management-events&quot;,
+      &quot;S3BucketName&quot;: &quot;aws-cloudtrail-logs-471112791259-ff410b6b&quot;,
+      &quot;IncludeGlobalServiceEvents&quot;: true,
+      &quot;IsMultiRegionTrail&quot;: true,
+      &quot;HomeRegion&quot;: &quot;us-east-2&quot;,
+      &quot;TrailARN&quot;: &quot;arn:aws:cloudtrail:us-east-2:471112791259:trail/management-events&quot;,
+      &quot;LogFileValidationEnabled&quot;: false,
+      &quot;HasCustomEventSelectors&quot;: true,
+      &quot;HasInsightSelectors&quot;: false,
+      &quot;IsOrganizationTrail&quot;: false
+    }
+  ],
+  &quot;ResponseMetadata&quot;: {
+    &quot;RequestId&quot;: &quot;096eb09a-b296-4982-8c17-50bc4461c1d8&quot;,
+    &quot;HTTPStatusCode&quot;: 200,
+    &quot;HTTPHeaders&quot;: {
+      &quot;x-amzn-requestid&quot;: &quot;096eb09a-b296-4982-8c17-50bc4461c1d8&quot;,
+      &quot;content-type&quot;: &quot;application/x-amz-json-1.1&quot;,
+      &quot;content-length&quot;: &quot;387&quot;,
+      &quot;date&quot;: &quot;Thu, 30 Oct 2025 15:22:18 GMT&quot;
+    },
+    &quot;RetryAttempts&quot;: 0
+  }
+}
+</code></pre>
+</div>
+<div class='finding MEDIUM' data-title='unable to check cloudtrail log validation 4.2' data-status='WARNING'>
+<h3>Unable to Check CloudTrail Log Validation</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>4.2</code></p>
+<p><strong>Resource:</strong> <span class='resource'>cloudtrail</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Foundations Benchmark v6.0.0</p>
+<p>Could not verify log validation: An error occurred (TrailNotFoundException) when calling the GetTrailStatus operation: Unknown trail: arn:aws:cloudtrail:us-east-1:471112791259:trail/management-events for the user: 471112791259</p>
+<p><strong>Recommendation (CIS):</strong> Verify CloudTrail permissions</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws &lt;service&gt; &lt;describe|get&gt; ... --output json
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-bash">
+No evidence provided
+</code></pre>
+</div>
+<div class='finding MEDIUM' data-title='cloudtrail logs not encrypted with kms 4.5' data-status='FAILED'>
+<h3>CloudTrail Logs Not Encrypted with KMS</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>4.5</code></p>
+<p><strong>Resource:</strong> <span class='resource'>arn:aws:cloudtrail:us-east-2:471112791259:trail/management-events</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Foundations Benchmark v6.0.0</p>
+<p>CloudTrail trail 'management-events' does not use KMS encryption.</p>
+<p><strong>Recommendation (CIS):</strong> Encrypt CloudTrail with a customer-managed CMK:</p>
+<p><strong>Recommendation Commands:</strong></p>
+<pre><code class="language-bash">
+aws cloudtrail update-trail --name &lt;trail&gt; --kms-key-id &lt;kms-key-arn&gt;
+</code></pre>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws cloudtrail describe-trails --trail-name-list management-events --query &#x27;trailList[0].KmsKeyId&#x27;
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-json">
+{
+  &quot;KmsKeyId&quot;: null,
+  &quot;TrailName&quot;: &quot;management-events&quot;
+}
+</code></pre>
+</div>
+<div class='finding MEDIUM' data-title='vpc flow logging not enabled 4.7' data-status='FAILED'>
+<h3>VPC Flow Logging Not Enabled</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>4.7</code></p>
+<p><strong>Resource:</strong> <span class='resource'>vpc-0ec2f6ed743828899</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Foundations Benchmark v6.0.0</p>
+<p>VPC 'vpc-0ec2f6ed743828899' does not have flow logging enabled.</p>
+<p><strong>Recommendation (CIS):</strong> Enable VPC Flow Logs to CloudWatch Logs with an IAM role: 1)</p>
+<p><strong>Recommendation Commands:</strong></p>
+<pre><code class="language-bash">
+aws logs create-log-group --log-group-name /vpc/flow-logs/&lt;vpc-id&gt; 2) aws ec2 create-flow-logs --resource-type VPC --resource-ids &lt;vpc-id&gt; --traffic-type ALL --log-group-name /vpc/flow-logs/&lt;vpc-id&gt; --deliver-logs-permission-arn &lt;iam-role-arn&gt;
+</code></pre>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws ec2 describe-flow-logs --filters Name=resource-id,Values=vpc-0ec2f6ed743828899
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-json">
+{
+  &quot;FlowLogs&quot;: [],
+  &quot;ResponseMetadata&quot;: {
+    &quot;RequestId&quot;: &quot;656ce737-ee26-4555-868e-d31768ea42c0&quot;,
+    &quot;HTTPStatusCode&quot;: 200,
+    &quot;HTTPHeaders&quot;: {
+      &quot;x-amzn-requestid&quot;: &quot;656ce737-ee26-4555-868e-d31768ea42c0&quot;,
+      &quot;cache-control&quot;: &quot;no-cache, no-store&quot;,
+      &quot;strict-transport-security&quot;: &quot;max-age=31536000; includeSubDomains&quot;,
+      &quot;vary&quot;: &quot;accept-encoding&quot;,
+      &quot;content-type&quot;: &quot;text/xml;charset=UTF-8&quot;,
+      &quot;transfer-encoding&quot;: &quot;chunked&quot;,
+      &quot;date&quot;: &quot;Thu, 30 Oct 2025 15:22:20 GMT&quot;,
+      &quot;server&quot;: &quot;AmazonEC2&quot;
+    },
+    &quot;RetryAttempts&quot;: 0
+  }
+}
+</code></pre>
+</div>
+<div class='finding MEDIUM' data-title='vpc flow logging not enabled 4.7' data-status='FAILED'>
+<h3>VPC Flow Logging Not Enabled</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>4.7</code></p>
+<p><strong>Resource:</strong> <span class='resource'>vpc-0158ac103a1bb5642</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Foundations Benchmark v6.0.0</p>
+<p>VPC 'vpc-0158ac103a1bb5642' does not have flow logging enabled.</p>
+<p><strong>Recommendation (CIS):</strong> Enable VPC Flow Logs to CloudWatch Logs with an IAM role: 1)</p>
+<p><strong>Recommendation Commands:</strong></p>
+<pre><code class="language-bash">
+aws logs create-log-group --log-group-name /vpc/flow-logs/&lt;vpc-id&gt; 2) aws ec2 create-flow-logs --resource-type VPC --resource-ids &lt;vpc-id&gt; --traffic-type ALL --log-group-name /vpc/flow-logs/&lt;vpc-id&gt; --deliver-logs-permission-arn &lt;iam-role-arn&gt;
+</code></pre>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws ec2 describe-flow-logs --filters Name=resource-id,Values=vpc-0158ac103a1bb5642
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-json">
+{
+  &quot;FlowLogs&quot;: [],
+  &quot;ResponseMetadata&quot;: {
+    &quot;RequestId&quot;: &quot;24b82855-de02-478d-a0ab-d2de3becf69d&quot;,
+    &quot;HTTPStatusCode&quot;: 200,
+    &quot;HTTPHeaders&quot;: {
+      &quot;x-amzn-requestid&quot;: &quot;24b82855-de02-478d-a0ab-d2de3becf69d&quot;,
+      &quot;cache-control&quot;: &quot;no-cache, no-store&quot;,
+      &quot;strict-transport-security&quot;: &quot;max-age=31536000; includeSubDomains&quot;,
+      &quot;vary&quot;: &quot;accept-encoding&quot;,
+      &quot;content-type&quot;: &quot;text/xml;charset=UTF-8&quot;,
+      &quot;transfer-encoding&quot;: &quot;chunked&quot;,
+      &quot;date&quot;: &quot;Thu, 30 Oct 2025 15:22:20 GMT&quot;,
+      &quot;server&quot;: &quot;AmazonEC2&quot;
+    },
+    &quot;RetryAttempts&quot;: 0
+  }
+}
+</code></pre>
+</div>
+<div class='finding MEDIUM' data-title='aws config not fully enabled (this region) 4.3' data-status='FAILED'>
+<h3>AWS Config Not Fully Enabled (This Region)</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>4.3</code></p>
+<p><strong>Resource:</strong> <span class='resource'>config:us-east-1</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Foundations Benchmark v6.0.0</p>
+<p>AWS Config recorder not present, not recording all resources, or not actively recording.</p>
+<p><strong>Recommendation (CIS):</strong> Create/enable a recorder for all resources and include globals in one region. Commands:</p>
+<p><strong>Recommendation Commands:</strong></p>
+<pre><code class="language-bash">
+aws configservice put-configuration-recorder --configuration-recorder name=&lt;name&gt;,roleARN=&lt;role-arn&gt; --recording-group allSupported=true,includeGlobalResourceTypes=true
+aws configservice put-delivery-channel --delivery-channel file://&lt;delivery-channel-file&gt;.json
+aws configservice start-configuration-recorder --configuration-recorder-name &lt;name&gt;
+</code></pre>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws configservice describe-configuration-recorders --region us-east-1;
+aws configservice describe-configuration-recorder-status --region us-east-1
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-json">
+{
+  &quot;RecorderName&quot;: null,
+  &quot;AllSupported&quot;: false,
+  &quot;IncludeGlobalResourceTypes&quot;: false,
+  &quot;IsRecording&quot;: false
+}
+</code></pre>
+</div>
+<div class='finding LOW' data-title='cloudtrail s3 bucket logging not enabled (manual) 4.4' data-status='WARNING'>
+<h3>CloudTrail S3 Bucket Logging Not Enabled (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> LOW | <strong>Check ID:</strong> <code>4.4</code></p>
+<p><strong>Resource:</strong> <span class='resource'>s3://aws-cloudtrail-logs-471112791259-ff410b6b</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Foundations Benchmark v6.0.0</p>
+<p>Server access logging is not enabled on the CloudTrail destination bucket.</p>
+<p><strong>Recommendation (CIS):</strong> Enable server access logging on the CloudTrail bucket and target to a separate logging bucket.</p>
+<p><strong>Recommendation Commands:</strong></p>
+<pre><code class="language-bash">
+aws s3api put-bucket-logging --bucket aws-cloudtrail-logs-471112791259-ff410b6b --bucket-logging-status file://logging.json
+</code></pre>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws cloudtrail describe-trails --region us-east-1 --query &#x27;trailList[*].S3BucketName&#x27;; aws s3api get-bucket-logging --bucket aws-cloudtrail-logs-471112791259-ff410b6b
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-json">
+{
+  &quot;ResponseMetadata&quot;: {
+    &quot;RequestId&quot;: &quot;MRKP2X73RQ6BB00J&quot;,
+    &quot;HostId&quot;: &quot;5UDrqGpcW4pABDn92uq3KSvGchTvW306W9cOQtLWSUQFsfyOZO8Mq4VJvacpLRLu0dvzoFDSEakdqdjfdAWyLWbONRT3W53q&quot;,
+    &quot;HTTPStatusCode&quot;: 200,
+    &quot;HTTPHeaders&quot;: {
+      &quot;x-amz-id-2&quot;: &quot;5UDrqGpcW4pABDn92uq3KSvGchTvW306W9cOQtLWSUQFsfyOZO8Mq4VJvacpLRLu0dvzoFDSEakdqdjfdAWyLWbONRT3W53q&quot;,
+      &quot;x-amz-request-id&quot;: &quot;MRKP2X73RQ6BB00J&quot;,
+      &quot;date&quot;: &quot;Thu, 30 Oct 2025 15:22:26 GMT&quot;,
+      &quot;content-type&quot;: &quot;application/xml&quot;,
+      &quot;transfer-encoding&quot;: &quot;chunked&quot;,
+      &quot;server&quot;: &quot;AmazonS3&quot;
+    },
+    &quot;RetryAttempts&quot;: 1
+  }
+}
+</code></pre>
+</div>
+<div class='finding MEDIUM' data-title='cloudtrail s3 bucket mfa delete and versioning requires review (manual) 4.m1' data-status='WARNING'>
+<h3>CloudTrail S3 Bucket MFA Delete and Versioning Requires Review (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>4.M1</code></p>
+<p><strong>Resource:</strong> <span class='resource'>s3:cloudtrail-logs-bucket</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Foundations Benchmark v6.0.0</p>
+<p>Verify that the CloudTrail destination S3 bucket has Versioning enabled and MFA Delete enabled.</p>
+<p><strong>Recommendation (CIS):</strong> Enable Versioning and MFA Delete on the CloudTrail S3 bucket. Example:</p>
+<p><strong>Recommendation Commands:</strong></p>
+<pre><code class="language-bash">
+aws s3api put-bucket-versioning --bucket &lt;bucket&gt; --versioning-configuration Status=Enabled,MFADelete=Enabled --mfa &#x27;arn:aws:iam::&lt;account-id&gt;:mfa/root-account-mfa-device &lt;mfa-code&gt;&#x27;
+</code></pre>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws s3api get-bucket-versioning --bucket &lt;cloudtrail-bucket&gt;
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-json">
+{
+  &quot;Status&quot;: &quot;Enabled&quot;,
+  &quot;MFADelete&quot;: &quot;Disabled&quot;
+}
+</code></pre>
+</div>
+<div class='finding MEDIUM' data-title='unauthorized api calls metric/alarm review (manual) 5.1' data-status='WARNING'>
+<h3>Unauthorized API Calls Metric/Alarm Review (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>5.1</code></p>
+<p><strong>Resource:</strong> <span class='resource'>cloudwatch-logs</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Foundations Benchmark v6.0.0</p>
+<p>Verify CloudWatch Logs metric filter and alarm exist for unauthorized API calls pattern on the CloudTrail log group.</p>
+<p><strong>Recommendation (CIS):</strong> Create metric filter and alarm. Example:</p>
+<p><strong>Recommendation Commands:</strong></p>
+<pre><code class="language-bash">
+aws logs put-metric-filter --log-group-name &lt;trail-log-group-name&gt; --filter-name &lt;unauthorized-api-calls-metric&gt; --metric-transformations metricName=unauthorized_api_calls_metric,metricNamespace=CISBenchmark,metricValue=1 --filter-pattern &quot;{ ($.errorCode =\&quot;*UnauthorizedOperation\&quot;) || ($.errorCode =\&quot;AccessDenied*\&quot;) &amp;&amp; ($.sourceIPAddress!=\&quot;delivery.logs.amazonaws.com\&quot;) &amp;&amp; ($.eventName!=\&quot;HeadBucket\&quot;) }&quot;
+aws cloudwatch put-metric-alarm --alarm-name unauthorized_api_calls_alarm --metric-name unauthorized_api_calls_metric --namespace CISBenchmark --statistic Sum --period 300 --threshold 1 --comparison-operator GreaterThanOrEqualToThreshold --evaluation-periods 1 --alarm-actions &lt;sns-arn&gt;
+</code></pre>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws cloudtrail describe-trails; aws cloudtrail get-trail-status --name &lt;trail&gt;;
+aws logs describe-metric-filters --log-group-name &lt;log-group&gt;;
+aws cloudwatch describe-alarms --query &quot;MetricAlarms[?MetricName==&#x27;&lt;metric&gt;&#x27;]&quot;
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-json">
+{
+  &quot;LogGroup&quot;: null
+}
+</code></pre>
+</div>
+<div class='finding HIGH' data-title='console sign-in without mfa metric/alarm review (manual) 5.2' data-status='WARNING'>
+<h3>Console Sign-in Without MFA Metric/Alarm Review (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>5.2</code></p>
+<p><strong>Resource:</strong> <span class='resource'>cloudwatch-logs</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Foundations Benchmark v6.0.0</p>
+<p>Verify a metric filter exists for ConsoleLogin without MFA and an alarm with an active SNS subscription.</p>
+<p><strong>Recommendation (CIS):</strong> Create metric filter and alarm. Examples:</p>
+<p><strong>Recommendation Commands:</strong></p>
+<pre><code class="language-bash">
+aws logs describe-metric-filters --log-group-name &lt;trail-log-group-name&gt;
+aws logs put-metric-filter --log-group-name &lt;trail-log-group-name&gt; --filter-name &lt;no-mfa-console-signin-metric&gt; --metric-transformations metricName=&lt;no-mfa-console-signin-metric&gt;,metricNamespace=CISBenchmark,metricValue=1 --filter-pattern &#x27;{ ($.eventName = &quot;ConsoleLogin&quot;) &amp;&amp; ($.additionalEventData.MFAUsed != &quot;Yes&quot;) }&#x27;
+aws cloudwatch put-metric-alarm --alarm-name &lt;no-mfa-console-signin-alarm&gt; --metric-name &lt;no-mfa-console-signin-metric&gt; --namespace CISBenchmark --statistic Sum --period 300 --threshold 1 --comparison-operator GreaterThanOrEqualToThreshold --evaluation-periods 1 --alarm-actions &lt;sns-arn&gt;
+</code></pre>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws cloudtrail describe-trails; aws logs describe-metric-filters --log-group-name &lt;log-group&gt;
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-json">
+{
+  &quot;LogGroup&quot;: null
+}
+</code></pre>
+</div>
+<div class='finding HIGH' data-title='root account usage metric/alarm review (manual) 5.3' data-status='WARNING'>
+<h3>Root Account Usage Metric/Alarm Review (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>5.3</code></p>
+<p><strong>Resource:</strong> <span class='resource'>cloudwatch-logs</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Foundations Benchmark v6.0.0</p>
+<p>Verify metric filter exists for root usage events and an alarm with SNS subscribers.</p>
+<p><strong>Recommendation (CIS):</strong> Add metric filter and alarm for: { $.userIdentity.type = &quot;Root&quot; &amp;&amp; $.userIdentity.invokedBy NOT EXISTS &amp;&amp; $.eventType != &quot;AwsServiceEvent&quot; }</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws logs describe-metric-filters --log-group-name &lt;log-group&gt;
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-json">
+{
+  &quot;LogGroup&quot;: null
+}
+</code></pre>
+</div>
+<div class='finding MEDIUM' data-title='iam policy change metric/alarm review (manual) 5.4' data-status='WARNING'>
+<h3>IAM Policy Change Metric/Alarm Review (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>5.4</code></p>
+<p><strong>Resource:</strong> <span class='resource'>cloudwatch-logs</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Foundations Benchmark v6.0.0</p>
+<p>Verify metric filter exists for IAM policy change events and an alarm is configured.</p>
+<p><strong>Recommendation (CIS):</strong> Add metric filter and alarm for policy change events (Delete*/Put*/Attach*/Detach*). See CIS-provided filterPattern in guidance.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws logs describe-metric-filters --log-group-name &lt;log-group&gt;
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-json">
+{
+  &quot;LogGroup&quot;: null
+}
+</code></pre>
+</div>
+<div class='finding MEDIUM' data-title='cloudtrail configuration change metric/alarm review (manual) 5.5' data-status='WARNING'>
+<h3>CloudTrail Configuration Change Metric/Alarm Review (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>5.5</code></p>
+<p><strong>Resource:</strong> <span class='resource'>cloudwatch-logs</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Foundations Benchmark v6.0.0</p>
+<p>Verify metric filter and alarm exist for CloudTrail configuration changes.</p>
+<p><strong>Recommendation (CIS):</strong> Create filter and alarm. Example:</p>
+<p><strong>Recommendation Commands:</strong></p>
+<pre><code class="language-bash">
+aws logs put-metric-filter --log-group-name &lt;trail-log-group-name&gt; --filter-name &lt;cloudtrail-cfg-changes-metric&gt; --metric-transformations metricName=&lt;cloudtrail-cfg-changes-metric&gt;,metricNamespace=CISBenchmark,metricValue=1 --filter-pattern &#x27;{ ($.eventName = CreateTrail) || ($.eventName = UpdateTrail) || ($.eventName = DeleteTrail) || ($.eventName = StartLogging) || ($.eventName = StopLogging) }&#x27;
+aws cloudwatch put-metric-alarm --alarm-name &lt;cloudtrail-cfg-changes-alarm&gt; --metric-name &lt;cloudtrail-cfg-changes-metric&gt; --namespace CISBenchmark --statistic Sum --period 300 --threshold 1 --comparison-operator GreaterThanOrEqualToThreshold --evaluation-periods 1 --alarm-actions &lt;sns-arn&gt;
+</code></pre>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws logs describe-metric-filters --log-group-name &lt;log-group&gt;
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-json">
+{
+  &quot;LogGroup&quot;: null,
+  &quot;FilterPattern&quot;: &quot;{ ($.eventName = CreateTrail) || ($.eventName = UpdateTrail) || ($.eventName = DeleteTrail) || ($.eventName = StartLogging) || ($.eventName = StopLogging) }&quot;
+}
+</code></pre>
+</div>
+<div class='finding MEDIUM' data-title='console authentication failures metric/alarm review (manual) 5.6' data-status='WARNING'>
+<h3>Console Authentication Failures Metric/Alarm Review (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>5.6</code></p>
+<p><strong>Resource:</strong> <span class='resource'>cloudwatch-logs</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Foundations Benchmark v6.0.0</p>
+<p>Verify metric filter and alarm exist for failed ConsoleLogin events.</p>
+<p><strong>Recommendation (CIS):</strong> Create filter and alarm. Example:</p>
+<p><strong>Recommendation Commands:</strong></p>
+<pre><code class="language-bash">
+aws logs put-metric-filter --log-group-name &lt;trail-log-group-name&gt; --filter-name &lt;console-signin-failure-metric&gt; --metric-transformations metricName=&lt;console-signin-failure-metric&gt;,metricNamespace=CISBenchmark,metricValue=1 --filter-pattern &#x27;{ ($.eventName = ConsoleLogin) &amp;&amp; ($.errorMessage = &quot;Failed authentication&quot;) }&#x27;
+aws cloudwatch put-metric-alarm --alarm-name &lt;console-signin-failure-alarm&gt; --metric-name &lt;console-signin-failure-metric&gt; --namespace CISBenchmark --statistic Sum --period 300 --threshold 1 --comparison-operator GreaterThanOrEqualToThreshold --evaluation-periods 1 --alarm-actions &lt;sns-arn&gt;
+</code></pre>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws logs describe-metric-filters --log-group-name &lt;log-group&gt;
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-json">
+{
+  &quot;LogGroup&quot;: null,
+  &quot;FilterPattern&quot;: &quot;{ ($.eventName = ConsoleLogin) &amp;&amp; ($.errorMessage = \&quot;Failed authentication\&quot;) }&quot;
+}
+</code></pre>
+</div>
+<div class='finding MEDIUM' data-title='kms disable/schedule deletion metric/alarm review (manual) 5.7' data-status='WARNING'>
+<h3>KMS Disable/Schedule Deletion Metric/Alarm Review (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>5.7</code></p>
+<p><strong>Resource:</strong> <span class='resource'>cloudwatch-logs</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Foundations Benchmark v6.0.0</p>
+<p>Verify metric filter and alarm exist for KMS DisableKey and ScheduleKeyDeletion events.</p>
+<p><strong>Recommendation (CIS):</strong> Create filter and alarm. Example:</p>
+<p><strong>Recommendation Commands:</strong></p>
+<pre><code class="language-bash">
+aws logs put-metric-filter --log-group-name &lt;trail-log-group-name&gt; --filter-name &lt;disable-or-delete-cmk-changes-metric&gt; --metric-transformations metricName=&lt;disable-or-delete-cmk-changes-metric&gt;,metricNamespace=CISBenchmark,metricValue=1 --filter-pattern &#x27;{($.eventSource = kms.amazonaws.com) &amp;&amp; (($.eventName=DisableKey)||($.eventName=ScheduleKeyDeletion)) }&#x27;
+aws cloudwatch put-metric-alarm --alarm-name &lt;disable-or-delete-cmk-changes-alarm&gt; --metric-name &lt;disable-or-delete-cmk-changes-metric&gt; --namespace CISBenchmark --statistic Sum --period 300 --threshold 1 --comparison-operator GreaterThanOrEqualToThreshold --evaluation-periods 1 --alarm-actions &lt;sns-arn&gt;
+</code></pre>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws logs describe-metric-filters --log-group-name &lt;log-group&gt;
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-json">
+{
+  &quot;LogGroup&quot;: null,
+  &quot;FilterPattern&quot;: &quot;{($.eventSource = kms.amazonaws.com) &amp;&amp; (($.eventName=DisableKey)||($.eventName=ScheduleKeyDeletion)) }&quot;
+}
+</code></pre>
+</div>
+<div class='finding MEDIUM' data-title='s3 bucket policy change metric/alarm review (manual) 5.8' data-status='WARNING'>
+<h3>S3 Bucket Policy Change Metric/Alarm Review (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>5.8</code></p>
+<p><strong>Resource:</strong> <span class='resource'>cloudwatch-logs</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Foundations Benchmark v6.0.0</p>
+<p>Verify metric filter and alarm exist for S3 bucket policy change events.</p>
+<p><strong>Recommendation (CIS):</strong> Create filter and alarm. Example:</p>
+<p><strong>Recommendation Commands:</strong></p>
+<pre><code class="language-bash">
+aws logs put-metric-filter --log-group-name &lt;trail-log-group-name&gt; --filter-name &lt;s3-bucket-policy-changes-metric&gt; --metric-transformations metricName=&lt;s3-bucket-policy-changes-metric&gt;,metricNamespace=CISBenchmark,metricValue=1 --filter-pattern &#x27;{ ($.eventSource = s3.amazonaws.com) &amp;&amp; (($.eventName = PutBucketAcl) || ($.eventName = PutBucketPolicy) || ($.eventName = PutBucketCors) || ($.eventName = PutBucketLifecycle) || ($.eventName = PutBucketReplication) || ($.eventName = DeleteBucketPolicy) || ($.eventName = DeleteBucketCors) || ($.eventName = DeleteBucketLifecycle) || ($.eventName = DeleteBucketReplication)) }&#x27;
+aws cloudwatch put-metric-alarm --alarm-name &lt;s3-bucket-policy-changes-alarm&gt; --metric-name &lt;s3-bucket-policy-changes-metric&gt; --namespace CISBenchmark --statistic Sum --period 300 --threshold 1 --comparison-operator GreaterThanOrEqualToThreshold --evaluation-periods 1 --alarm-actions &lt;sns-arn&gt;
+</code></pre>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws logs describe-metric-filters --log-group-name &lt;log-group&gt;
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-json">
+{
+  &quot;LogGroup&quot;: null,
+  &quot;FilterPattern&quot;: &quot;{ ($.eventSource = s3.amazonaws.com) &amp;&amp; (($.eventName = PutBucketAcl) || ($.eventName = PutBucketPolicy) || ($.eventName = PutBucketCors) || ($.eventName = PutBucketLifecycle) || ($.eventName = PutBucketReplication) || ($.eventName = DeleteBucketPolicy) || ($.eventName = DeleteBucketCors) || ($.eventName = DeleteBucketLifecycle) || ($.eventName = DeleteBucketReplication)) }&quot;
+}
+</code></pre>
+</div>
+<div class='finding MEDIUM' data-title='aws config change metric/alarm review (manual) 5.9' data-status='WARNING'>
+<h3>AWS Config Change Metric/Alarm Review (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>5.9</code></p>
+<p><strong>Resource:</strong> <span class='resource'>cloudwatch-logs</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Foundations Benchmark v6.0.0</p>
+<p>Verify metric filter and alarm exist for AWS Config configuration changes.</p>
+<p><strong>Recommendation (CIS):</strong> Create filter and alarm. Example:</p>
+<p><strong>Recommendation Commands:</strong></p>
+<pre><code class="language-bash">
+aws logs put-metric-filter --log-group-name &lt;trail-log-group-name&gt; --filter-name &lt;aws-config-changes-metric&gt; --metric-transformations metricName=&lt;aws-config-changes-metric&gt;,metricNamespace=CISBenchmark,metricValue=1 --filter-pattern &#x27;{ ($.eventSource = config.amazonaws.com) &amp;&amp; (($.eventName=StopConfigurationRecorder)||($.eventName=DeleteDeliveryChannel)||($.eventName=PutDeliveryChannel)||($.eventName=PutConfigurationRecorder)) }&#x27;
+aws cloudwatch put-metric-alarm --alarm-name &lt;aws-config-changes-alarm&gt; --metric-name &lt;aws-config-changes-metric&gt; --namespace CISBenchmark --statistic Sum --period 300 --threshold 1 --comparison-operator GreaterThanOrEqualToThreshold --evaluation-periods 1 --alarm-actions &lt;sns-arn&gt;
+</code></pre>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws logs describe-metric-filters --log-group-name &lt;log-group&gt;
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-json">
+{
+  &quot;LogGroup&quot;: null,
+  &quot;FilterPattern&quot;: &quot;{ ($.eventSource = config.amazonaws.com) &amp;&amp; (($.eventName=StopConfigurationRecorder)||($.eventName=DeleteDeliveryChannel)||($.eventName=PutDeliveryChannel)||($.eventName=PutConfigurationRecorder)) }&quot;
+}
+</code></pre>
+</div>
+<div class='finding MEDIUM' data-title='network acl change metric/alarm review (manual) 5.11' data-status='WARNING'>
+<h3>Network ACL Change Metric/Alarm Review (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>5.11</code></p>
+<p><strong>Resource:</strong> <span class='resource'>cloudwatch-logs</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Foundations Benchmark v6.0.0</p>
+<p>Verify metric filter and alarm exist for Network ACL change events.</p>
+<p><strong>Recommendation (CIS):</strong> Create filter and alarm. Example:</p>
+<p><strong>Recommendation Commands:</strong></p>
+<pre><code class="language-bash">
+aws logs put-metric-filter --log-group-name &lt;trail-log-group-name&gt; --filter-name &lt;nacl-changes-metric&gt; --metric-transformations metricName=&lt;nacl-changes-metric&gt;,metricNamespace=CISBenchmark,metricValue=1 --filter-pattern &#x27;{ ($.eventName = CreateNetworkAcl) || ($.eventName = CreateNetworkAclEntry) || ($.eventName = DeleteNetworkAcl) || ($.eventName = DeleteNetworkAclEntry) || ($.eventName = ReplaceNetworkAclEntry) || ($.eventName = ReplaceNetworkAclAssociation) }&#x27;
+aws cloudwatch put-metric-alarm --alarm-name &lt;nacl-changes-alarm&gt; --metric-name &lt;nacl-changes-metric&gt; --namespace CISBenchmark --statistic Sum --period 300 --threshold 1 --comparison-operator GreaterThanOrEqualToThreshold --evaluation-periods 1 --alarm-actions &lt;sns-arn&gt;
+</code></pre>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws logs describe-metric-filters --log-group-name &lt;log-group&gt;
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-json">
+{
+  &quot;LogGroup&quot;: null,
+  &quot;FilterPattern&quot;: &quot;{ ($.eventName = CreateNetworkAcl) || ($.eventName = CreateNetworkAclEntry) || ($.eventName = DeleteNetworkAcl) || ($.eventName = DeleteNetworkAclEntry) || ($.eventName = ReplaceNetworkAclEntry) || ($.eventName = ReplaceNetworkAclAssociation) }&quot;
+}
+</code></pre>
+</div>
+<div class='finding MEDIUM' data-title='network gateway change metric/alarm review (manual) 5.12' data-status='WARNING'>
+<h3>Network Gateway Change Metric/Alarm Review (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>5.12</code></p>
+<p><strong>Resource:</strong> <span class='resource'>cloudwatch-logs</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Foundations Benchmark v6.0.0</p>
+<p>Verify metric filter and alarm exist for network gateway changes.</p>
+<p><strong>Recommendation (CIS):</strong> Create filter and alarm. Example:</p>
+<p><strong>Recommendation Commands:</strong></p>
+<pre><code class="language-bash">
+aws logs put-metric-filter --log-group-name &lt;trail-log-group-name&gt; --filter-name &lt;network-gw-changes-metric&gt; --metric-transformations metricName=&lt;network-gw-changes-metric&gt;,metricNamespace=CISBenchmark,metricValue=1 --filter-pattern &#x27;{ ($.eventName = CreateCustomerGateway) || ($.eventName = DeleteCustomerGateway) || ($.eventName = AttachInternetGateway) || ($.eventName = CreateInternetGateway) || ($.eventName = DeleteInternetGateway) || ($.eventName = DetachInternetGateway) }&#x27;
+aws cloudwatch put-metric-alarm --alarm-name &lt;network-gw-changes-alarm&gt; --metric-name &lt;network-gw-changes-metric&gt; --namespace CISBenchmark --statistic Sum --period 300 --threshold 1 --comparison-operator GreaterThanOrEqualToThreshold --evaluation-periods 1 --alarm-actions &lt;sns-arn&gt;
+</code></pre>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws logs describe-metric-filters --log-group-name &lt;log-group&gt;
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-json">
+{
+  &quot;LogGroup&quot;: null,
+  &quot;FilterPattern&quot;: &quot;{ ($.eventName = CreateCustomerGateway) || ($.eventName = DeleteCustomerGateway) || ($.eventName = AttachInternetGateway) || ($.eventName = CreateInternetGateway) || ($.eventName = DeleteInternetGateway) || ($.eventName = DetachInternetGateway) }&quot;
+}
+</code></pre>
+</div>
+<div class='finding MEDIUM' data-title='route table change metric/alarm review (manual) 5.13' data-status='WARNING'>
+<h3>Route Table Change Metric/Alarm Review (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>5.13</code></p>
+<p><strong>Resource:</strong> <span class='resource'>cloudwatch-logs</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Foundations Benchmark v6.0.0</p>
+<p>Verify metric filter and alarm exist for route table change events.</p>
+<p><strong>Recommendation (CIS):</strong> Create filter and alarm. Example:</p>
+<p><strong>Recommendation Commands:</strong></p>
+<pre><code class="language-bash">
+aws logs put-metric-filter --log-group-name &lt;trail-log-group-name&gt; --filter-name &lt;route-table-changes-metric&gt; --metric-transformations metricName=&lt;route-table-changes-metric&gt;,metricNamespace=CISBenchmark,metricValue=1 --filter-pattern &#x27;{ ($.eventSource = ec2.amazonaws.com) &amp;&amp; ($.eventName = CreateRoute) || ($.eventName = CreateRouteTable) || ($.eventName = ReplaceRoute) || ($.eventName = ReplaceRouteTableAssociation) || ($.eventName = DeleteRouteTable) || ($.eventName = DeleteRoute) || ($.eventName = DisassociateRouteTable) }&#x27;
+aws cloudwatch put-metric-alarm --alarm-name &lt;route-table-changes-alarm&gt; --metric-name &lt;route-table-changes-metric&gt; --namespace CISBenchmark --statistic Sum --period 300 --threshold 1 --comparison-operator GreaterThanOrEqualToThreshold --evaluation-periods 1 --alarm-actions &lt;sns-arn&gt;
+</code></pre>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws logs describe-metric-filters --log-group-name &lt;log-group&gt;
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-json">
+{
+  &quot;LogGroup&quot;: null,
+  &quot;FilterPattern&quot;: &quot;{ ($.eventSource = ec2.amazonaws.com) &amp;&amp; ($.eventName = CreateRoute) || ($.eventName = CreateRouteTable) || ($.eventName = ReplaceRoute) || ($.eventName = ReplaceRouteTableAssociation) || ($.eventName = DeleteRouteTable) || ($.eventName = DeleteRoute) || ($.eventName = DisassociateRouteTable) }&quot;
+}
+</code></pre>
+</div>
+<div class='finding MEDIUM' data-title='vpc change metric/alarm review (manual) 5.14' data-status='WARNING'>
+<h3>VPC Change Metric/Alarm Review (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>5.14</code></p>
+<p><strong>Resource:</strong> <span class='resource'>cloudwatch-logs</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Foundations Benchmark v6.0.0</p>
+<p>Verify metric filter and alarm exist for VPC change events and peering operations.</p>
+<p><strong>Recommendation (CIS):</strong> Create filter and alarm. Example:</p>
+<p><strong>Recommendation Commands:</strong></p>
+<pre><code class="language-bash">
+aws logs put-metric-filter --log-group-name &lt;trail-log-group-name&gt; --filter-name &lt;vpc-changes-metric&gt; --metric-transformations metricName=&lt;vpc-changes-metric&gt;,metricNamespace=CISBenchmark,metricValue=1 --filter-pattern &#x27;{ ($.eventName = CreateVpc) || ($.eventName = DeleteVpc) || ($.eventName = ModifyVpcAttribute) || ($.eventName = AcceptVpcPeeringConnection) || ($.eventName = CreateVpcPeeringConnection) || ($.eventName = DeleteVpcPeeringConnection) || ($.eventName = RejectVpcPeeringConnection) || ($.eventName = AttachClassicLinkVpc) || ($.eventName = DetachClassicLinkVpc) || ($.eventName = DisableVpcClassicLink) || ($.eventName = EnableVpcClassicLink) }&#x27;
+aws cloudwatch put-metric-alarm --alarm-name &lt;vpc-changes-alarm&gt; --metric-name &lt;vpc-changes-metric&gt; --namespace CISBenchmark --statistic Sum --period 300 --threshold 1 --comparison-operator GreaterThanOrEqualToThreshold --evaluation-periods 1 --alarm-actions &lt;sns-arn&gt;
+</code></pre>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws logs describe-metric-filters --log-group-name &lt;log-group&gt;
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-json">
+{
+  &quot;LogGroup&quot;: null,
+  &quot;FilterPattern&quot;: &quot;{ ($.eventName = CreateVpc) || ($.eventName = DeleteVpc) || ($.eventName = ModifyVpcAttribute) || ($.eventName = AcceptVpcPeeringConnection) || ($.eventName = CreateVpcPeeringConnection) || ($.eventName = DeleteVpcPeeringConnection) || ($.eventName = RejectVpcPeeringConnection) || ($.eventName = AttachClassicLinkVpc) || ($.eventName = DetachClassicLinkVpc) || ($.eventName = DisableVpcClassicLink) || ($.eventName = EnableVpcClassicLink) }&quot;
+}
+</code></pre>
+</div>
+<div class='finding MEDIUM' data-title='aws organizations change metric/alarm review (manual) 5.15' data-status='WARNING'>
+<h3>AWS Organizations Change Metric/Alarm Review (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>5.15</code></p>
+<p><strong>Resource:</strong> <span class='resource'>cloudwatch-logs</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Foundations Benchmark v6.0.0</p>
+<p>Verify metric filter and alarm exist for AWS Organizations management events.</p>
+<p><strong>Recommendation (CIS):</strong> Create filter and alarm. Example:</p>
+<p><strong>Recommendation Commands:</strong></p>
+<pre><code class="language-bash">
+aws logs put-metric-filter --log-group-name &lt;trail-log-group-name&gt; --filter-name &lt;organizations-changes&gt; --metric-transformations metricName=&lt;organizations-changes&gt;,metricNamespace=CISBenchmark,metricValue=1 --filter-pattern &#x27;{ ($.eventSource = organizations.amazonaws.com) &amp;&amp; (($.eventName = &quot;AcceptHandshake&quot;) || ($.eventName = &quot;AttachPolicy&quot;) || ($.eventName = &quot;CreateAccount&quot;) || ($.eventName = &quot;CreateOrganizationalUnit&quot;) || ($.eventName = &quot;CreatePolicy&quot;) || ($.eventName = &quot;DeclineHandshake&quot;) || ($.eventName = &quot;DeleteOrganization&quot;) || ($.eventName = &quot;DeleteOrganizationalUnit&quot;) || ($.eventName = &quot;DeletePolicy&quot;) || ($.eventName = &quot;DetachPolicy&quot;) || ($.eventName = &quot;DisablePolicyType&quot;) || ($.eventName = &quot;EnablePolicyType&quot;) || ($.eventName = &quot;InviteAccountToOrganization&quot;) || ($.eventName = &quot;LeaveOrganization&quot;) || ($.eventName = &quot;MoveAccount&quot;) || ($.eventName = &quot;RemoveAccountFromOrganization&quot;) || ($.eventName = &quot;UpdatePolicy&quot;) || ($.eventName = &quot;UpdateOrganizationalUnit&quot;)) }&#x27;
+aws cloudwatch put-metric-alarm --alarm-name &lt;organizations-changes&gt; --metric-name &lt;organizations-changes&gt; --namespace CISBenchmark --statistic Sum --period 300 --threshold 1 --comparison-operator GreaterThanOrEqualToThreshold --evaluation-periods 1 --alarm-actions &lt;sns-arn&gt;
+</code></pre>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws logs describe-metric-filters --log-group-name &lt;log-group&gt;
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-json">
+{
+  &quot;LogGroup&quot;: null,
+  &quot;FilterPattern&quot;: &quot;{ ($.eventSource = organizations.amazonaws.com) &amp;&amp; (($.eventName = \&quot;AcceptHandshake\&quot;) || ($.eventName = \&quot;AttachPolicy\&quot;) || ($.eventName = \&quot;CreateAccount\&quot;) || ($.eventName = \&quot;CreateOrganizationalUnit\&quot;) || ($.eventName = \&quot;CreatePolicy\&quot;) || ($.eventName = \&quot;DeclineHandshake\&quot;) || ($.eventName = \&quot;DeleteOrganization\&quot;) || ($.eventName = \&quot;DeleteOrganizationalUnit\&quot;) || ($.eventName = \&quot;DeletePolicy\&quot;) || ($.eventName = \&quot;DetachPolicy\&quot;) || ($.eventName = \&quot;DisablePolicyType\&quot;) || ($.eventName = \&quot;EnablePolicyType\&quot;) || ($.eventName = \&quot;InviteAccountToOrganization\&quot;) || ($.eventName = \&quot;LeaveOrganization\&quot;) || ($.eventName = \&quot;MoveAccount\&quot;) || ($.eventName = \&quot;RemoveAccountFromOrganization\&quot;) || ($.eventName = \&quot;UpdatePolicy\&quot;) || ($.eventName = \&quot;UpdateOrganizationalUnit\&quot;)) }&quot;
+}
+</code></pre>
+</div>
+<div class='finding MEDIUM' data-title='aws security hub not enabled 5.16' data-status='FAILED'>
+<h3>AWS Security Hub Not Enabled</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>5.16</code></p>
+<p><strong>Resource:</strong> <span class='resource'>securityhub:us-east-1</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Foundations Benchmark v6.0.0</p>
+<p>AWS Security Hub is not enabled in this region.</p>
+<p><strong>Recommendation (CIS):</strong> Enable Security Hub and core standards:</p>
+<p><strong>Recommendation Commands:</strong></p>
+<pre><code class="language-bash">
+aws securityhub enable-security-hub --region us-east-1 --enable-default-standards
+aws securityhub batch-enable-standards --region us-east-1 --standards-subscription-requests StandardsArn=arn:aws:securityhub:::ruleset/cis-aws-foundations-benchmark/v/1.2.0
+</code></pre>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws securityhub describe-hub --region us-east-1
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-json">
+{
+  &quot;Error&quot;: &quot;InvalidAccessException&quot;,
+  &quot;HubArn&quot;: null
+}
+</code></pre>
+</div>
+<div class='finding HIGH' data-title='default security group allows traffic 6.5' data-status='FAILED'>
+<h3>Default Security Group Allows Traffic</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>6.5</code></p>
+<p><strong>Resource:</strong> <span class='resource'>sg-0fc6f65f2c92828b1</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Foundations Benchmark v6.0.0</p>
+<p>Default security group 'sg-0fc6f65f2c92828b1' has rules allowing traffic.</p>
+<p><strong>Recommendation (CIS):</strong> Remove all inbound and outbound rules from default security group</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws ec2 describe-security-groups --group-ids sg-0fc6f65f2c92828b1 --query &#x27;SecurityGroups[0].{IpPermissions:IpPermissions,IpPermissionsEgress:IpPermissionsEgress}&#x27;
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-json">
+{
+  &quot;IpPermissions&quot;: [
+    {
+      &quot;IpProtocol&quot;: &quot;-1&quot;,
+      &quot;UserIdGroupPairs&quot;: [
+        {
+          &quot;UserId&quot;: &quot;471112791259&quot;,
+          &quot;GroupId&quot;: &quot;sg-0fc6f65f2c92828b1&quot;
+        }
+      ],
+      &quot;IpRanges&quot;: [],
+      &quot;Ipv6Ranges&quot;: [],
+      &quot;PrefixListIds&quot;: []
+    }
+  ],
+  &quot;IpPermissionsEgress&quot;: [
+    {
+      &quot;IpProtocol&quot;: &quot;-1&quot;,
+      &quot;UserIdGroupPairs&quot;: [],
+      &quot;IpRanges&quot;: [
+        {
+          &quot;CidrIp&quot;: &quot;0.0.0.0/0&quot;
+        }
+      ],
+      &quot;Ipv6Ranges&quot;: [],
+      &quot;PrefixListIds&quot;: []
+    }
+  ]
+}
+</code></pre>
+</div>
+<div class='finding HIGH' data-title='default security group allows traffic 6.5' data-status='FAILED'>
+<h3>Default Security Group Allows Traffic</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>6.5</code></p>
+<p><strong>Resource:</strong> <span class='resource'>sg-07778c019a2cbf2f1</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Foundations Benchmark v6.0.0</p>
+<p>Default security group 'sg-07778c019a2cbf2f1' has rules allowing traffic.</p>
+<p><strong>Recommendation (CIS):</strong> Remove all inbound and outbound rules from default security group</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws ec2 describe-security-groups --group-ids sg-07778c019a2cbf2f1 --query &#x27;SecurityGroups[0].{IpPermissions:IpPermissions,IpPermissionsEgress:IpPermissionsEgress}&#x27;
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-json">
+{
+  &quot;IpPermissions&quot;: [
+    {
+      &quot;IpProtocol&quot;: &quot;-1&quot;,
+      &quot;UserIdGroupPairs&quot;: [
+        {
+          &quot;UserId&quot;: &quot;471112791259&quot;,
+          &quot;GroupId&quot;: &quot;sg-07778c019a2cbf2f1&quot;
+        }
+      ],
+      &quot;IpRanges&quot;: [],
+      &quot;Ipv6Ranges&quot;: [],
+      &quot;PrefixListIds&quot;: []
+    }
+  ],
+  &quot;IpPermissionsEgress&quot;: [
+    {
+      &quot;IpProtocol&quot;: &quot;-1&quot;,
+      &quot;UserIdGroupPairs&quot;: [],
+      &quot;IpRanges&quot;: [
+        {
+          &quot;CidrIp&quot;: &quot;0.0.0.0/0&quot;
+        }
+      ],
+      &quot;Ipv6Ranges&quot;: [],
+      &quot;PrefixListIds&quot;: []
+    }
+  ]
+}
+</code></pre>
+</div>
+<div class='finding MEDIUM' data-title='vpc internet gateway exposure review (manual) 6.m1' data-status='WARNING'>
+<h3>VPC Internet Gateway Exposure Review (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>6.M1</code></p>
+<p><strong>Resource:</strong> <span class='resource'>ec2:us-east-1:internet-gateways</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Foundations Benchmark v6.0.0</p>
+<p>Verify only intended public subnets route 0.0.0.0/0 to Internet Gateways; ensure private subnets do not.</p>
+<p><strong>Recommendation (CIS):</strong> Audit route tables and detach unused Internet Gateways; ensure private subnets route through NAT Gateways only.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws ec2 describe-internet-gateways --region us-east-1; aws ec2 describe-route-tables --region us-east-1 --query &#x27;RouteTables[].Routes[?DestinationCidrBlock==`0.0.0.0/0`]&#x27;
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-json">
+{
+  &quot;routesToIGW&quot;: [
+    {
+      &quot;DestinationCidrBlock&quot;: &quot;0.0.0.0/0&quot;,
+      &quot;GatewayId&quot;: &quot;igw-0123456789abcdef0&quot;
+    }
+  ]
+}
+</code></pre>
+</div>
+<div class='finding HIGH' data-title='nacl allows admin port from internet 6.2' data-status='FAILED'>
+<h3>NACL Allows Admin Port from Internet</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>6.2</code></p>
+<p><strong>Resource:</strong> <span class='resource'>acl-0d7391ed8b9e588a3</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Foundations Benchmark v6.0.0</p>
+<p>Network ACL has inbound allow rule for SSH/RDP or ALL from the Internet.</p>
+<p><strong>Recommendation (CIS):</strong> Restrict NACL inbound rules to trusted CIDRs; remove 0.0.0.0/0 or ::/0 for admin ports.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws ec2 describe-network-acls --network-acl-ids acl-0d7391ed8b9e588a3
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-json">
+{
+  &quot;CidrBlock&quot;: &quot;0.0.0.0/0&quot;,
+  &quot;PortRange&quot;: {},
+  &quot;Protocol&quot;: &quot;-1&quot;,
+  &quot;RuleAction&quot;: &quot;allow&quot;
+}
+</code></pre>
+</div>
+<div class='finding HIGH' data-title='nacl allows admin port from internet 6.2' data-status='FAILED'>
+<h3>NACL Allows Admin Port from Internet</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>6.2</code></p>
+<p><strong>Resource:</strong> <span class='resource'>acl-0432f962610d9b42c</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Foundations Benchmark v6.0.0</p>
+<p>Network ACL has inbound allow rule for SSH/RDP or ALL from the Internet.</p>
+<p><strong>Recommendation (CIS):</strong> Restrict NACL inbound rules to trusted CIDRs; remove 0.0.0.0/0 or ::/0 for admin ports.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws ec2 describe-network-acls --network-acl-ids acl-0432f962610d9b42c
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-json">
+{
+  &quot;CidrBlock&quot;: &quot;0.0.0.0/0&quot;,
+  &quot;PortRange&quot;: {},
+  &quot;Protocol&quot;: &quot;-1&quot;,
+  &quot;RuleAction&quot;: &quot;allow&quot;
+}
+</code></pre>
+</div>
+<div class='finding MEDIUM' data-title='approved/golden amis policy requires review (manual) 2.1.3' data-status='WARNING'>
+<h3>Approved/Golden AMIs Policy Requires Review (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>2.1.3</code></p>
+<p><strong>Resource:</strong> <span class='resource'>ec2:amis</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Compute Services Benchmark v1.1.0</p>
+<p>Verify that only approved/golden AMIs are used. Maintain an allowlist (e.g., via tags Approved=true) and enforce in pipelines and provisioning.</p>
+<p><strong>Recommendation (CIS):</strong> Document the list of approved AMIs, tag them (Approved=true, Owner=Platform), and enforce via IaC/policies.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws ec2 describe-images --owners self --filters Name=tag:Approved,Values=true --query &#x27;Images[].{ImageId:ImageId,Name:Name,Approved:Tags[?Key==`Approved`].Value|[0]}&#x27;
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-json">
+{
+  &quot;ApprovedImages&quot;: []
+}
+</code></pre>
+</div>
+<div class='finding HIGH' data-title='ebs encryption by default not enabled 2.2.1' data-status='FAILED'>
+<h3>EBS Encryption By Default Not Enabled</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>2.2.1</code></p>
+<p><strong>Resource:</strong> <span class='resource'>ec2:ebs:encryption:us-east-1</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Compute Services Benchmark v1.1.0</p>
+<p>EBS encryption by default is not enabled for this region. New volumes will not be automatically encrypted.</p>
+<p><strong>Recommendation (CIS):</strong> Enable EBS encryption by default and set a default KMS key if required:</p>
+<p><strong>Recommendation Commands:</strong></p>
+<pre><code class="language-bash">
+aws ec2 enable-ebs-encryption-by-default --region us-east-1
+aws ec2 modify-ebs-default-kms-key-id --kms-key-id &lt;kms-arn&gt; --region us-east-1
+</code></pre>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws ec2 get-ebs-encryption-by-default --region us-east-1
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-json">
+{
+  &quot;EbsEncryptionByDefault&quot;: false,
+  &quot;ResponseMetadata&quot;: {
+    &quot;RequestId&quot;: &quot;9aa708d8-f768-40e0-aed7-74f7e7a2e55d&quot;,
+    &quot;HTTPStatusCode&quot;: 200,
+    &quot;HTTPHeaders&quot;: {
+      &quot;x-amzn-requestid&quot;: &quot;9aa708d8-f768-40e0-aed7-74f7e7a2e55d&quot;,
+      &quot;cache-control&quot;: &quot;no-cache, no-store&quot;,
+      &quot;strict-transport-security&quot;: &quot;max-age=31536000; includeSubDomains&quot;,
+      &quot;vary&quot;: &quot;accept-encoding&quot;,
+      &quot;content-type&quot;: &quot;text/xml;charset=UTF-8&quot;,
+      &quot;transfer-encoding&quot;: &quot;chunked&quot;,
+      &quot;date&quot;: &quot;Thu, 30 Oct 2025 15:22:43 GMT&quot;,
+      &quot;server&quot;: &quot;AmazonEC2&quot;
+    },
+    &quot;RetryAttempts&quot;: 0
+  }
+}
+</code></pre>
+</div>
+<div class='finding MEDIUM' data-title='ebs snapshot cross-account sharing review (manual) 2.2.m1' data-status='WARNING'>
+<h3>EBS Snapshot Cross-Account Sharing Review (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>2.2.M1</code></p>
+<p><strong>Resource:</strong> <span class='resource'>ec2:us-east-1:snapshots</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Compute Services Benchmark v1.1.0</p>
+<p>Verify snapshots are not shared broadly and only with approved external accounts.</p>
+<p><strong>Recommendation (CIS):</strong> Remove unnecessary createVolume permissions and enforce approvals for sharing.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws ec2 describe-snapshots --owner-ids self --region us-east-1; aws ec2 describe-snapshot-attribute --snapshot-id &lt;snap-id&gt; --attribute createVolumePermission
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-json">
+{
+  &quot;CreateVolumePermission&quot;: [
+    {
+      &quot;UserId&quot;: &quot;123456789012&quot;
+    }
+  ]
+}
+</code></pre>
+</div>
+<div class='finding LOW' data-title='unable to check tag policies 2.3' data-status='WARNING'>
+<h3>Unable to Check Tag Policies</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> LOW | <strong>Check ID:</strong> <code>2.3</code></p>
+<p><strong>Resource:</strong> <span class='resource'>organizations</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Compute Services Benchmark v1.1.0</p>
+<p>Could not verify tag policies: An error occurred (AWSOrganizationsNotInUseException) when calling the ListPolicies operation: Your account is not a member of an organization.</p>
+<p><strong>Recommendation (CIS):</strong> Verify Organizations permissions and that you are in management account</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws &lt;service&gt; &lt;describe|get&gt; ... --output json
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-bash">
+No evidence provided
+</code></pre>
+</div>
+<div class='finding LOW' data-title='unable to review ec2 tag policy 2.4' data-status='WARNING'>
+<h3>Unable to Review EC2 Tag Policy</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> LOW | <strong>Check ID:</strong> <code>2.4</code></p>
+<p><strong>Resource:</strong> <span class='resource'>organizations</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Compute Services Benchmark v1.1.0</p>
+<p>Could not review tag policy: An error occurred (AWSOrganizationsNotInUseException) when calling the ListPolicies operation: Your account is not a member of an organization.</p>
+<p><strong>Recommendation (CIS):</strong> Verify Organizations permissions and that you are in management account</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws &lt;service&gt; &lt;describe|get&gt; ... --output json
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-bash">
+No evidence provided
+</code></pre>
+</div>
+<div class='finding MEDIUM' data-title='unable to check instance age 2.5' data-status='WARNING'>
+<h3>Unable to Check Instance Age</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>2.5</code></p>
+<p><strong>Resource:</strong> <span class='resource'>ec2:instances</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Compute Services Benchmark v1.1.0</p>
+<p>Could not verify instance age: type object 'datetime.datetime' has no attribute 'timezone'</p>
+<p><strong>Recommendation (CIS):</strong> Verify AWS permissions for ec2:DescribeInstances</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws &lt;service&gt; &lt;describe|get&gt; ... --output json
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-bash">
+No evidence provided
+</code></pre>
+</div>
+<div class='finding MEDIUM' data-title='ec2 instance not managed by systems manager 2.9' data-status='FAILED'>
+<h3>EC2 Instance Not Managed by Systems Manager</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>2.9</code></p>
+<p><strong>Resource:</strong> <span class='resource'>i-0554f34dc08ccd8ea</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Compute Services Benchmark v1.1.0</p>
+<p>EC2 instance is not managed by AWS Systems Manager. This limits management capabilities.</p>
+<p><strong>Recommendation (CIS):</strong> Install SSM Agent and attach IAM role with AmazonSSMManagedInstanceCore policy</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws ssm describe-instance-information --query &#x27;InstanceInformationList[].InstanceId&#x27; --region us-east-1
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-json">
+{
+  &quot;ManagedInstanceIds&quot;: []
+}
+</code></pre>
+</div>
+<div class='finding LOW' data-title='unable to check stopped instances 2.11' data-status='WARNING'>
+<h3>Unable to Check Stopped Instances</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> LOW | <strong>Check ID:</strong> <code>2.11</code></p>
+<p><strong>Resource:</strong> <span class='resource'>ec2:instances</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Compute Services Benchmark v1.1.0</p>
+<p>Could not verify stopped instances: type object 'datetime.datetime' has no attribute 'timezone'</p>
+<p><strong>Recommendation (CIS):</strong> Verify AWS permissions for ec2:DescribeInstances</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws &lt;service&gt; &lt;describe|get&gt; ... --output json
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-bash">
+No evidence provided
+</code></pre>
+</div>
+<div class='finding LOW' data-title='ecs task image tagging requires review (manual) 3.m1' data-status='WARNING'>
+<h3>ECS Task Image Tagging Requires Review (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> LOW | <strong>Check ID:</strong> <code>3.M1</code></p>
+<p><strong>Resource:</strong> <span class='resource'>ecs:task-definitions</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Compute Services Benchmark v1.1.0</p>
+<p>Verify that images in ECS task definitions are pinned to immutable digests (e.g., @sha256:...) and do not use floating tags like 'latest'.</p>
+<p><strong>Recommendation (CIS):</strong> Pin images to digests; avoid &#x27;latest&#x27; to ensure reproducible deployments.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws ecs describe-task-definition --task-definition &lt;family:revision&gt; --query &#x27;taskDefinition.containerDefinitions[].image&#x27;
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-json">
+{
+  &quot;images&quot;: [
+    &quot;repo/app:latest&quot;
+  ]
+}
+</code></pre>
+</div>
+<div class='finding MEDIUM' data-title='ecs task iam roles least privilege review (manual) 3.m2' data-status='WARNING'>
+<h3>ECS Task IAM Roles Least Privilege Review (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>3.M2</code></p>
+<p><strong>Resource:</strong> <span class='resource'>ecs:task-iam-roles</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Compute Services Benchmark v1.1.0</p>
+<p>Review task execution role and task role policies for least privilege and remove wildcard actions/resources.</p>
+<p><strong>Recommendation (CIS):</strong> Constrain IAM policies to required actions/resources and avoid &#x27;*&#x27;.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws ecs describe-task-definition --task-definition &lt;family:revision&gt; --query &#x27;taskDefinition.{ExecutionRoleArn:executionRoleArn,TaskRoleArn:taskRoleArn}&#x27;
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-json">
+{
+  &quot;ExecutionRolePolicy&quot;: &quot;Contains Action:*&quot;
+}
+</code></pre>
+</div>
+<div class='finding LOW' data-title='lambda code signing configuration review (manual) 12.m1' data-status='WARNING'>
+<h3>Lambda Code Signing Configuration Review (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> LOW | <strong>Check ID:</strong> <code>12.M1</code></p>
+<p><strong>Resource:</strong> <span class='resource'>lambda:code-signing</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Compute Services Benchmark v1.1.0</p>
+<p>Verify functions are associated with Code Signing Configs that enforce signature validation and trusted publishers.</p>
+<p><strong>Recommendation (CIS):</strong> Associate functions with a Code Signing Config and restrict to trusted signing profiles.</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws lambda list-functions --query &#x27;Functions[].FunctionName&#x27; ; aws lambda get-function-code-signing-config --function-name &lt;function&gt;
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-json">
+{
+  &quot;Function&quot;: &quot;example-func&quot;,
+  &quot;CodeSigningConfigArn&quot;: null
+}
+</code></pre>
+</div>
+<div class='finding HIGH' data-title='error running cis database services checks database.error' data-status='WARNING'>
+<h3>Error Running CIS Database Services Checks</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>DATABASE.ERROR</code></p>
+<p><strong>Resource:</strong> <span class='resource'>aws:cis-databases</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Database Services Benchmark v1.0.0</p>
+<p>Failed to run CIS Database Services Benchmark checks: BaseDatabaseChecker.create_finding() got an unexpected keyword argument 'command'</p>
+<p><strong>Recommendation (CIS):</strong> Verify AWS credentials and permissions for database services</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws &lt;service&gt; &lt;describe|get&gt; ... --output json
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-bash">
+No evidence provided
+</code></pre>
+</div>
+<div class='finding MEDIUM' data-title='ensure administration of workspaces is defined using iam workspaces_2.1' data-status='FAILED'>
+<h3>Ensure Administration of WorkSpaces is defined using IAM</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>workspaces_2.1</code></p>
+<p><strong>Resource:</strong> <span class='resource'>aws:workspaces:administration</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS End User Compute Services Benchmark v1.2.0</p>
+<p>WorkSpaces administration IAM policies not properly configured</p>
+<p><strong>Recommendation (CIS):</strong> Configure proper IAM policies for WorkSpaces administration</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws &lt;service&gt; &lt;describe|get&gt; ... --output json
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-bash">
+No evidence provided
+</code></pre>
+</div>
+<div class='finding HIGH' data-title='ensure workspace volumes are encrypted workspaces_2.3' data-status='PASSED'>
+<h3>Ensure WorkSpace volumes are encrypted</h3>
+<p><span class='badge PASSED'>PASSED</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>workspaces_2.3</code></p>
+<p><strong>Resource:</strong> <span class='resource'>aws:workspaces:volumes</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS End User Compute Services Benchmark v1.2.0</p>
+<p>WorkSpaces volumes are properly encrypted</p>
+<p><strong>Recommendation (CIS):</strong> Continue monitoring encryption settings</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws &lt;service&gt; &lt;describe|get&gt; ... --output json
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-bash">
+No evidence provided
+</code></pre>
+</div>
+<div class='finding MEDIUM' data-title='ensure workspaces web portal is configured with proper authentication workspaces_web_3.1' data-status='WARNING'>
+<h3>Ensure WorkSpaces Web portal is configured with proper authentication</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>workspaces_web_3.1</code></p>
+<p><strong>Resource:</strong> <span class='resource'>aws:workspaces-web:authentication</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS End User Compute Services Benchmark v1.2.0</p>
+<p>WorkSpaces Web authentication configuration needs review</p>
+<p><strong>Recommendation (CIS):</strong> Configure proper identity providers for WorkSpaces Web portals</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws &lt;service&gt; &lt;describe|get&gt; ... --output json
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-bash">
+No evidence provided
+</code></pre>
+</div>
+<div class='finding MEDIUM' data-title='ensure workdocs sites have proper access controls workdocs_4.1' data-status='INFO'>
+<h3>Ensure WorkDocs sites have proper access controls</h3>
+<p><span class='badge INFO'>INFO</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>workdocs_4.1</code></p>
+<p><strong>Resource:</strong> <span class='resource'>aws:workdocs:access-controls</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS End User Compute Services Benchmark v1.2.0</p>
+<p>WorkDocs access controls require manual verification</p>
+<p><strong>Recommendation (CIS):</strong> Review and configure proper user access controls for WorkDocs sites</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws &lt;service&gt; &lt;describe|get&gt; ... --output json
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-bash">
+No evidence provided
+</code></pre>
+</div>
+<div class='finding MEDIUM' data-title='ensure appstream 2.0 stacks have proper security groups configured appstream_5.1' data-status='WARNING'>
+<h3>Ensure AppStream 2.0 stacks have proper security groups configured</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>appstream_5.1</code></p>
+<p><strong>Resource:</strong> <span class='resource'>aws:appstream:security-groups</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS End User Compute Services Benchmark v1.2.0</p>
+<p>AppStream security groups need review for overly permissive rules</p>
+<p><strong>Recommendation (CIS):</strong> Review and tighten security group rules</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws &lt;service&gt; &lt;describe|get&gt; ... --output json
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-bash">
+No evidence provided
+</code></pre>
+</div>
+<div class='finding HIGH' data-title='ensure appstream 2.0 fleets have encryption enabled appstream_5.2' data-status='PASSED'>
+<h3>Ensure AppStream 2.0 fleets have encryption enabled</h3>
+<p><span class='badge PASSED'>PASSED</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>appstream_5.2</code></p>
+<p><strong>Resource:</strong> <span class='resource'>aws:appstream:encryption</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS End User Compute Services Benchmark v1.2.0</p>
+<p>AppStream 2.0 fleets have encryption enabled</p>
+<p><strong>Recommendation (CIS):</strong> Continue monitoring encryption settings</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws &lt;service&gt; &lt;describe|get&gt; ... --output json
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-bash">
+No evidence provided
+</code></pre>
+</div>
+<div class='finding MEDIUM' data-title='aws storage backups (manual) backup_1.1' data-status='WARNING'>
+<h3>AWS Storage Backups (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>backup_1.1</code></p>
+<p><strong>Resource:</strong> <span class='resource'>aws:backup:storage</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Storage Services Benchmark v1.0.0</p>
+<p>AWS Storage Backups configuration needs review</p>
+<p><strong>Recommendation (CIS):</strong> Configure AWS Backup service for high resiliency</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws &lt;service&gt; &lt;describe|get&gt; ... --output json
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-bash">
+No evidence provided
+</code></pre>
+</div>
+<div class='finding MEDIUM' data-title='ensure securing aws backups (manual) backup_1.2' data-status='WARNING'>
+<h3>Ensure securing AWS Backups (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>backup_1.2</code></p>
+<p><strong>Resource:</strong> <span class='resource'>aws:backup:security</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Storage Services Benchmark v1.0.0</p>
+<p>AWS Backup security configuration needs review</p>
+<p><strong>Recommendation (CIS):</strong> Implement proper security measures for AWS Backups</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws &lt;service&gt; &lt;describe|get&gt; ... --output json
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-bash">
+No evidence provided
+</code></pre>
+</div>
+<div class='finding LOW' data-title='ensure to create backup template and name (manual) backup_1.3' data-status='INFO'>
+<h3>Ensure to create backup template and name (Manual)</h3>
+<p><span class='badge INFO'>INFO</span> <strong>Severity:</strong> LOW | <strong>Check ID:</strong> <code>backup_1.3</code></p>
+<p><strong>Resource:</strong> <span class='resource'>aws:backup:template</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Storage Services Benchmark v1.0.0</p>
+<p>Backup template configuration is in place</p>
+<p><strong>Recommendation (CIS):</strong> Review backup template naming conventions</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws &lt;service&gt; &lt;describe|get&gt; ... --output json
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-bash">
+No evidence provided
+</code></pre>
+</div>
+<div class='finding MEDIUM' data-title='ensure to create aws iam policies (manual) backup_1.4' data-status='WARNING'>
+<h3>Ensure to create AWS IAM Policies (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>backup_1.4</code></p>
+<p><strong>Resource:</strong> <span class='resource'>aws:backup:iam-policies</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Storage Services Benchmark v1.0.0</p>
+<p>AWS Backup IAM policies need review</p>
+<p><strong>Recommendation (CIS):</strong> Create and configure appropriate IAM policies for AWS Backup</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws &lt;service&gt; &lt;describe|get&gt; ... --output json
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-bash">
+No evidence provided
+</code></pre>
+</div>
+<div class='finding MEDIUM' data-title='ensure to create iam roles for backup (manual) backup_1.5' data-status='WARNING'>
+<h3>Ensure to create IAM roles for Backup (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>backup_1.5</code></p>
+<p><strong>Resource:</strong> <span class='resource'>aws:backup:iam-roles</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Storage Services Benchmark v1.0.0</p>
+<p>AWS Backup IAM roles need review</p>
+<p><strong>Recommendation (CIS):</strong> Create and configure appropriate IAM roles for AWS Backup</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws &lt;service&gt; &lt;describe|get&gt; ... --output json
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-bash">
+No evidence provided
+</code></pre>
+</div>
+<div class='finding LOW' data-title='ensure aws backup with service linked roles (manual) backup_1.6' data-status='INFO'>
+<h3>Ensure AWS Backup with Service Linked Roles (Manual)</h3>
+<p><span class='badge INFO'>INFO</span> <strong>Severity:</strong> LOW | <strong>Check ID:</strong> <code>backup_1.6</code></p>
+<p><strong>Resource:</strong> <span class='resource'>aws:backup:service-linked-roles</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Storage Services Benchmark v1.0.0</p>
+<p>Service Linked Roles for AWS Backup are configured</p>
+<p><strong>Recommendation (CIS):</strong> Review Service Linked Roles configuration</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws &lt;service&gt; &lt;describe|get&gt; ... --output json
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-bash">
+No evidence provided
+</code></pre>
+</div>
+<div class='finding MEDIUM' data-title='ensure creating ec2 instance with ebs (manual) ebs_2.1' data-status='WARNING'>
+<h3>Ensure creating EC2 instance with EBS (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>ebs_2.1</code></p>
+<p><strong>Resource:</strong> <span class='resource'>aws:ebs:ec2-instance</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Storage Services Benchmark v1.0.0</p>
+<p>EC2 instance with EBS configuration needs review</p>
+<p><strong>Recommendation (CIS):</strong> Ensure EC2 instances are properly configured with EBS volumes</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws &lt;service&gt; &lt;describe|get&gt; ... --output json
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-bash">
+No evidence provided
+</code></pre>
+</div>
+<div class='finding HIGH' data-title='ensure configuring security groups (manual) ebs_2.2' data-status='FAILED'>
+<h3>Ensure configuring Security Groups (Manual)</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>ebs_2.2</code></p>
+<p><strong>Resource:</strong> <span class='resource'>aws:ebs:security-groups</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Storage Services Benchmark v1.0.0</p>
+<p>Security groups for EBS are not properly configured</p>
+<p><strong>Recommendation (CIS):</strong> Configure security groups to restrict traffic to necessary ports only</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws &lt;service&gt; &lt;describe|get&gt; ... --output json
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-bash">
+No evidence provided
+</code></pre>
+</div>
+<div class='finding HIGH' data-title='ensure the proper configuration of ebs storage (manual) ebs_2.3' data-status='PASSED'>
+<h3>Ensure the proper configuration of EBS storage (Manual)</h3>
+<p><span class='badge PASSED'>PASSED</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>ebs_2.3</code></p>
+<p><strong>Resource:</strong> <span class='resource'>aws:ebs:storage</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Storage Services Benchmark v1.0.0</p>
+<p>EBS storage is properly configured</p>
+<p><strong>Recommendation (CIS):</strong> Continue monitoring EBS configuration</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws &lt;service&gt; &lt;describe|get&gt; ... --output json
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-bash">
+No evidence provided
+</code></pre>
+</div>
+<div class='finding MEDIUM' data-title='ensure the creation of a new volume (manual) ebs_2.4' data-status='WARNING'>
+<h3>Ensure the creation of a new volume (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>ebs_2.4</code></p>
+<p><strong>Resource:</strong> <span class='resource'>aws:ebs:new-volume</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Storage Services Benchmark v1.0.0</p>
+<p>New EBS volume creation process needs review</p>
+<p><strong>Recommendation (CIS):</strong> Ensure proper volume creation with encryption and delete protection</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws &lt;service&gt; &lt;describe|get&gt; ... --output json
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-bash">
+No evidence provided
+</code></pre>
+</div>
+<div class='finding HIGH' data-title='ensure creating snapshots of ebs volumes (manual) ebs_2.5' data-status='WARNING'>
+<h3>Ensure creating snapshots of EBS volumes (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>ebs_2.5</code></p>
+<p><strong>Resource:</strong> <span class='resource'>aws:ebs:snapshots</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Storage Services Benchmark v1.0.0</p>
+<p>EBS volume snapshots are not being created regularly</p>
+<p><strong>Recommendation (CIS):</strong> Implement regular EBS volume snapshots for data protection</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws &lt;service&gt; &lt;describe|get&gt; ... --output json
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-bash">
+No evidence provided
+</code></pre>
+</div>
+<div class='finding MEDIUM' data-title='efs (manual) efs_3.1' data-status='INFO'>
+<h3>EFS (Manual)</h3>
+<p><span class='badge INFO'>INFO</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>efs_3.1</code></p>
+<p><strong>Resource:</strong> <span class='resource'>aws:efs:filesystem</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Storage Services Benchmark v1.0.0</p>
+<p>EFS file system is configured</p>
+<p><strong>Recommendation (CIS):</strong> Review EFS configuration regularly</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws &lt;service&gt; &lt;describe|get&gt; ... --output json
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-bash">
+No evidence provided
+</code></pre>
+</div>
+<div class='finding MEDIUM' data-title='ensure implementation of efs (manual) efs_3.2' data-status='WARNING'>
+<h3>Ensure Implementation of EFS (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>efs_3.2</code></p>
+<p><strong>Resource:</strong> <span class='resource'>aws:efs:implementation</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Storage Services Benchmark v1.0.0</p>
+<p>EFS implementation needs review</p>
+<p><strong>Recommendation (CIS):</strong> Ensure proper EFS implementation with encryption</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws &lt;service&gt; &lt;describe|get&gt; ... --output json
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-bash">
+No evidence provided
+</code></pre>
+</div>
+<div class='finding MEDIUM' data-title='ensure efs and vpc integration (manual) efs_3.3' data-status='WARNING'>
+<h3>Ensure EFS and VPC Integration (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>efs_3.3</code></p>
+<p><strong>Resource:</strong> <span class='resource'>aws:efs:vpc-integration</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Storage Services Benchmark v1.0.0</p>
+<p>EFS and VPC integration needs review</p>
+<p><strong>Recommendation (CIS):</strong> Ensure proper EFS and VPC integration for redundancy</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws &lt;service&gt; &lt;describe|get&gt; ... --output json
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-bash">
+No evidence provided
+</code></pre>
+</div>
+<div class='finding MEDIUM' data-title='fsx (aws elastic file cache) (manual) fsx_4.1' data-status='INFO'>
+<h3>FSX (AWS Elastic File Cache) (Manual)</h3>
+<p><span class='badge INFO'>INFO</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>fsx_4.1</code></p>
+<p><strong>Resource:</strong> <span class='resource'>aws:fsx:file-cache</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Storage Services Benchmark v1.0.0</p>
+<p>AWS Elastic File Cache is configured</p>
+<p><strong>Recommendation (CIS):</strong> Review FSx file cache configuration</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws &lt;service&gt; &lt;describe|get&gt; ... --output json
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-bash">
+No evidence provided
+</code></pre>
+</div>
+<div class='finding MEDIUM' data-title='amazon elastic file cache (manual) fsx_4.2' data-status='WARNING'>
+<h3>Amazon Elastic File Cache (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>fsx_4.2</code></p>
+<p><strong>Resource:</strong> <span class='resource'>aws:fsx:elastic-file-cache</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Storage Services Benchmark v1.0.0</p>
+<p>Elastic File Cache configuration needs review</p>
+<p><strong>Recommendation (CIS):</strong> Ensure proper Elastic File Cache configuration</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws &lt;service&gt; &lt;describe|get&gt; ... --output json
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-bash">
+No evidence provided
+</code></pre>
+</div>
+<div class='finding MEDIUM' data-title='ensure the creation of an fsx bucket (manual) fsx_4.3' data-status='WARNING'>
+<h3>Ensure the creation of an FSX Bucket (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>fsx_4.3</code></p>
+<p><strong>Resource:</strong> <span class='resource'>aws:fsx:s3-bucket</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Storage Services Benchmark v1.0.0</p>
+<p>S3 bucket for FSx needs creation</p>
+<p><strong>Recommendation (CIS):</strong> Create and configure S3 bucket for FSx data storage</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws &lt;service&gt; &lt;describe|get&gt; ... --output json
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-bash">
+No evidence provided
+</code></pre>
+</div>
+<div class='finding MEDIUM' data-title='amazon simple storage service (manual) s3_5.1' data-status='WARNING'>
+<h3>Amazon Simple Storage Service (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>s3_5.1</code></p>
+<p><strong>Resource:</strong> <span class='resource'>aws:s3:bucket</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Storage Services Benchmark v1.0.0</p>
+<p>S3 bucket configuration needs review</p>
+<p><strong>Recommendation (CIS):</strong> Configure S3 with proper access controls and encryption</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws &lt;service&gt; &lt;describe|get&gt; ... --output json
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-bash">
+No evidence provided
+</code></pre>
+</div>
+<div class='finding MEDIUM' data-title='ensure direct data addition to s3 (manual) s3_5.2' data-status='WARNING'>
+<h3>Ensure direct data addition to S3 (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>s3_5.2</code></p>
+<p><strong>Resource:</strong> <span class='resource'>aws:s3:data-addition</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Storage Services Benchmark v1.0.0</p>
+<p>Direct data addition to S3 process needs review</p>
+<p><strong>Recommendation (CIS):</strong> Ensure secure direct data addition to S3</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws &lt;service&gt; &lt;describe|get&gt; ... --output json
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-bash">
+No evidence provided
+</code></pre>
+</div>
+<div class='finding MEDIUM' data-title='ensure storage classes are configured (manual) s3_5.3' data-status='WARNING'>
+<h3>Ensure Storage Classes are Configured (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>s3_5.3</code></p>
+<p><strong>Resource:</strong> <span class='resource'>aws:s3:storage-classes</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Storage Services Benchmark v1.0.0</p>
+<p>S3 storage classes need proper configuration</p>
+<p><strong>Recommendation (CIS):</strong> Configure appropriate S3 storage classes for cost optimization</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws &lt;service&gt; &lt;describe|get&gt; ... --output json
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-bash">
+No evidence provided
+</code></pre>
+</div>
+<div class='finding HIGH' data-title='ensure elastic disaster recovery is configured (manual) edr_6.1' data-status='FAILED'>
+<h3>Ensure Elastic Disaster Recovery is Configured (Manual)</h3>
+<p><span class='badge FAILED'>FAILED</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>edr_6.1</code></p>
+<p><strong>Resource:</strong> <span class='resource'>aws:edr:disaster-recovery</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Storage Services Benchmark v1.0.0</p>
+<p>Elastic Disaster Recovery is not properly configured</p>
+<p><strong>Recommendation (CIS):</strong> Configure AWS Elastic Disaster Recovery for high resiliency</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws &lt;service&gt; &lt;describe|get&gt; ... --output json
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-bash">
+No evidence provided
+</code></pre>
+</div>
+<div class='finding HIGH' data-title='ensure aws disaster recovery configuration (manual) edr_6.2' data-status='WARNING'>
+<h3>Ensure AWS Disaster Recovery Configuration (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> HIGH | <strong>Check ID:</strong> <code>edr_6.2</code></p>
+<p><strong>Resource:</strong> <span class='resource'>aws:edr:configuration</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Storage Services Benchmark v1.0.0</p>
+<p>AWS Disaster Recovery configuration needs review</p>
+<p><strong>Recommendation (CIS):</strong> Review and update AWS Disaster Recovery configuration</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws &lt;service&gt; &lt;describe|get&gt; ... --output json
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-bash">
+No evidence provided
+</code></pre>
+</div>
+<div class='finding MEDIUM' data-title='ensure functionality of endpoint detection and response (edr) (manual) edr_6.3' data-status='WARNING'>
+<h3>Ensure functionality of Endpoint Detection and Response (EDR) (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>edr_6.3</code></p>
+<p><strong>Resource:</strong> <span class='resource'>aws:edr:endpoint-detection</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Storage Services Benchmark v1.0.0</p>
+<p>Endpoint Detection and Response functionality needs review</p>
+<p><strong>Recommendation (CIS):</strong> Ensure EDR functionality is properly configured</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws &lt;service&gt; &lt;describe|get&gt; ... --output json
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-bash">
+No evidence provided
+</code></pre>
+</div>
+<div class='finding MEDIUM' data-title='ensure configuration of replication settings (manual) edr_6.4' data-status='WARNING'>
+<h3>Ensure configuration of replication settings (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>edr_6.4</code></p>
+<p><strong>Resource:</strong> <span class='resource'>aws:edr:replication-settings</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Storage Services Benchmark v1.0.0</p>
+<p>Replication settings need configuration</p>
+<p><strong>Recommendation (CIS):</strong> Configure proper replication settings for disaster recovery</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws &lt;service&gt; &lt;describe|get&gt; ... --output json
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-bash">
+No evidence provided
+</code></pre>
+</div>
+<div class='finding MEDIUM' data-title='ensure proper iam configuration for aws elastic disaster recovery (manual) edr_6.5' data-status='WARNING'>
+<h3>Ensure proper IAM configuration for AWS Elastic Disaster Recovery (Manual)</h3>
+<p><span class='badge WARNING'>WARNING</span> <strong>Severity:</strong> MEDIUM | <strong>Check ID:</strong> <code>edr_6.5</code></p>
+<p><strong>Resource:</strong> <span class='resource'>aws:edr:iam-configuration</span> | <strong>Region:</strong> us-east-1</p>
+<p><strong>Compliance:</strong> CIS AWS Storage Services Benchmark v1.0.0</p>
+<p>IAM configuration for EDR needs review</p>
+<p><strong>Recommendation (CIS):</strong> Configure proper IAM policies and roles for EDR</p>
+<p><strong>Command Executed:</strong></p>
+<pre><code class="language-bash">
+aws &lt;service&gt; &lt;describe|get&gt; ... --output json
+</code></pre>
+<p><strong>Evidence/Output:</strong></p>
+<pre><code class="language-bash">
+No evidence provided
+</code></pre>
+</div>
+</div>
+
+    <script>
+      (function(){
+        const nameInput = document.getElementById('filterName');
+        const statusSelect = document.getElementById('filterStatus');
+        function applyFilter(){
+          const q = (nameInput.value || '').toLowerCase();
+          const st = statusSelect.value;
+          const items = document.querySelectorAll('.finding');
+          items.forEach(el => {
+            const title = el.getAttribute('data-title') || '';
+            const status = el.getAttribute('data-status') || '';
+            const matchesName = !q || title.indexOf(q) !== -1;
+            const matchesStatus = (st === 'ALL') || (status === st);
+            el.style.display = (matchesName && matchesStatus) ? '' : 'none';
+          });
+        }
+        nameInput && nameInput.addEventListener('input', applyFilter);
+        statusSelect && statusSelect.addEventListener('change', applyFilter);
+      })();
+    </script>
+    
+</body>
+</html>
