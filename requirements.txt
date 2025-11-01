@@ -24,7 +24,7 @@ azure-mgmt-network>=24.0.0
 azure-mgmt-keyvault>=10.2.0
 azure-mgmt-security>=5.0.0
 azure-mgmt-monitor>=6.0.0
-azure-mgmt-sql>=4.0.0
+azure-mgmt-sql
 azure-mgmt-datalake-store>=0.5.0
 azure-mgmt-databricks>=1.0.0
 
